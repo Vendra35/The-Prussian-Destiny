@@ -1,6 +1,6 @@
 # The Prussian Destiny (EU5 Mod)
 
-🔗 **[Play on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3685755118)**
+🔗 **[Check it out on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3685755118)**
 
 > *"Prussia is not a state with an army, but an army with a state."*
 
