@@ -1,5 +1,7 @@
 # The Prussian Destiny (EU5 Mod)
 
+🔗 **[Play on Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3685755118)**
+
 > *"Prussia is not a state with an army, but an army with a state."*
 
 **The Prussian Destiny** is a comprehensive historical flavor mod for Europa Universalis V. With over **2,000 subscribers** on the Steam Workshop, it has been actively maintained and played by the community since March 2026. 
@@ -20,3 +22,7 @@ This mod was primarily designed to turn AI Prussia into a formidable, historical
 * Built natively on the vanilla EU5 Situation system for seamless integration.
 * Employs advanced `TRY:REPLACE` and `TRY:INJECT` syntax for modifying vanilla alliance files. This modular approach ensures robust compatibility with other mods without causing engine crashes.
 * Features complete Chinese and Russian localization support via community collaboration.
+
+## 📦 My Other Mods
+* [REAI: Rational Empire AI](https://steamcommunity.com/sharedfiles/filedetails/?id=3721031562)
+* [REAI: Army & Manpower Overhaul (AAMO)](https://steamcommunity.com/sharedfiles/filedetails/?id=3723654962)
