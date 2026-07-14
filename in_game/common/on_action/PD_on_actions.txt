@@ -1,0 +1,90 @@
+﻿monthly_country_pulse = {
+	on_actions = {
+		on_brandenburg_situation_1_pulse
+		on_brandenburg_situation_2_pulse
+		# pd_alliance_performance_cache		# Yeni eklediğimiz performans kurtarıcı
+	}
+}
+
+yearly_country_pulse = {
+	on_actions = {
+		on_brandenburg_manpower_pulse
+		on_brandenburg_construct_army_pulse
+	}
+}
+
+# 1. Situation Başlatıcı (Hem Oyuncu Hem AI İçin)
+on_brandenburg_situation_1_pulse = {
+	trigger = {
+		tag = BRA
+	}
+	events = {
+		pd_brandenburg.10
+	}
+}
+
+# 2. Situation Başlatıcı (Hem Oyuncu Hem AI İçin)
+on_brandenburg_situation_2_pulse = {
+	trigger = {
+		tag = PRU
+	}
+	events = {
+		pd_brandenburg.299
+	}
+}
+
+# 2. AI Otomatik Bina Basımı
+on_brandenburg_manpower_pulse = {
+	trigger = {
+		OR = {
+			tag = BRA
+			tag = PRU
+		}
+		is_ai = yes
+	}
+	events = {
+		pd_brandenburg.999
+	}
+}
+
+# 3. AI Otomatik Asker Basımı (Sadece barış zamanı)
+on_brandenburg_construct_army_pulse = {
+	trigger = {
+		OR = {
+			tag = BRA
+			tag = PRU
+			tag = NGC
+		}
+		is_ai = yes
+		at_war = no
+	}
+	events = {
+		pd_brandenburg.998
+	}
+}
+
+# # Ağır harita taramasını burada merkezi hale getiriyoruz
+# pd_alliance_performance_cache = {
+# 	# --- TRIGGER: BURASI FİLTRELEME MERKEZİ ---
+# 	# Eğer bu şartlar tutmazsa motor CPU harcamayı anında durdurur.
+# 	trigger = {
+# 		has_global_variable = prussian_ascension_active
+# 		OR = {
+# 			this = international_organization:hre.leader_country
+# 			has_presence_in = region:north_german_region
+# 			has_presence_in = area:prussia_area
+# 			has_presence_in = area:silesia_area
+# 		}
+# 		NOT = {
+# 			has_variable = pd_is_forbidden_target
+# 		}
+# 		is_ai = yes
+# 	}
+# 	# --- EFFECT: SADECE ŞARTI SAĞLAYANLAR BURAYA GİRER ---
+# 	effect = {
+# 		set_variable = {
+# 			name = pd_is_forbidden_target
+# 			value = 1
+# 		}
+# 	}
+# }

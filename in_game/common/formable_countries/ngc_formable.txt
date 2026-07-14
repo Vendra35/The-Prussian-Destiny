@@ -1,0 +1,24 @@
+﻿NGC_f = {
+	level = 3
+	rule = plausible
+
+	potential = {
+		always = no # Sadece Event (pd_brandenburg.205) ile kurulur. Menüde gözükmez.
+	}
+
+	allow = {
+	}
+	
+	name = NGC
+	flag = NGC
+	adjective = NGC_ADJ
+	tag = NGC
+	color = map_GER
+	
+	regions = {
+	}
+	
+	form_effect = {
+	}
+}
+

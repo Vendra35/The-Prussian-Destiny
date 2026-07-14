@@ -1,0 +1,295 @@
+﻿pd_ngc_bundesschatzamt_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+	# Prusya'nın askeri bürokrasisi ekonomiye ağır bir yüktür
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.003		# Bizans'tan biraz daha pahalı yaptık
+	}
+	potential = {
+		OR = {
+			has_or_had_tag = PRU
+			has_or_had_tag = NGC
+		}
+	}
+	allow = {
+		# Temel devlet otoritesi gerekiyor (Örnek: Meşruiyet 50'den büyük olmalı)
+		uses_government_power = legitimacy
+	}
+	# Junkers (Soylular) ordu yönetimini sever, Tüccarlar yüksek vergiden nefret eder
+	estates_that_like = {
+		crown_estate
+		burghers_estate
+	}
+	estates_that_dislike = {
+		nobles_estate
+	}
+	# Her halükarda alınacak sabit bonuslar
+	neutral_modifier = {
+		bank_interest = -0.05
+	}
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+		tax_income_efficiency = 0.1
+	}
+	# Bütçe kesilirse (Devlet maaşları ödeyemezse) ordu isyanın eşiğine gelir
+	negative_modifier = {
+		scale = {
+			value = 1
+			subtract = scope:maintenance
+		}
+		global_estate_satisfaction_decay = 0.02
+		stability_investment = -0.1
+		court_spending_cost_modifier = 0.1
+	}
+}
+
+pd_ngc_gewerbeordnung_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+	# Prusya'nın askeri bürokrasisi ekonomiye ağır bir yüktür
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.003		# Bizans'tan biraz daha pahalı yaptık
+	}
+	potential = {
+		OR = {
+			has_or_had_tag = PRU
+			has_or_had_tag = NGC
+		}
+	}
+	allow = {
+		# Temel devlet otoritesi gerekiyor (Örnek: Meşruiyet 50'den büyük olmalı)
+		uses_government_power = legitimacy
+	}
+	# Junkers (Soylular) ordu yönetimini sever, Tüccarlar yüksek vergiden nefret eder
+	estates_that_like = {
+		crown_estate
+		burghers_estate
+	}
+	estates_that_dislike = {
+		nobles_estate
+	}
+	# Her halükarda alınacak sabit bonuslar
+	neutral_modifier = {
+		global_construction_speed = 0.15
+	}
+	# Bütçe tamken Prusya Disiplini ve Taktik avantajı
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+		global_production_efficiency = 0.1
+		global_build_buildings_cost = -0.2
+	}
+	# Bütçe kesilirse (Devlet maaşları ödeyemezse) ordu isyanın eşiğine gelir
+	negative_modifier = {
+		scale = {
+			value = 1
+			subtract = scope:maintenance
+		}
+		global_estate_satisfaction_decay = 0.025
+		stability_investment = -0.1
+		court_spending_cost_modifier = 0.15
+	}
+}
+
+# Königliches Militärkabinett (Royal Military Cabinet)
+pd_ngc_militaerkabinett_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+	# Prusya'nın askeri bürokrasisi ekonomiye ağır bir yüktür
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.006		# Bizans'tan biraz daha pahalı yaptık
+	}
+	potential = {
+		OR = {
+			has_or_had_tag = PRU
+			has_or_had_tag = NGC
+		}
+	}
+	allow = {
+		# Temel devlet otoritesi gerekiyor (Örnek: Meşruiyet 50'den büyük olmalı)
+		uses_government_power = legitimacy
+	}
+	# Junkers (Soylular) ordu yönetimini sever, Tüccarlar yüksek vergiden nefret eder
+	estates_that_like = {
+		crown_estate
+		nobles_estate
+	}
+	estates_that_dislike = {
+		burghers_estate
+	}
+	# Her halükarda alınacak sabit bonuslar
+	neutral_modifier = {
+		monthly_army_tradition = 0.2
+	}
+	# Bütçe tamken Prusya Disiplini ve Taktik avantajı
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+		military_tactics = 0.1
+		train_general_ability = 50
+		country_child_education = 0.5
+		army_heavy_infantry_power = 0.1
+		army_light_infantry_power = 0.1
+		# Buraya özel Prusya disiplin modifier'ları eklenebilir
+	}
+	# Bütçe kesilirse (Devlet maaşları ödeyemezse) ordu isyanın eşiğine gelir
+	negative_modifier = {
+		scale = {
+			value = 1
+			subtract = scope:maintenance
+		}
+		global_nobles_estate_power = 2		# Soylular gücü ele geçirir
+		discipline = -0.05		# Disiplin düşer
+	}
+}
+
+# 1. ASKERİ BÜROKRASİ: Landwehr-Inspektion (Landwehr Inspection)
+pd_ngc_landwehr_inspektion_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.003
+	}
+	potential = {
+		OR = {
+			has_or_had_tag = PRU
+			has_or_had_tag = NGC
+		}
+	}
+	allow = {
+		uses_government_power = legitimacy
+	}
+	estates_that_like = {
+		crown_estate
+		nobles_estate
+	}
+	estates_that_dislike = {
+		burghers_estate
+	}
+	neutral_modifier = {
+		global_manpower_modifier = 0.05
+		global_levy_size_modifier = 0.05
+	}
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+		combat_speed_modifier = 0.1
+		land_morale_modifier = 0.1
+	}
+	negative_modifier = {
+		scale = {
+			value = 1
+			subtract = scope:maintenance
+		}
+		monthly_legitimacy = -0.2
+		nobles_estate_satisfaction_decay = 0.015
+		nobles_estate_satisfaction_recovery = -0.015
+	}
+}
+
+# 2. ASKERİ BÜROKRASİ: Großer Generalstab (Prusya Genelkurmayı)
+pd_ngc_artillerie_kommission_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+	# Askeri bürokrasi çok daha pahalıdır
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.006
+	}
+	potential = {
+		OR = {
+			has_or_had_tag = PRU
+			has_or_had_tag = NGC
+		}
+	}
+	allow = {
+		uses_government_power = legitimacy
+	}
+	estates_that_like = {
+		crown_estate
+		nobles_estate
+	}
+	estates_that_dislike = {
+		burghers_estate
+	}
+	neutral_modifier = {
+		artillery_bonus_vs_fort = 1
+	}
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+		siege_ability = 0.25
+		army_artillery_power = 0.1
+	}
+	negative_modifier = {
+		scale = {
+			value = 1
+			subtract = scope:maintenance
+		}
+		army_maintenance_efficiency = -0.25
+		global_defensive = -0.5
+	}
+}
+
+# 3. DİPLOMATİK BÜROKRASİ: Bundeskanzleramt (Federal Chancellery)
+pd_ngc_bundeskanzleramt_bureaucracy = {
+	implementation_price = price:implement_bureaucracy_price
+	maintenance_price = price:maintain_bureaucracy_price
+	removal_price = price:remove_bureaucracy_price
+	maintenance_price_modifier = {
+		value = country_economical_base
+		multiply = 0.003
+	}
+	potential = {
+		OR = {
+			has_or_had_tag = PRU
+			has_or_had_tag = NGC
+		}
+	}
+	allow = {
+		uses_government_power = legitimacy
+	}
+	estates_that_like = {
+		crown_estate
+		clergy_estate
+	}
+	estates_that_dislike = {
+		peasants_estate
+	}
+	neutral_modifier = {
+		diplomatic_capacity = 1
+	}
+	positive_modifier = {
+		scale = {
+			value = scope:maintenance
+		}
+		diplomatic_reputation = 2
+		improve_relation_impact = 0.2
+		subject_income_modifier = 0.2
+		global_integration_speed_modifier = 0.2
+	}
+	negative_modifier = {
+		scale = {
+			value = 1
+			subtract = scope:maintenance
+		}
+		antagonism_received_modifier = 0.25
+		improve_relation_impact = -0.25
+		court_spending_cost_modifier = 0.25
+	}
+}

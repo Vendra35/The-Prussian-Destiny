@@ -1,0 +1,76 @@
+﻿cb_PD_prussian_ambition = {
+	create_visible = {
+		always = no		# Sadece bizim situation kodumuzla otomatik verilecek
+	}
+	create_enabled = {
+		always = no
+	}
+	# AI'ın savaştan erken pes etmesini engeller
+	additional_war_enthusiasm_attacker = 1
+	war_goal_type = PD_war_goal_prussian_ambition
+	ai_will_do = {
+		add = {
+			desc = "BASE"
+			value = 100
+		}
+	}
+}
+
+# PHASE 2: SİLEZYA VE KUZEY HEDEFLERİ İÇİN CB
+cb_PD_prussian_ascension = {
+	create_visible = {
+		always = no
+	}
+	create_enabled = {
+		always = no
+	}
+	# AI asla barış masasına erken oturmasın, kanının son damlasına kadar savaşsın!
+	additional_war_enthusiasm_attacker = 1
+	war_goal_type = PD_war_goal_prussian_ascension
+	ai_will_do = {
+		add = {
+			desc = "BASE"
+			value = 100
+		}
+	}
+}
+
+# PHASE 3: KARDEŞLER SAVAŞI (BOSS FIGHT) İÇİN CB
+cb_PD_hegemony = {
+	create_visible = {
+		always = no
+	}
+	create_enabled = {
+		always = no
+	}
+	# BU BİR ÖLÜM KALIM SAVAŞI! AI asla pes etmez! (Değeri 3.00 yaptık)
+	additional_war_enthusiasm_attacker = 3
+	war_goal_type = PD_war_goal_prussian_hegemony
+	ai_will_do = {
+		add = {
+			desc = "BASE"
+			value = 200
+		}
+	}
+}
+
+# BLOOD AND IRON SAVASI ICIN FRANSANIN NGC'YE ACTIGI CB
+cb_PD_blood_and_iron = {
+	create_visible = {
+		always = no
+	}
+	create_enabled = {
+		always = no
+	}
+	# Fransa deli gibi savasicak!
+	additional_war_enthusiasm_attacker = 1
+	additional_war_enthusiasm_defender = 3
+	# Su an hedef yok, Wargoal type'i daha sonra common\wargoals'a yazmaliyiz
+	war_goal_type = PD_war_goal_blood_and_iron
+	ai_will_do = {
+		add = {
+			desc = "BASE"
+			value = 500
+		}
+	}
+}

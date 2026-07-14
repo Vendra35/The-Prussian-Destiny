@@ -1,0 +1,43 @@
+﻿# Barracks (Kışla) açan teknolojiye AI önceliği enjekte ediyoruz
+TRY_INJECT:barracks_advance = {
+	ai_weight = {
+		add = 500
+	}
+}
+
+# Armory (Cephanelik) açan teknolojiye AI önceliği enjekte ediyoruz
+TRY_INJECT:armory_advance = {
+	ai_weight = {
+		add = 1000
+	}
+}
+
+TRY_INJECT:unlock_men_at_arms_advance = {
+	ai_weight = {
+		add = 500
+	}
+}
+
+TRY_INJECT:landsknechte = {
+	ai_weight = {
+		add = 500
+	}
+}
+
+TRY_INJECT:unlock_pikemen_advance = {
+	ai_weight = {
+		add = 500
+	}
+}
+
+TRY_INJECT:unlock_musketeers_advance = {
+	ai_weight = {
+		add = 500
+	}
+}
+
+TRY_INJECT:unlock_fusiliers_advance = {
+	ai_weight = {
+		add = 500
+	}
+}

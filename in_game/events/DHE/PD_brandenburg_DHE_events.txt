@@ -1,0 +1,584 @@
+﻿namespace = pd_brandenburg_dhe
+pd_brandenburg_dhe.1 = {
+	type = country_event
+	title = pd_brandenburg_dhe.1.title
+	desc = pd_brandenburg_dhe.1.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = BRA
+		tag = PRU
+		from = 1380.1.1
+		to = 1500.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		owns = location:brandenburg
+		is_ai = yes
+		has_global_variable = prussian_ambition_active
+	}
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg_dhe.1.a
+		if = {
+			limit = {
+				NOT = {
+					has_advance = landsknechte
+				}
+			}
+			custom_tooltip = {
+				text = pd_brandenburg_dhe.1.a.tt1
+				research_advance = advance_type:landsknechte
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.1.a.tt2
+		custom_tooltip = {
+			text = pd_brandenburg_dhe.1.a.tt3
+			location:brandenburg = {
+				while = {
+					count = 5
+					construct_building = {
+						building_type = building_type:armory
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+					construct_building = {
+						building_type = building_type:gun_smith
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+				}
+				while = {
+					count = 2
+					create_sub_unit_with_owner = {
+						type = a_landsknechte
+						owner = c:BRA
+					}
+				}
+				every_pop = {
+					limit = {
+						culture != culture:brandenburgish
+					}
+					split_pop = {
+						fraction = 0.9
+						culture = culture:brandenburgish
+					}
+				}
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.1.a.tt4
+	}
+}
+
+pd_brandenburg_dhe.2 = {
+	type = country_event
+	title = pd_brandenburg_dhe.2.title
+	desc = pd_brandenburg_dhe.2.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = BRA
+		tag = PRU
+		from = 1365.1.1
+		to = 1500.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		owns = location:berlin
+		is_ai = yes
+		has_global_variable = prussian_ambition_active
+	}
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg_dhe.2.a
+		add_accepted_culture = culture:markish
+		add_accepted_culture = culture:eastern_pomeranian
+		add_accepted_culture = culture:prussian
+		if = {
+			limit = {
+				NOT = {
+					has_advance = unlock_men_at_arms_advance
+				}
+			}
+			custom_tooltip = {
+				text = pd_brandenburg_dhe.2.a.tt1
+				research_advance = advance_type:unlock_men_at_arms_advance
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.2.a.tt2
+		custom_tooltip = {
+			text = pd_brandenburg_dhe.2.a.tt3
+			location:berlin = {
+				# --- YENİ EKLENTİ 2: KASABAYI ŞEHRE (CITY) ÇEVİR) ---
+				change_location_rank = location_rank:city
+				while = {
+					count = 5
+					construct_building = {
+						building_type = building_type:armory
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+					construct_building = {
+						building_type = building_type:gun_smith
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+				}
+				# YENİ EKLENTİ: BAŞKENTE BEDAVA KALE (BASTION) DİK!
+				construct_building = {
+					building_type = building_type:castle
+					cost_multiplier = 0
+					cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+					instant = yes
+				}
+				while = {
+					count = 2
+					create_sub_unit_with_owner = {
+						type = a_men_at_arms
+						owner = c:BRA
+					}
+				}
+				every_pop = {
+					limit = {
+						culture != culture:brandenburgish
+					}
+					split_pop = {
+						fraction = 0.9
+						culture = culture:brandenburgish
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				location:berlin = {
+					is_market_center = no
+					owner = c:BRA
+				}
+			}
+			# --- VANİLYA FORMATINDA HATASIZ MARKET KODU --- BRA için.
+			create_market = {
+				builder = root
+				location = location:berlin
+				instant = yes
+				price = price:create_market
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.2.a.tt4
+	}
+}
+
+# Devletin dinini lutheran yapma eventi 2. situaton başlamadan tetiklenemez (has_global_variable = prussian_ascension_active)
+pd_brandenburg_dhe.3 = {
+	type = country_event
+	title = pd_brandenburg_dhe.3.title
+	desc = pd_brandenburg_dhe.3.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = BRA
+		tag = PRU
+		from = 1500.1.1
+		to = 1750.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		owns = location:berlin
+		is_ai = yes
+		has_global_variable = prussian_ascension_active
+	}
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg_dhe.3.a
+		# --- DEVLETİ ZORLA LUTHERAN YAP ---
+		# Bu sayede AI eğer İmparator ise anında HRE tahtından kovulacak!
+		if = {
+			limit = {
+				NOT = {
+					religion = religion:lutheran
+				}
+			}
+			change_religion = religion:lutheran
+		}
+		# --- DEVLETİN ANA KÜLTÜRÜNÜ PRUSYA YAP ---
+		if = {
+			limit = {
+				# Eğer ülke zaten Prusya kültüründe değilse bunu çalıştırır
+				NOT = {
+					has_primary_or_accepted_culture = culture:prussian
+				}
+			}
+			change_culture = culture:prussian
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_advance = unlock_pikemen_advance
+				}
+			}
+			custom_tooltip = {
+				text = pd_brandenburg_dhe.3.a.tt1
+				research_advance = advance_type:unlock_pikemen_advance
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.3.a.tt2
+		custom_tooltip = {
+			text = pd_brandenburg_dhe.3.a.tt3
+			location:berlin = {
+				while = {
+					count = 5
+					construct_building = {
+						building_type = building_type:armory
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+					construct_building = {
+						building_type = building_type:gun_smith
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+				}
+				while = {
+					count = 8
+					create_sub_unit_with_owner = {
+						type = a_pikemen
+						owner = c:PRU
+					}
+				}
+				every_pop = {
+					limit = {
+						religion != religion:lutheran
+					}
+					split_pop = {
+						fraction = 0.9
+						religion = religion:lutheran
+					}
+				}
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.3.a.tt4
+	}
+}
+
+# Brandenburg için 1512 veya 1618 yılları arasında 2. situation başlamadan prusya formlama DHE eventi.
+pd_brandenburg_dhe.4 = {
+	type = country_event
+	title = pd_brandenburg_dhe.4.title
+	desc = pd_brandenburg_dhe.4.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = BRA
+		from = 1490.1.1
+		to = 1700.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		tag = BRA
+		at_war = no
+		# Softlock Failsafe: Ya vassalın olacak, ya da tamamen yutmuş olacaksın.
+		OR = {
+			# Orijinal İhtimal: Tötonlar yaşıyor ve vassalım
+			AND = {
+				country_exists = c:TEU
+				c:TEU = {
+					is_subject_of = ROOT
+				}
+			}
+			# Fallback İhtimal: Tötonlar yok ve toprakları bende
+			AND = {
+				OR = {
+					# Töton tamamen haritadan silindiyse
+					NOT = {
+						country_exists = c:TEU
+					}
+					# VEYA Prusya, Brandenburg ve Pomeranya'nın HİÇBİRİNDE toprağı kalmadıysa
+					NOT = {
+						c:TEU = {
+							OR = {
+								has_presence_in = area:prussia_area
+								has_presence_in = area:brandenburg_area
+								has_presence_in = area:pomerania_area
+							}
+						}
+					}
+				}
+				c:BRA = {
+					OR = {
+						# Ya Danzig Ya da Königsberg Brandenburg'un elinde olmalı!
+						owns = location:konigsberg
+						owns = location:gdansk
+					}
+				}
+			}
+		}
+		# Dinamik Tarih Kontrolü
+		OR = {
+			# Frontloaded: 1512 sonrası tetiklenir
+			AND = {
+				has_game_rule = PD_timeline_frontloaded
+				current_date > 1512.1.1
+			}
+			# Strict Historical: 1618 sonrası tetiklenir
+			AND = {
+				has_game_rule = PD_timeline_strict_historical
+				current_date > 1618.1.1
+			}
+		}
+	}
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg_dhe.4.a
+		# Hata önleyici: Sadece Tötonlar hala yaşıyorsa VE o 3 bölgeden birinde varlığı varsa annexle
+		if = {
+			limit = {
+				country_exists = c:TEU
+				c:TEU = {
+					is_subject_of = ROOT
+					OR = {
+						has_presence_in = area:prussia_area
+						has_presence_in = area:brandenburg_area
+						has_presence_in = area:pomerania_area
+					}
+				}
+			}
+			ROOT = {
+				annex_country = {
+					country = c:TEU
+					reason = Diplomatic
+					transfer = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					country_exists = c:PRU
+				}
+			}
+			form_country = formable_country:PRU_f
+		}
+	}
+}
+
+# Teuton için 1512 veya 1618 yılları arasında 2. situation başlamadan prusya formlama DHE eventi.
+pd_brandenburg_dhe.5 = {
+	type = country_event
+	title = pd_brandenburg_dhe.5.title
+	desc = pd_brandenburg_dhe.5.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = TEU
+		from = 1490.1.1
+		to = 1700.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		tag = TEU
+		at_war = no
+		# Softlock Failsafe: Ya vassalın olacak, ya da o bölgelerden tamamen kazınmış olacak.
+		OR = {
+			# Orijinal İhtimal: Brandenburg yaşıyor ve vassalım
+			AND = {
+				country_exists = c:BRA
+				c:BRA = {
+					is_subject_of = ROOT
+				}
+			}
+			# Fallback İhtimal: Brandenburg yok VEYA kilit bölgelerden tamamen atıldı
+			AND = {
+				OR = {
+					NOT = {
+						country_exists = c:BRA
+					}
+					NOT = {
+						c:BRA = {
+							OR = {
+								has_presence_in = area:prussia_area
+								has_presence_in = area:brandenburg_area
+								has_presence_in = area:pomerania_area
+							}
+						}
+					}
+				}
+			}
+		}
+		# Dinamik Tarih Kontrolü
+		OR = {
+			# Frontloaded: 1512 sonrası tetiklenir
+			AND = {
+				has_game_rule = PD_timeline_frontloaded
+				current_date > 1512.1.1
+			}
+			# Strict Historical: 1618 sonrası tetiklenir
+			AND = {
+				has_game_rule = PD_timeline_strict_historical
+				current_date > 1618.1.1
+			}
+		}
+	}
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg_dhe.5.a
+		# Hata önleyici: Brandenburg yaşıyorsa, BİZİM VASALIMIZSA VE o 3 bölgeden birinde varlığı varsa annexle
+		if = {
+			limit = {
+				country_exists = c:BRA
+				c:BRA = {
+					is_subject_of = ROOT
+					OR = {
+						has_presence_in = area:prussia_area
+						has_presence_in = area:brandenburg_area
+						has_presence_in = area:pomerania_area
+					}
+				}
+			}
+			ROOT = {
+				annex_country = {
+					country = c:BRA
+					reason = Diplomatic
+					transfer = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					country_exists = c:PRU
+				}
+			}
+			form_country = formable_country:PRU_f
+		}
+	}
+}
+
+# Kültürü prusya yapma ve topraktaki insanları zorla asimile etme eventi. Sadece AI Brandenburg için geçerli olacak ve 1512 veya 1618(Time Pacing Game Rule'una göre) yılları arasında 2. situation başlamadan önce tetiklenecek.
+pd_brandenburg_dhe.6 = {
+	type = country_event
+	title = pd_brandenburg_dhe.6.title
+	desc = pd_brandenburg_dhe.6.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = PRU
+		from = 1490.1.1
+		to = 1700.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		tag = PRU
+		country_exists = c:PRU
+		owns = location:berlin
+		at_war = no
+		is_ai = yes
+		# Dinamik Tarih Kontrolü
+		OR = {
+			# Frontloaded: 1512 sonrası tetiklenir
+			AND = {
+				has_game_rule = PD_timeline_frontloaded
+				current_date > 1512.2.2
+			}
+			# Strict Historical: 1618 sonrası tetiklenir
+			AND = {
+				has_game_rule = PD_timeline_strict_historical
+				current_date > 1618.2.2
+			}
+		}
+	}
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg_dhe.6.a
+		# --- 1. KASHUBIAN KÜLTÜRÜNÜ SİLME ---
+		if = {
+			limit = {
+				has_tolerated_culture = culture:kashubian
+			}
+			remove_tolerated_culture = culture:kashubian
+		}
+		# --- 2. PRUTHENIAN KÜLTÜRÜNÜ SİLME ---
+		if = {
+			limit = {
+				has_tolerated_culture = culture:pruthenian
+			}
+			remove_tolerated_culture = culture:pruthenian
+		}
+		# --- DEVLETİN ANA KÜLTÜRÜNÜ PRUSYA YAP ---
+		if = {
+			limit = {
+				NOT = {
+					has_primary_or_accepted_culture = culture:prussian
+				}
+			}
+			change_culture = culture:prussian
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_advance = unlock_pikemen_advance
+				}
+			}
+			custom_tooltip = {
+				text = pd_brandenburg_dhe.6.a.tt1
+				research_advance = advance_type:unlock_pikemen_advance
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.6.a.tt2
+		custom_tooltip = {
+			text = pd_brandenburg_dhe.6.a.tt3
+			location:berlin = {
+				while = {
+					count = 5
+					construct_building = {
+						building_type = building_type:armory
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+					construct_building = {
+						building_type = building_type:gun_smith
+						cost_multiplier = 0
+						cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+						instant = yes
+					}
+				}
+				while = {
+					count = 2
+					create_sub_unit_with_owner = {
+						type = a_pikemen
+						owner = c:PRU
+					}
+				}
+			}
+			# --- 2. BÜTÜN ÜLKEYE (TÜM TOPRAKLARA) YAPILACAK DEV ASİMİLASYON ---
+			every_owned_location = {
+				every_pop = {
+					limit = {
+						# Prusyalı OLMAYAN herkesi hedef al!
+						NOT = {
+							culture = culture:prussian
+						}
+					}
+					# Yakaladığın o popülasyonun %75'ını anında Prusyalı yap
+					split_pop = {
+						fraction = 0.75
+						culture = culture:prussian
+					}
+				}
+			}
+		}
+		custom_tooltip = pd_brandenburg_dhe.6.a.tt4
+	}
+}

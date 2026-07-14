@@ -1,0 +1,2163 @@
+﻿namespace = pd_brandenburg
+# --- 10. EVENT: SiTUATiON BA?LATiCi VE ?LK BUFF ---
+pd_brandenburg.10 = {
+	type = country_event
+	title = pd_brandenburg.10.title
+	desc = pd_brandenburg.10.desc
+	trigger = {
+		tag = BRA
+		# Situation ba?lam?? m? diye de?i?kene bak?yoruz (Log hatas?n? ?nlemek i?in)
+		NOT = {
+			has_global_variable = prussian_ambition_active
+		}
+		OR = {
+			has_variable = had_turmoil_in_brandenburg_disaster_variable
+			current_date > 1450.1.1
+		}
+	}
+	fire_only_once = yes
+	option = {
+		name = pd_brandenburg.10.a
+		add_prestige = 25
+		# Situation'? de?i?ken ?zerinden tetikliyoruz (Log hatas?n? ??zen k?s?m)
+		set_global_variable = {
+			name = prussian_ambition_active
+			value = yes
+		}
+		# Danzige market kur teuton AI ise.
+		if = {
+			limit = {
+				c:TEU = {
+					is_ai = yes
+				}
+				location:gdansk = {
+					is_market_center = no
+					owner = c:TEU
+				}
+			}
+			# --- VANİLYA FORMATINDA HATASIZ MARKET KODU --- TEU için.
+			create_market = {
+				builder = c:TEU
+				location = location:gdansk
+				instant = yes
+				price = price:create_market
+			}
+		}
+		# Senin eski buff sistemini buraya geri koyduk:
+		if = {
+			limit = {
+				has_game_rule = BRA_buff_enabled
+			}
+			add_country_modifier = {
+				modifier = prussian_destiny_modifier
+				years = -1
+				mode = replace
+			}
+			add_country_modifier = {
+				modifier = prussian_destiny_modifier_1
+				years = -1
+				mode = replace
+				# --- PRUSSiAN DESTiNY MODiFiER 1: S?TUATiON BA?LARKEN VER?LEN DEBUFF ---
+			}
+			c:TEU = {
+				add_country_modifier = {
+					modifier = prussian_destiny_modifier
+					years = -1
+					mode = replace
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_game_rule = BRA_buff_historical
+			}
+			add_country_modifier = {
+				modifier = prussian_historical_modifier
+				years = -1
+				mode = replace
+			}
+			add_country_modifier = {
+				modifier = prussian_destiny_modifier_1
+				years = -1
+				mode = replace
+			}
+			c:TEU = {
+				add_country_modifier = {
+					modifier = prussian_historical_modifier
+					years = -1
+					mode = replace
+				}
+			}
+		}
+	}
+}
+
+# --- 1. EVENT: HAR?TA BOYAYiCi (SiTUATiON B?T?NCE ?A?RiLiR) 
+# HAR?TA BOYAMADANSA CORE VERMEK ???N KULLANiYORUM ARTiK ?LK S?TUATONDA SADECE ??NK? PD_brandenburg_rise_auto_conquest VAR ARTiK---
+pd_brandenburg.1 = {
+	type = country_event
+	title = pd_brandenburg.1.title
+	desc = pd_brandenburg.1.desc
+	fire_only_once = yes
+	immediate = {
+		# --- Ai ???N: HEM CORE HEM ANNEX S?STEM? ---
+		if = {
+			limit = {
+				is_ai = yes
+				has_game_rule = PD_brandenburg_rise_auto_conquest_yes
+			}
+			# Situation bitti?inde b?lgelere core veriyoruz.
+			area:brandenburg_area = {
+				every_location_in_area = {
+					limit = {
+						NOT = {
+							owner = ROOT
+						}
+					}
+					add_core = ROOT
+				}
+			}
+			area:pomerania_area = {
+				every_location_in_area = {
+					limit = {
+						NOT = {
+							owner = ROOT
+						}
+					}
+					add_core = ROOT
+				}
+			}
+			area:prussia_area = {
+				every_location_in_area = {
+					limit = {
+						NOT = {
+							owner = ROOT
+						}
+					}
+					add_core = ROOT
+				}
+			}
+			# Ai topraklar? annexliyor.
+			# area:brandenburg_area = {
+			# 	every_location_in_area = {
+			# 		limit = {
+			# 			owner = {
+			# 				is_ai = yes
+			# 				NOT = {
+			# 					is_subject_of = ROOT
+			# 				}
+			# 			}
+			# 		}
+			# 		change_location_owner = ROOT
+			# 	}
+			# }
+			# area:pomerania_area = {
+			# 	every_location_in_area = {
+			# 		limit = {
+			# 			owner = {
+			# 				is_ai = yes
+			# 				NOT = {
+			# 					is_subject_of = ROOT
+			# 				}
+			# 			}
+			# 		}
+			# 		change_location_owner = ROOT
+			# 	}
+			# }
+			# area:prussia_area = {
+			# 	every_location_in_area = {
+			# 		limit = {
+			# 			owner = {
+			# 				is_ai = yes
+			# 				NOT = {
+			# 					is_subject_of = ROOT
+			# 				}
+			# 			}
+			# 		}
+			# 		change_location_owner = ROOT
+			# 	}
+			# }
+		}
+		# --- OYUNCU ???N: SADECE CORE S?STEM? ---
+		if = {
+			limit = {
+				is_ai = no
+				has_game_rule = PD_brandenburg_rise_auto_conquest_yes
+			}
+			area:brandenburg_area = {
+				every_location_in_area = {
+					limit = {
+						NOT = {
+							owner = ROOT
+						}
+					}
+					add_core = ROOT
+				}
+			}
+			area:pomerania_area = {
+				every_location_in_area = {
+					limit = {
+						NOT = {
+							owner = ROOT
+						}
+					}
+					add_core = ROOT
+				}
+			}
+			area:prussia_area = {
+				every_location_in_area = {
+					limit = {
+						NOT = {
+							owner = ROOT
+						}
+					}
+					add_core = ROOT
+				}
+			}
+		}
+	}
+	option = {
+		name = pd_brandenburg.1.a
+	}
+}
+
+# --- S?TUATiON OYUNCU BA?ARiSiZ OLURSA ALACA?i EVENT ---
+pd_brandenburg.2 = {
+	type = country_event
+	title = pd_brandenburg.2.title
+	desc = pd_brandenburg.2.desc
+	# G?rsel atamak istersen (iste?e ba?l?)
+	# image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		add_country_modifier = {
+			modifier = prussian_ambition_penalty_player
+			years = 20
+		}
+		add_prestige = -25
+	}
+	option = {
+		name = pd_brandenburg.2.a
+	}
+}
+
+# --- 999. EVENT: Ai OTOMAT?K B?NA D?KME (G?ZL?) ---
+pd_brandenburg.999 = {
+	type = country_event
+	hidden = yes
+	trigger = {
+		OR = {
+			tag = BRA
+			tag = PRU
+			tag = NGC
+		}
+		is_ai = yes
+	}
+	immediate = {
+		if = {
+			limit = {
+				has_advance = barracks_advance
+			}
+			random_owned_location = {
+				limit = {
+					can_build_building = building_type:barracks
+				}
+				construct_building = {
+					building_type = building_type:barracks
+					cost_multiplier = 0
+					cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+					instant = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_advance = armory_advance
+			}
+			random_owned_location = {
+				limit = {
+					can_build_building = building_type:armory
+				}
+				construct_building = {
+					building_type = building_type:armory
+					cost_multiplier = 0
+					cost_multiplier_reason = "PD_brandenburg_dhe_free_buildings"
+					instant = yes
+				}
+			}
+		}
+	}
+	# Motorun eventi kapatmas? i?in zorunlu bo? se?enek
+	option = {
+		name = pd_brandenburg.999.a
+	}
+}
+
+# --- 998. EVENT: Ai OTOMAT?K ASKER BASMA (G?ZL?) ---
+pd_brandenburg.998 = {
+	type = country_event
+	hidden = yes
+	trigger = {
+		OR = {
+			tag = BRA
+			tag = PRU
+			tag = NGC
+		}
+		is_ai = yes
+		at_war = no
+		# Ai'?n insan g?c? (manpower) art?da olmal? (Ekonomik ??k?? kilidi)
+		monthly_manpower >= 0.1
+		# Az ?nce olu?turdu?umuz ?zel ordu y?zdesi makrosunu ?a??r?yoruz
+		PD_percent_of_army_balance = yes
+	}
+	immediate = {
+		if = {
+			limit = {
+				has_advance = unlock_fusiliers_advance
+			}
+			capital = {
+				while = {
+					count = 7
+					create_sub_unit_with_owner = {
+						type = a_fusiliers
+						owner = root
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_advance = unlock_musketeers_advance
+			}
+			capital = {
+				while = {
+					count = 7
+					create_sub_unit_with_owner = {
+						type = a_musketeers
+						owner = root
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_advance = unlock_pikemen_advance
+			}
+			capital = {
+				while = {
+					count = 8
+					create_sub_unit_with_owner = {
+						type = a_pikemen
+						owner = root
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_advance = landsknechte
+			}
+			capital = {
+				while = {
+					count = 9
+					create_sub_unit_with_owner = {
+						type = a_landsknechte
+						owner = root
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_advance = unlock_men_at_arms_advance
+			}
+			capital = {
+				while = {
+					count = 10
+					create_sub_unit_with_owner = {
+						type = a_men_at_arms
+						owner = root
+					}
+				}
+			}
+		}
+	}
+	# Motorun eventi kapatmas? i?in zorunlu se?enek
+	option = {
+		name = pd_brandenburg.998.a
+	}
+}
+
+############## ?lk fetih zinciri burada ba?l?yor.
+### Brandenburg "Lauf, denn ich komme!"
+pd_brandenburg.100 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.100.title
+	desc = pd_brandenburg.100.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		every_related_country = {
+			type = alliance
+			limit = {
+				any_owned_location = {
+					OR = {
+						this.area = area:brandenburg_area
+						this.area = area:pomerania_area
+						this.area = area:prussia_area
+					}
+				}
+			}
+			c:BRA = {
+				remove_relation = {
+					type = relation_type:alliance
+					first = prev
+					second = this
+				}
+			}
+		}
+	}
+	option = {
+		name = pd_brandenburg.100.a
+	}
+}
+
+# ?zleyiciler :O
+pd_brandenburg.101 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.101.title
+	desc = pd_brandenburg.101.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.101.a
+	}
+}
+
+# Kurbanlar lol
+pd_brandenburg.102 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.102.title
+	desc = pd_brandenburg.102.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.102.a
+	}
+}
+
+# Rivaldan yard?m isteme!
+pd_brandenburg.108 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.108.title
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					country_exists = scope:rival_country
+				}
+				desc = pd_brandenburg.108.desc.1
+			}
+			triggered_desc = {
+				desc = pd_brandenburg.108.desc.2
+			}
+		}
+	}
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		situation:the_prussian_ambition = {
+			var:PD_conquest_target_country = {
+				save_scope_as = target_country
+			}
+		}
+		scope:target_country = {
+			ordered_country = {
+				limit = {
+					OR = {
+						is_enemy_of = prev
+						is_rival_of = prev
+					}
+					this != root
+					this.capital.continent = continent:europe
+					NOT = {
+						any_owned_location = {
+							OR = {
+								this.area = area:brandenburg_area
+								this.area = area:pomerania_area
+								this.area = area:prussia_area
+							}
+						}
+					}
+				}
+				max = 1
+				order_by = expected_army_size
+				save_scope_as = rival_country
+			}
+		}
+	}
+	# Option 1
+	option = {
+		trigger = {
+			country_exists = scope:rival_country
+		}
+		### Rivaldan yard?m iste!
+		name = pd_brandenburg.108.a
+		scope:rival_country = {
+			trigger_event_non_silently = pd_brandenburg.109
+		}
+		ai_chance = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				scope:target_country = {
+					num_locations <= 15
+				}
+			}
+		}
+	}
+	#Option 2
+	option = {
+		trigger = {
+			country_exists = scope:rival_country
+		}
+		name = pd_brandenburg.108.b
+		add_prestige = 10
+		ai_chance = {
+			factor = 1
+		}
+		situation:the_prussian_ambition = {
+			set_variable = {
+				name = PD_conquest_target_rival
+				value = 1
+			}
+		}
+	}
+	# Option 3 - Vay G?t.
+	option = {
+		trigger = {
+			NOT = {
+				country_exists = scope:rival_country
+			}
+		}
+		name = pd_brandenburg.108.c
+		situation:the_prussian_ambition = {
+			set_variable = {
+				name = PD_conquest_target_rival
+				### Can't get another rival this cycle
+				value = 1
+			}
+		}
+	}
+}
+
+# Brandenbu?rg Bizden Yard?m istiyor!
+pd_brandenburg.109 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.109.title
+	desc = pd_brandenburg.109.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.109.a
+		custom_tooltip = pd_brandenburg.109.a.tt
+		add_estate_satisfaction = {
+			type = estate_type:clergy_estate
+			value = estate_satisfaction_severe_penalty
+		}
+		situation:the_prussian_ambition = {
+			set_variable = {
+				name = PD_conquest_target_rival_country
+				value = root
+			}
+		}
+		if = {
+			limit = {
+				is_ai = yes
+			}
+			add_country_modifier = {
+				modifier = PD_brandenburg_preparing_for_conquest
+				years = -1
+				mode = replace
+			}
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+	option = {
+		name = pd_brandenburg.109.b
+		add_prestige = 5
+		situation:the_prussian_ambition = {
+			set_variable = {
+				name = PD_conquest_target_rival
+				value = 1
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+	}
+}
+
+# Conquest of Brandenburg, Pomerania, Prussia.(FOR BRA)
+pd_brandenburg.103 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.103.title
+	desc = pd_brandenburg.103.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		situation:the_prussian_ambition = {
+			change_variable = {
+				name = PD_conquest_cooldown
+				multiply = 0
+			}
+			var:PD_conquest_target_country = {
+				save_scope_as = target_country
+			}
+		}
+	}
+	option = {
+		name = pd_brandenburg.103.a
+		declare_war_with_cb = {
+			target = scope:target_country
+			type = casus_belli:cb_PD_prussian_ambition
+		}
+		situation:the_prussian_ambition = {
+			var:PD_conquest_target_rival_country = {
+				if = {
+					limit = {
+						NOT = {
+							this = c:BRA
+						}
+					}
+					trigger_event_non_silently = pd_brandenburg.110
+				}
+			}
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+	# OPTiON B: ??MD? DE??L (Sadece Oyuncu se?ebilir, sava?? 1-2 y?l erteler)
+	option = {
+		name = pd_brandenburg.103.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+	after = {
+		situation:the_prussian_ambition = {
+			set_variable = {
+				name = PD_conquest_target
+				value = 0
+			}
+			set_variable = {
+				name = PD_conquest_target_rival
+				value = 0
+			}
+			set_variable = {
+				name = PD_conquest_target_country
+				value = c:BRA
+			}
+			set_variable = {
+				name = PD_conquest_target_rival_country
+				value = c:BRA
+			}
+		}
+	}
+}
+
+# Conquest of Brandenburg, Pomerania, Prussia.(FOR TEU)
+pd_brandenburg.117 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.117.title
+	desc = pd_brandenburg.117.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		situation:the_prussian_ambition = {
+			change_variable = {
+				name = PD_teu_conquest_cooldown
+				multiply = 0
+			}
+			var:PD_teu_conquest_target_country = {
+				save_scope_as = target_country
+			}
+		}
+	}
+	option = {
+		name = pd_brandenburg.117.a
+		declare_war_with_cb = {
+			target = scope:target_country
+			type = casus_belli:cb_PD_prussian_ambition
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+	# OPTiON B: ??MD? DE??L (Sadece Oyuncu se?ebilir, sava?? 1-2 y?l erteler)
+	option = {
+		name = pd_brandenburg.117.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+	after = {
+		situation:the_prussian_ambition = {
+			set_variable = {
+				name = PD_teu_conquest_target
+				value = 0
+			}
+			set_variable = {
+				name = PD_teu_conquest_target_country
+				value = c:TEU
+			}
+		}
+	}
+}
+
+## We auto-join brandenburg war
+pd_brandenburg.110 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.110.title
+	desc = pd_brandenburg.110.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		random_war = {
+			limit = {
+				casus_belli = casus_belli:cb_PD_prussian_ambition
+			}
+			save_scope_as = target_war
+		}
+		if = {
+			limit = {
+				has_country_modifier = PD_brandenburg_preparing_for_conquest
+			}
+			remove_country_modifier = PD_brandenburg_preparing_for_conquest
+		}
+	}
+	option = {
+		name = pd_brandenburg.110.a
+		join_war_as_attacker = {
+			war = scope:target_war
+		}
+	}
+}
+
+# Brandenburg Win For Spectators
+pd_brandenburg.104 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.104.title
+	desc = pd_brandenburg.104.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.104.a
+	}
+}
+
+# Brandenburg Win For Himself
+pd_brandenburg.105 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.105.title
+	desc = pd_brandenburg.105.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.105.a
+		add_prestige = 10
+		add_stability = 15
+	}
+}
+
+# # Brandenburg Lose For Spectators
+# pd_brandenburg.106 = {
+# 	type = country_event
+# 	category = situation_event
+# 	title = pd_brandenburg.106.title
+# 	desc = pd_brandenburg.106.desc
+# 	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+# 	immediate = {
+# 	}
+# 	option = {
+# 		name = pd_brandenburg.106.a
+# 	}
+# }
+# Brandenburg Lose For Himself
+pd_brandenburg.107 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.107.title
+	desc = pd_brandenburg.107.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.107.a
+	}
+}
+
+# Teuton Lose For Himself
+pd_brandenburg.111 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.111.title
+	desc = pd_brandenburg.111.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.111.a
+	}
+}
+
+# Teuton Win For Spectators
+pd_brandenburg.112 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.112.title
+	desc = pd_brandenburg.112.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.112.a
+	}
+}
+
+# Teuton Scoreda kaybederse Brandenburg Onu vassal yaparkenki teuton'a gidecek event.
+pd_brandenburg.113 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.113.title
+	desc = pd_brandenburg.113.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.113.a
+		# Yapay Zeka (Ai) Karar Mekanizması
+		ai_chance = {
+			factor = 1000
+		}
+		# Töton'un bu 3 bölgeden en az birinde toprağı varsa vassal işlemleri gerçekleşir.
+		if = {
+			limit = {
+				OR = {
+					has_presence_in = area:prussia_area
+					has_presence_in = area:brandenburg_area
+					has_presence_in = area:pomerania_area
+				}
+			}
+			make_subject_of = {
+				target = c:BRA
+				type = subject_type:fiefdom
+			}
+			every_subject = {
+				limit = {
+					is_ai = yes
+					NOT = {
+						OR = {
+							has_presence_in = region:north_german_region
+							has_presence_in = area:prussia_area
+						}
+					}
+				}
+				# Prusya'ya dönüp diyoruz ki: "Şu an baktığımız vasalı (this) serbest bırak."
+				c:TEU = {
+					cancel_subject = prev
+				}
+			}
+			if = {
+				limit = {
+					country_exists = c:LIT
+				}
+				every_owned_location = {
+					limit = {
+						NOT = {
+							OR = {
+								this.region = region:north_german_region
+								this.area = area:prussia_area
+							}
+						}
+					}
+					change_location_owner = c:LIT
+				}
+			}
+			else_if = {
+				limit = {
+					country_exists = c:POL
+				}
+				every_owned_location = {
+					limit = {
+						NOT = {
+							OR = {
+								this.region = region:north_german_region
+								this.area = area:prussia_area
+							}
+						}
+					}
+					change_location_owner = c:POL
+				}
+			}
+			# SADECE bildirim eventi brandenburga gidecek (Teuton'un vassal olduğunu bildirmek için)
+			c:BRA = {
+				trigger_event_non_silently = pd_brandenburg.114
+			}
+		}
+	}
+}
+
+# Brandenburg Teuton'u vassal yaptıktan sonra Brandenburg'a gidecek event, sadece bildirim amaçli (Teuton'un vassal oldugunu bildirmek için)
+pd_brandenburg.114 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.114.title
+	desc = pd_brandenburg.114.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.114.a
+	}
+}
+
+# Brandenburg Score'da kaybederse Teuton Onu vassal yaparkenki Brandenburg'a gidecek event.
+pd_brandenburg.115 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.115.title
+	desc = pd_brandenburg.115.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.115.a
+		# Yapay Zeka (Ai) Karar Mekanizması
+		ai_chance = {
+			factor = 1000
+		}
+		# --- BÖLGESEL VARLIK KONTROLÜ ---
+		# Eğer Brandenburg'un bu 3 bölgeden en az birinde toprağı varsa vassal işlemleri gerçekleşir.
+		if = {
+			limit = {
+				OR = {
+					has_presence_in = area:prussia_area
+					has_presence_in = area:brandenburg_area
+					has_presence_in = area:pomerania_area
+				}
+			}
+			make_subject_of = {
+				target = c:TEU
+				type = subject_type:fiefdom
+			}
+			# SADECE bildirim eventi Teuton'a gidecek (Brandenburg'un vassal olduğunu bildirmek için)
+			c:TEU = {
+				trigger_event_non_silently = pd_brandenburg.116
+			}
+		}
+	}
+}
+
+# Teuton Brandenburg'u vassal yaptıktan sonra Teuton'a gidecek event, sadece bildirim amaçli (Brandenburg'un vassal oldugunu bildirmek için)
+pd_brandenburg.116 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.116.title
+	desc = pd_brandenburg.116.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.116.a
+	}
+}
+
+############## Ilk fetih zinciri burada bitiyor, ikinci fetih zinciri a?a??da ba?l?yor tabi yaparsak :D.
+############## Ikinci fetih zinciri burada ba?l?yor.
+# Situation baslatan event
+pd_brandenburg.299 = {
+	type = country_event
+	title = pd_brandenburg.299.title
+	desc = pd_brandenburg.299.desc
+	trigger = {
+		tag = PRU
+		# Situation ba?lam?? m? diye de?i?kene bak?yoruz (Log hatas?n? ?nlemek i?in)
+		NOT = {
+			has_global_variable = prussian_ascension_active
+		}
+		# Dinamik Tarih Kontrolü: Hangi Game Rule'ün aktif olduguna bagli olarak iki farkli tarih kontrolu uyguluyoruz. Bu, oyunculara kendi tercih ettikleri oyun tarzina uygun bir deneyim sunmamizi saglar.
+		OR = {
+			# DURUM A: Hızlı (Frontloaded) Rule
+			AND = {
+				has_game_rule = PD_timeline_frontloaded
+				OR = {
+					current_date > 1522.3.9
+					religion = religion:lutheran
+					religion = religion:calvinist
+				}
+			}
+			# DURUM B: Katı Tarihsel (Strict Historical) Rule
+			AND = {
+				has_game_rule = PD_timeline_strict_historical
+				# 1648: Westphalia Barışı ve Brandenburg-Prusya'nın gerçek yükselişi
+				current_date > 1648.1.1
+			}
+		}
+	}
+	fire_only_once = yes
+	option = {
+		name = pd_brandenburg.299.a
+		add_prestige = 25
+		add_stability = 25
+		# Situation'? de?i?ken ?zerinden tetikliyoruz (Log hatas?n? ??zen k?s?m)
+		set_global_variable = {
+			name = prussian_ascension_active
+			value = yes
+		}
+		if = {
+			limit = {
+				has_game_rule = BRA_buff_enabled
+			}
+			# 1. Custom Union Trade/Ekonomi/SubjectBuff
+			add_country_modifier = {
+				modifier = PD_brandenburg_zollverein_ambition
+				years = -1
+				mode = replace
+			}
+			# 2. Geni?leme Buff'? (AE D???r?c?) PD_prussia_preparing_for_ascension de?il kafan kar??mas?n ikisi farkl? modifierlar.
+			add_country_modifier = {
+				modifier = PD_brandenburg_ascension_campaign
+				years = -1
+				mode = replace
+			}
+			add_country_modifier = {
+				modifier = PD_brandenburg_military_supremacy
+				years = -1
+				mode = replace
+			}
+			add_country_modifier = {
+				modifier = PD_imperial_outcast_situation_2
+				years = -1
+				mode = replace
+			}
+		}
+		else_if = {
+			limit = {
+				has_game_rule = BRA_buff_historical
+			}
+			add_country_modifier = {
+				modifier = PD_brandenburg_zollverein_ambition
+				years = -1
+				mode = replace
+			}
+			add_country_modifier = {
+				modifier = PD_brandenburg_ascension_campaign_historical
+				years = -1
+				mode = replace
+			}
+			add_country_modifier = {
+				modifier = PD_brandenburg_military_supremacy_historical
+				years = -1
+				mode = replace
+			}
+			add_country_modifier = {
+				modifier = PD_imperial_outcast_situation_2
+				years = -1
+				mode = replace
+			}
+		}
+		else_if = {
+			limit = {
+				has_game_rule = BRA_buff_disabled
+			}
+			add_country_modifier = {
+				modifier = PD_imperial_outcast_situation_2
+				years = -1
+				mode = replace
+			}
+		}
+		# 1. Eski Prusya Kaderi modifier'?n? siliyoruz
+		if = {
+			limit = {
+				has_country_modifier = prussian_destiny_modifier_2
+			}
+			remove_country_modifier = prussian_destiny_modifier_2
+		}
+		if = {
+			limit = {
+				has_country_modifier = prussian_historical_modifier_2
+			}
+			remove_country_modifier = prussian_historical_modifier_2
+		}
+		# 2. Uyuyan Dev modifier'?n? siliyoruz (Z?NC?RLER KiRiLiYOR!)
+		if = {
+			limit = {
+				has_country_modifier = PD_the_sleeping_giant
+			}
+			remove_country_modifier = PD_the_sleeping_giant
+		}
+		# ORİJİNAL KOD İLE İMPARATORU BULMA VE EVENT ATMA:
+		# Eğer HRE'nin bir lideri (İmparatoru) varsa, ona 213 numaralı eventi yollar
+		if = {
+			limit = {
+				exists = international_organization:hre
+				exists = international_organization:hre.leader_country
+			}
+			international_organization:hre.leader_country = {
+				trigger_event_non_silently = pd_brandenburg.213
+			}
+		}
+	}
+}
+
+pd_brandenburg.200 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.200.title
+	desc = pd_brandenburg.200.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		every_related_country = {
+			type = alliance
+			limit = {
+				OR = {
+					# 1. ?ART: Geni?leyece?imiz kurban b?lgelerinde topra?? olanlar
+					any_owned_location = {
+						OR = {
+							this.area = area:silesia_area
+							this.area = area:lower_saxony_area
+							this.area = area:upper_saxony_area
+							this.area = area:mecklenburg_area
+							this.area = area:holstein_area
+						}
+					}
+					# 2. ŞART: Ülke bizzat Kutsal Roma İmparatoru ise! (YENİ EKLENEN)
+					AND = {
+						exists = international_organization:hre
+						exists = international_organization:hre.leader_country
+						this = international_organization:hre.leader_country
+					}
+				}
+			}
+			c:PRU = {
+				remove_relation = {
+					type = relation_type:alliance
+					first = prev
+					second = this
+				}
+			}
+		}
+	}
+	option = {
+		name = pd_brandenburg.200.a
+	}
+}
+
+# ?zleyiciler(NGF S?tuation? Ba?lad? bildirimi):O
+pd_brandenburg.201 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.201.title
+	desc = pd_brandenburg.201.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.201.a
+	}
+}
+
+# Kurbanlar (situaton ba?lay?nca gidiyor kurbanlara)
+pd_brandenburg.202 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.202.title
+	desc = pd_brandenburg.202.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.202.a
+	}
+}
+
+# Conquest of Silesia, Saxony, Mecklenburg and Holstein.
+pd_brandenburg.203 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.203.title
+	desc = pd_brandenburg.203.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+		situation:the_prussian_ascension = {
+			change_variable = {
+				name = PD_phase2_conquest_cooldown
+				multiply = 0
+			}
+			var:PD_phase2_conquest_target_country = {
+				save_scope_as = target_country
+			}
+		}
+	}
+	option = {
+		name = pd_brandenburg.203.a
+		declare_war_with_cb = {
+			target = scope:target_country
+			type = casus_belli:cb_PD_prussian_ascension
+		}
+		ai_chance = {
+			factor = 50
+		}
+	}
+	# OPTiON B: ??MD? DE??L (Sadece Oyuncu se?ebilir, sava?? 1-2 y?l erteler)
+	option = {
+		name = pd_brandenburg.203.b
+		ai_chance = {
+			factor = 0
+		}
+	}
+	after = {
+		situation:the_prussian_ascension = {
+			set_variable = {
+				name = PD_phase2_conquest_target
+				value = 0
+			}
+			set_variable = {
+				name = PD_phase2_conquest_target_country
+				value = c:PRU
+			}
+		}
+	}
+}
+
+# Prussia Win For Spectators(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
+pd_brandenburg.204 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.204.title
+	desc = pd_brandenburg.204.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.204.a
+	}
+}
+
+# Prussia Win For Himself(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
+pd_brandenburg.205 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.205.title
+	desc = pd_brandenburg.205.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.205.a
+		add_prestige = 50
+		add_stability = 25
+		# Kuzey Alman Federasyonu Kuruluyor!
+		form_country = formable_country:NGC_f
+		# Kan ve Demir (A?ama 3) ba?lat?c? global de?i?kenini veriyoruz
+		if = {
+			limit = {
+				has_game_rule = PD_blood_and_iron_mechanic_enabled
+			}
+			set_global_variable = blood_and_iron_active
+		}
+		# Ba?kent e?er Berlin de?ilse Berlin'e ta??yabiliriz (?ste?e ba?l?)
+		if = {
+			limit = {
+				capital != location:berlin
+			}
+			set_capital = location:berlin
+		}
+	}
+}
+
+# Prussia Lose For Spectators(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
+pd_brandenburg.206 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.206.title
+	desc = pd_brandenburg.206.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.206.a
+	}
+}
+
+# Prussia Lose For Himself(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
+pd_brandenburg.207 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.207.title
+	desc = pd_brandenburg.207.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.207.a
+	}
+}
+
+# Spectatorlara NGF Phase 2 ba?lad?. Prusya Silezyay? annexledi s?rada kim var ne zaman durucaklar eventi yolla.
+pd_brandenburg.208 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.208.title
+	desc = pd_brandenburg.208.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.208.a
+	}
+}
+
+# Kurban ?lkelere NGF Phase 2 Ba?lad? Silezya annexlendi s?rada kim var Event? Yolluyoruz Haber Veriyoruz.
+pd_brandenburg.209 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.209.title
+	desc = pd_brandenburg.209.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.209.a
+	}
+}
+
+# Zollverein (G?mr?k Birli?i) ?ltimatomu
+pd_brandenburg.210 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.210.title	# "Prusya'n?n G?lgesi" veya "Zollverein Teklifi"
+	desc = pd_brandenburg.210.desc
+	#image = "gfx/interface/illustrations/situation/pd_zollverein.dds"
+	immediate = {
+	}
+	# 1. SEÇENEK: HAVUÇ (Kabul Et ve Prusya'nın onayını bekle)
+	option = {
+		name = pd_brandenburg.210.a		# "Kan dökülmesine gerek yok. Prusya'nın üstünlüğünü tanıyoruz."
+		# Yapay Zeka (Ai) Karar Mekanizması
+		ai_chance = {
+			factor = 1000
+			modifier = {
+				factor = 0
+				any_country_that_can_be_called_defensively = {
+					army_size > c:PRU.army_size
+				}
+			}
+		}
+		# Kurban ülkeyi hafızaya alıyoruz ki Prusya kimi vassal yapacağını bilsin
+		save_scope_as = zollverein_applicant
+		# Prusya'ya "Kabul ettik, ne yapacaksınız?" eventi gidiyor (211)
+		c:PRU = {
+			trigger_event_non_silently = pd_brandenburg.211
+		}
+	}
+	# 2. SE?ENEK: SOPA (Reddet ve Prusya'n?n Gazab?n? Bekle)
+	option = {
+		name = pd_brandenburg.210.b		# "Kuzeyin ?zg?rl???n? Berlin'e satmayaca??z! (SAVA?)"
+		ai_chance = {
+			factor = 0
+			# AMA e?er arkas?nda Prusya'dan daha g??l? bir m?ttefiki varsa:
+			# Kendi g?c?ne g?venip %100 ihtimalle REDDEDER! (Factor 1000 olur)
+			modifier = {
+				factor = 1000
+				any_country_that_can_be_called_defensively = {
+					army_size > c:PRU.army_size
+				}
+			}
+		}
+		# Reddedince Prusya'ya haber gidiyor. (Ve senin Situation orduyu ?stlerine sal?yor)
+		c:PRU = {
+			trigger_event_non_silently = pd_brandenburg.212
+		}
+	}
+	# after = {
+	# 	situation:the_prussian_ascension = {
+	# 		set_variable = {
+	# 			name = PD_zollverein_asked
+	# 			value = 0
+	# 		}
+	# 	}
+	# }
+}
+
+# Prusya'ya "Zollverein onayı" kararı
+pd_brandenburg.211 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.211.title
+	desc = pd_brandenburg.211.desc
+	immediate = {
+	}
+	# 1. KABUL ET (Vassal Yap)
+	option = {
+		name = pd_brandenburg.211.a		# "Aramıza hoş geldiniz! (Vassal Yap)"
+		ai_chance = {
+			factor = 100
+		}
+		scope:zollverein_applicant = {
+			make_subject_of = {
+				target = c:PRU
+				type = subject_type:vassal
+			}
+		}
+	}
+	# 2. REDDET (Kendimiz fethedeceğiz)
+	option = {
+		name = pd_brandenburg.211.b		# "Ordularımız zaten yolda. İş birliğine ihtiyacımız yok! (Reddet)"
+		ai_chance = {
+			factor = 0			# AI her zaman vassal yapar
+		}
+		# Buna gerek yok .ünkü kurbana gidecek event yok daha 212 prusyay gidecek eventti ondan gerek yok buna zaten AI olcak genelde.
+		# scope:zollverein_applicant = {
+		# 	trigger_event_non_silently = pd_brandenburg.212
+		# }
+	}
+}
+
+# Zollverein Reddedilince Prusya'ya haber gidiyor. (Ve senin Situation orduyu ?stlerine sal?yor)
+pd_brandenburg.212 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.212.title
+	desc = pd_brandenburg.212.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.212.a		# "Bunu kanlar?yla ?deyecekler!"
+	}
+}
+
+# HRE ?mparatoruna "Prusya Y?kseliyor" Haberi ve Debuff'?
+pd_brandenburg.213 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.213.title
+	desc = pd_brandenburg.213.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	# Sadece senin di?er eventinden tetiklenir, rastgele ??kmaz!
+	# --- YEN? EKLENEN K?L?T (??ZOFREN? ENGELLEY?C?) ---
+	# E?er ?mparator B?ZSEK (PRU veya BRA), bu event asla ?al??mas?n!
+	trigger = {
+		NOT = {
+			OR = {
+				tag = PRU
+				tag = BRA
+			}
+		}
+	}
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.213.a		# "Kuzeydeki bu k?stahl?k ba??m?za bela olacak..."
+		# ?mparatorluk Kayg?s? debuff'?n? HRE Liderine kal?c? (-1) olarak yap??t?r?yoruz!
+		add_country_modifier = {
+			modifier = PD_brandenburg_imperial_anxiety
+			years = -1
+			mode = replace
+		}
+	}
+}
+
+# HRE prusyaya kuzeyden ?ekilin uyar?s? yap?yor.
+pd_brandenburg.214 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.214.title
+	desc = pd_brandenburg.214.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	# Ekranda Prusya'y? hedef olarak g?stermek i?in kaydediyoruz
+	immediate = {
+		c:PRU = {
+			save_scope_as = prussia_ultimatum_target
+		}
+	}
+	# SE?ENEK A: TAR?HSEL (Prusya'ya ?ltimatom yolla)
+	option = {
+		name = pd_brandenburg.214.a		# "Kuzeyden derhal ?ekilin, yoksa sonu?lar?na katlan?rs?n?z!"
+		ai_chance = {
+			factor = 100
+		}
+		# Yapay zeka b?y?k ihtimalle sava? ister
+		# Prusya'ya ?ltimatom eventini yolluyoruz
+		c:PRU = {
+			trigger_event_non_silently = pd_brandenburg.215
+		}
+	}
+	# SE?ENEK B: KORKAK?A (Ses ??karma)
+	option = {
+		name = pd_brandenburg.214.b		# "Hohenzollernlar art?k ?ok g??l?, kabul etmek zorunday?z."
+		ai_chance = {
+			factor = 0
+		}
+		add_prestige = -50
+		# ?mparator otoritesi sars?l?r
+		if = {
+			limit = {
+				exists = international_organization:hre
+			}
+			international_organization:hre = {
+				add_prestige = -100
+			}
+		}
+	}
+}
+
+# Prusya HRE ultimatomunu reddederse sava? ba?l?yor :OO
+pd_brandenburg.215 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.215.title
+	desc = pd_brandenburg.215.desc
+	immediate = {
+		# 1. DİNAMİK BOSS BULUCU (KUSURSUZ MANTIK) ---
+		# 1. İHTİMAL: HRE Organizasyonu hala yaşıyorsa, liderini (örn. Avusturya) bul ve kaydet!
+		if = {
+			limit = {
+				exists = international_organization:hre
+				country_exists = international_organization:hre.leader_country
+			}
+			international_organization:hre.leader_country = {
+				save_scope_as = emperor_target
+			}
+		}
+		# 2. ?HT?MAL: HRE birle?mi? (HRE) bul ve kaydet!
+		else_if = {
+			limit = {
+				country_exists = c:HRE
+			}
+			c:HRE = {
+				save_scope_as = emperor_target
+			}
+		}
+	}
+	# SE?ENEK A: KAN VE DEM?R! (Sava?? Ba?lat)
+	option = {
+		name = pd_brandenburg.215.a		# "Buyuk sorunlar konusarak degil, Kan ve Demir ile cozulur!"
+		ai_chance = {
+			factor = 100
+		}
+		add_prestige = 50
+		# EFFECT: AVUSTURYA ILE OLUMCUL SAVAS BASLAR!
+		declare_war_with_cb = {
+			target = scope:emperor_target
+			type = casus_belli:cb_PD_hegemony
+		}
+		# B?t?n Avrupa'ya "B?y?k Alman Sava?? Ba?lad?" haberi
+		every_country = {
+			limit = {
+				has_presence_in = continent:europe
+				this != c:PRU
+				this != scope:emperor_target
+			}
+			trigger_event_silently = pd_brandenburg.217
+		}
+	}
+	# SE?ENEK B: GER? ADiM AT (Boyun E?)
+	option = {
+		name = pd_brandenburg.215.b		# "Viyana'y? kar??m?za alamay?z. Geri ?ekiliyoruz..."
+		ai_chance = {
+			factor = 0
+		}
+		add_prestige = -100
+		add_stability = -50
+		# YEN? EKLEND?: S?TUAT?ON DOSYASiNiN "BA?ARiSiZ" OLDU?UNU ANLAMASi ???N BU DE???KEN ?ART!
+		set_variable = {
+			name = PD_submitted_to_emperor
+			value = 1
+		}
+	}
+}
+
+# Tum Avrupaya buyuk savas haberi gidiyor "Siradaki hedef imparator!"
+pd_brandenburg.216 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.216.title
+	desc = pd_brandenburg.216.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.216.a
+	}
+}
+
+# T?m Avrupaya buyuk savas basladi haberi gidiyor!!!
+pd_brandenburg.217 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.217.title
+	desc = pd_brandenburg.217.desc
+	#image = "gfx/interface/illustrations/situation/placeholder.dds"
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.217.a
+	}
+}
+
+# PHASE 2 IMPARATOR ZAFERI (EMPEROR WIN)
+pd_brandenburg.220 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.220.title
+	desc = pd_brandenburg.220.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.220.a
+		custom_tooltip = PD_emperor_victory_event_tt
+	}
+}
+
+# PHASE 2 PRUSYA YENILGI (PRUSSIA LOSE)
+pd_brandenburg.221 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.221.title
+	desc = pd_brandenburg.221.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.221.a
+		custom_tooltip = PD_prussia_defeat_event_tt
+		# Zollverein'in Cokusu: Tum Kuzey Alman vasallari serbest birakiliyor
+		every_subject = {
+			limit = {
+				OR = {
+					has_presence_in = region:north_german_region
+				}
+			}
+			# Prusya'ya dönüp diyoruz ki: "Þu an baktýðýmýz vasalý (this) serbest b?rak."
+			c:PRU = {
+				cancel_subject = prev
+			}
+		}
+		# Situation sonlandirma trigger'ini aktif et
+		set_global_variable = PD_hegemony_lost
+	}
+}
+
+############## BLOOD AND IRON STUATON BALANGIC EVENTLER ##############
+# NGC'ye (Oyuncuya) gelen The Blood and iron baslangic eventi
+pd_brandenburg.300 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.300.title
+	desc = pd_brandenburg.300.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.300.a
+		# Baslangic odulleri veya flavor
+		add_prestige = 10
+	}
+}
+
+# Fransa'ya gelen "Prusya'nin tehdidi buyuyor" uyarisi
+pd_brandenburg.301 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.301.title
+	desc = pd_brandenburg.301.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.301.a
+		# Fransa agresiflesiyor
+		add_prestige = 10
+	}
+}
+
+# MUCADELE SONA ERIYOR VE EMS TELGRAFI! (Tension = 100 olunca)
+# NGC oyuncusu kiskirtici telgrafi yayinliyor.
+pd_brandenburg.302 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.302.title
+	desc = pd_brandenburg.302.desc
+	immediate = {
+		# Guney Alman Devletleri Ems Telgrafini duyup 'Kan ve Demir' saflarina (NGC'ye muttefik) katilacaklar
+		every_country = {
+			limit = {
+				capital ?= {
+					region = region:south_german_region
+				}
+				NOT = {
+					tag = HAB
+				}
+				NOT = {
+					tag = FRA
+				}
+				NOT = {
+					tag = HRE
+				}
+				NOT = {
+					is_subject_of = root
+				}
+			}
+			# Guney devletleri bizimle iliskiye giriyor alliance
+			create_relation = {
+				type = relation_type:alliance
+				first = root
+				second = this
+			}
+			# Haber ve buff gonderiyoruz onlara
+			trigger_event_non_silently = pd_brandenburg.303
+		}
+	}
+	option = {
+		name = pd_brandenburg.302.a		# "Kiskirtici versiyonunu basliga gonderin!"
+		add_prestige = 25
+		# Fransa deliye doner ve ultimatom/savas eventi gider
+		c:FRA = {
+			trigger_event_non_silently = pd_brandenburg.304
+		}
+	}
+}
+
+# Guney Alman Devletlerine Ems Telgrafi Bildirimi ve Fransa korkusu
+pd_brandenburg.303 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.303.title
+	desc = pd_brandenburg.303.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.303.a		# "Vatan Fransa'nin altinda ezilmeyecek!"
+		add_prestige = 25
+		add_manpower = 5
+	}
+}
+
+# Fransa Ems Telgrafini Okur Cildirir! (Savas Basliyor)
+pd_brandenburg.304 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.304.title
+	desc = pd_brandenburg.304.desc
+	# --- DİNAMİK SCOPE KAYDI ---
+	immediate = {
+		if = {
+			limit = {
+				country_exists = c:NGC
+			}
+			c:NGC = {
+				save_scope_as = prussian_threat
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:PRU
+			}
+			c:PRU = {
+				save_scope_as = prussian_threat
+			}
+		}
+	}
+	option = {
+		name = pd_brandenburg.304.a		# "Bunun Bedeli Kan Olacaktir! (Savas Ac)"
+		# AI her zaman Fransayken saldirmayi secer!
+		ai_chance = {
+			factor = 100
+		}
+		add_prestige = 25
+		remove_truce_with = scope:prussian_threat
+		declare_war_with_cb = {
+			target = scope:prussian_threat
+			type = casus_belli:cb_PD_blood_and_iron
+		}
+		# Prusya Askeri Kurmayý (General Staff) Savaþý Kazanmak Ýçin Geçici Olarak Max Güce Çýkar!
+		if = {
+			limit = {
+				has_game_rule = BRA_buff_enabled
+			}
+			scope:prussian_threat = {
+				add_country_modifier = {
+					modifier = PD_prussian_general_staff_buff
+					years = 10
+					mode = replace
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_game_rule = BRA_buff_historical
+			}
+			scope:prussian_threat = {
+				add_country_modifier = {
+					modifier = PD_prussian_general_staff_buff_historical
+					years = 10
+					mode = replace
+				}
+			}
+		}
+		# Avrupaya haber ver (Savas Cikti)
+		every_country = {
+			limit = {
+				has_presence_in = continent:europe
+				this != c:FRA
+				this != scope:prussian_threat
+			}
+			trigger_event_silently = pd_brandenburg.305
+		}
+	}
+	option = {
+		name = pd_brandenburg.304.b		# "Ordularýmýz toparlansýn, savaþý kendi þartlarýmýzda açacaðýz."
+		trigger = {
+			is_ai = no
+		}
+		add_prestige = -10
+		# Fransa ateþkese engel takýlmasýn diye NGC ile aralarýndaki ateþkesi (Eðer varsa) siliyoruz.
+		# Çünkü kan ve demir aþamasýna gelindi.
+		remove_truce_with = scope:prussian_threat
+		# Fransa oyuncusuna 5 yýllýk CB vererek savaþý istediði an baþlatmasýný saðlar
+		add_casus_belli = {
+			target = scope:prussian_threat
+			type = casus_belli:cb_PD_blood_and_iron
+			years = 5
+		}
+		# Prusya Askeri Kurmayý (General Staff) yine de tetikte kalýr (10 Yýl Buff alýr)
+		if = {
+			limit = {
+				has_game_rule = BRA_buff_enabled
+			}
+			scope:prussian_threat = {
+				add_country_modifier = {
+					modifier = PD_prussian_general_staff_buff
+					years = 15
+					mode = replace
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_game_rule = BRA_buff_historical
+			}
+			scope:prussian_threat = {
+				add_country_modifier = {
+					modifier = PD_prussian_general_staff_buff_historical
+					years = 15
+					mode = replace
+				}
+			}
+		}
+	}
+}
+
+# Blood and Iron Savasi Basladi Haberi 
+pd_brandenburg.305 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.305.title
+	desc = pd_brandenburg.305.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.305.a
+	}
+}
+
+# FRANCO-PRUSSIAN WAR WON - THE GERMAN EMPIRE IS PROCLAIMED!
+pd_brandenburg.306 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.306.title
+	desc = pd_brandenburg.306.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.306.a
+		add_prestige = 100
+		add_stability = 50
+		# Alman Imparatorlugunun Kuruluþu!
+		# Not: Vanilla'da Germany 'GER_f' ile kuruluyorsa buyur.
+		form_country = formable_country:GER_f
+		# Guney Almanlari Birlestir
+		every_country = {
+			limit = {
+				is_ai = yes
+				capital ?= {
+					region = region:south_german_region
+				}
+				NOT = {
+					tag = HAB
+				}
+				NOT = {
+					tag = FRA
+				}
+				NOT = {
+					tag = HRE
+				}
+				NOT = {
+					this = ROOT
+				}
+			}
+			# Guney almanlari dogrudan ilhak et
+			ROOT = {
+				annex_country = {
+					country = prev
+					reason = Diplomatic
+					transfer = yes
+				}
+			}
+		}
+		# Eger Alsace, Lorraine ve Franche-Comte ve diðer bölgelerde Fransa dýsýnda baska birindeyse onlari da al.
+		area:alsace_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:lorraine_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:franche_comte_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:upper_rhine_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:eastern_switzerland_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:western_switzerland_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:central_switzerland_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:swabia_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:franconia_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		area:bavaria_area = {
+			every_ownable_location_in_area = {
+				limit = {
+					owner = {
+						is_ai = yes
+						NOT = {
+							this = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				change_location_owner = ROOT
+			}
+		}
+		# Ekstra oduller (Savas Yorgunlugu dusur vs.)
+		add_war_exhaustion = -10
+		set_global_variable = german_empire_formed
+	}
+}
+
+# FRANCO-PRUSSIAN WAR LOST - FRANCE WINS AND SHATTERS THE GERMAN DREAM
+pd_brandenburg.307 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.307.title
+	desc = pd_brandenburg.307.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.307.a
+		add_prestige = 100
+		add_stability = 25
+		# --- DİNAMİK HEDEFLEME ---
+		if = {
+			limit = {
+				country_exists = c:NGC
+			}
+			c:NGC = {
+				trigger_event_non_silently = pd_brandenburg.308
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:PRU
+			}
+			c:PRU = {
+				trigger_event_non_silently = pd_brandenburg.308
+			}
+		}
+	}
+}
+
+# NGC DEFEATED BY FRANCE
+pd_brandenburg.308 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.308.title
+	desc = pd_brandenburg.308.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.308.a
+		# Situation sonlandirma trigger'ini aktif et
+		set_global_variable = blood_and_iron_lost
+	}
+}
+
+# ---------------------------------------------
+# TENSION FLAVOR E VENTS (AVRUPA'YA GIDEN HABERLER)
+# ---------------------------------------------
+# TENSION 25: The Luxembourg Crisis
+pd_brandenburg.309 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.309.title
+	desc = pd_brandenburg.309.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.309.a
+	}
+}
+
+# TENSION 50: The Arms Race
+pd_brandenburg.310 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.310.title
+	desc = pd_brandenburg.310.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.310.a
+	}
+}
+
+# TENSION 75: Diplomatic Breakdown
+pd_brandenburg.311 = {
+	type = country_event
+	category = situation_event
+	title = pd_brandenburg.311.title
+	desc = pd_brandenburg.311.desc
+	immediate = {
+	}
+	option = {
+		name = pd_brandenburg.311.a
+	}
+}

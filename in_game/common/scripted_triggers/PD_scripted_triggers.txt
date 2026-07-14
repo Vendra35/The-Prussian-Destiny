@@ -1,0 +1,429 @@
+﻿###Situation End Triggers
+# --- 1. SITUATION: PRUSSIAN DESTINY (SITUATION BİTİRME KONDİSYONUNA BAKMAK İÇİN ÇAĞRILIR) ---
+prussian_ambition_end_trigger = {
+	OR = {
+		# Knockout 1: Brandenburg'un Zaferi
+		custom_tooltip = {
+			text = prussian_ambition_knockout_teu_tt
+			OR = {
+				c:TEU = {
+					is_subject_of = c:BRA
+				}
+				# Tötonlar yıkıldıysa toprakları Brandenburg'da olmak ZORUNDA.
+				AND = {
+					OR = {
+						# Töton tamamen haritadan silindiyse
+						NOT = {
+							country_exists = c:TEU
+						}
+						# VEYA Prusya, Brandenburg ve Pomeranya'nın HİÇBİRİNDE toprağı kalmadıysa
+						NOT = {
+							c:TEU = {
+								OR = {
+									has_presence_in = area:prussia_area
+									has_presence_in = area:brandenburg_area
+									has_presence_in = area:pomerania_area
+								}
+							}
+						}
+					}
+					c:BRA = {
+						OR = {
+							# Ya Danzig Ya da Königsberg Brandenburg'un elinde olmalı!
+							owns = location:konigsberg
+							owns = location:gdansk
+						}
+					}
+				}
+			}
+		}
+		# Knockout 2: Tötonların Zaferi
+		custom_tooltip = {
+			text = prussian_ambition_knockout_bra_tt
+			OR = {
+				c:BRA = {
+					is_subject_of = c:TEU
+				}
+				# Brandenburg tamamen silindiyse VEYA Prusya, Brandenburg ve Pomeranya'nın HİÇBİRİNDE toprağı kalmadıysa
+				OR = {
+					NOT = {
+						country_exists = c:BRA
+					}
+					NOT = {
+						c:BRA = {
+							OR = {
+								has_presence_in = area:prussia_area
+								has_presence_in = area:brandenburg_area
+								has_presence_in = area:pomerania_area
+							}
+						}
+					}
+				}
+			}
+		}
+		# Süre Sonu Puanlaması
+		custom_tooltip = {
+			text = prussian_ambition_time_limit_tt
+			AND = {
+				country_exists = c:TEU
+				country_exists = c:BRA
+				c:BRA = {
+					at_war = no
+				}
+				c:TEU = {
+					at_war = no
+				}
+				# Dinamik Tarih Kontrolü
+				OR = {
+					# Durum A: Hızlı Mod - 1500
+					AND = {
+						has_game_rule = PD_timeline_frontloaded
+						current_date > 1500.1.1
+					}
+					# Durum B: Tarihsel Mod - 1525
+					AND = {
+						has_game_rule = PD_timeline_strict_historical
+						current_date > 1525.1.1
+					}
+				}
+			}
+		}
+	}
+}
+
+# --- 2. SITUATION: PRUSSIAN ASCENSION (SITUATION BİTİRME KONDİSYONUNA BAKMAK İÇİN ÇAĞRILIR) ---
+prussian_ascension_end_trigger = {
+	OR = {
+		# 4. İHTİMAL: İmparator Hegemonya Savaşını Kazandı (Başarısızlık)
+		custom_tooltip = {
+			text = prussian_ascension_prussia_lost_hegemony_war_tt
+			has_global_variable = PD_hegemony_lost
+		}
+		# 1. İHTİMAL: Prusya Haritadan Silindi (Başarısızlık)
+		NOT = {
+			country_exists = c:PRU
+		}
+		# 2. İHTİMAL: SÜRE BİTTİ (DİNAMİK TARİH)
+		AND = {
+			c:PRU = {
+				at_war = no
+			}
+			OR = {
+				# Frontloaded modda 1637 sınırı
+				AND = {
+					has_game_rule = PD_timeline_frontloaded
+					current_date > 1637.1.1
+				}
+				# Strict Historical modda 1750 sınırı (Yedi Yıl Savaşları dönemi)
+				AND = {
+					has_game_rule = PD_timeline_strict_historical
+					current_date > 1750.1.1
+				}
+			}
+		}
+		# 3. İHTİMAL: BÜYÜK ZAFER (Topraklar alındı ve İmparator yenildi!)
+		AND = {
+			# YENİ EKLENEN KISIM: Savaş bitmiş, Phase 3'e geçilmiş ve İmparatora boyun eğilmemiş olmalı!
+			c:PRU = {
+				at_war = no
+				custom_tooltip = {
+					text = prussian_ascension_boss_fight_tt
+					# HATA BURADAYDI, DÜZELTİLDİ: Değişkeni Situation'a soruyoruz!
+					situation:the_prussian_ascension = {
+						var:PD_phase2_current_step = 3
+					}
+					# ÇÖZÜM BURADA: Ya savaşı kazandık ya da HRE zaten çöktü/dağıldı!
+					OR = {
+						has_variable = PD_hegemony_victory
+						AND = {
+							# HRE Organizasyonu DAĞILMIŞ olmalı...
+							NOT = {
+								exists = international_organization:hre
+								exists = international_organization:hre.leader_country
+							}
+							# ...VE tek bir Mega-Devlete (Tag) DÖNÜŞMEMİŞ olmalı! 
+							# (Yoksa havadan zafer kazanmış sayılırız)
+							NOT = {
+								exists = c:HRE
+							}
+						}
+					}
+					NOT = {
+						has_variable = PD_submitted_to_emperor
+					}
+				}
+			}
+			# ESKİ KISIM: Toprak Kontrolleri (Aynen Kalıyor)
+			custom_tooltip = {
+				text = prussian_ascension_silesia_tt
+				NOT = {
+					area:silesia_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ascension_lower_saxony_tt
+				NOT = {
+					area:lower_saxony_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ascension_upper_saxony_tt
+				NOT = {
+					area:upper_saxony_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ascension_mecklenburg_tt
+				NOT = {
+					area:mecklenburg_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ascension_holstein_tt
+				NOT = {
+					area:holstein_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ascension_westphalia_tt
+				NOT = {
+					area:westphalia_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ascension_hesse_tt
+				NOT = {
+					area:hesse_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ascension_rhineland_tt
+				NOT = {
+					area:rhineland_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+									this = c:FRA
+									is_subject_of = c:FRA
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ambition_brandenburg_tt
+				NOT = {
+					area:brandenburg_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ambition_pomerania_tt
+				NOT = {
+					area:pomerania_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			custom_tooltip = {
+				text = prussian_ambition_prussia_tt
+				NOT = {
+					area:prussia_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# --- 3. SITUATION: BLOOD AND IRON (SITUATION BİTİRME KONDİSYONUNA BAKMAK İÇİN ÇAĞRILIR) ---
+blood_and_iron_end_trigger = {
+	OR = {
+		# 1. İHTİMAL: NGC Haritadan Silindi (Başarısızlık)
+		custom_tooltip = {
+			text = blood_and_iron_ngc_destroyed_tt
+			NOT = {
+				OR = {
+					country_exists = c:PRU
+					country_exists = c:NGC
+				}
+			}
+		}
+		# 2. İHTİMAL: Fransa Yok Edildi/Başka Ülke Tarafından Yutuldu (İptal)
+		custom_tooltip = {
+			text = blood_and_iron_fra_destroyed_tt
+			NOT = {
+				country_exists = c:FRA
+			}
+		}
+		# 3. İHTİMAL: Almanya Kuruldu (Büyük Zafer!)
+		custom_tooltip = {
+			text = blood_and_iron_victory_tt
+			has_global_variable = german_empire_formed
+		}
+		# 4. İHTİMAL: Fransa Prusya'yı Parçaladı (Shattered Ambition)
+		custom_tooltip = {
+			text = blood_and_iron_defeat_tt
+			has_global_variable = blood_and_iron_lost
+		}
+		# 5. İHTİMAL: JENERİK BARIŞ / ZAMAN AŞIMI (YENİ EKLENEN ÇÖZÜM)
+		custom_tooltip = {
+			text = blood_and_iron_stalemate_tt
+			# Ems Telgrafı çoktan patlamış olmalı (Yani Kan ve Demir aşamasına geçilmiş olmalı)
+			has_global_variable = ems_dispatch_fired
+			# Özel zafer veya yıkım antlaşmaları KULLANILMAMIŞ olmalı
+			NOT = {
+				has_global_variable = german_empire_formed
+			}
+			NOT = {
+				has_global_variable = blood_and_iron_lost
+			}
+			# Savaş bitmiş olmalı (Fransa artık Prusya veya NGC ile savaşta değil)
+			c:FRA = {
+				NOT = {
+					is_at_war_with = c:PRU
+				}
+				NOT = {
+					is_at_war_with = c:NGC
+				}
+			}
+			# Tansiyon 200'ü geçmiş olmalı!
+			# (Ems 100'de patlıyor. Bu, savaş kararı verildikten sonra oyunda en az 8-9 yıl geçmiş demek.
+			# Oyuncu Fransa Event 304'te "Savaşı Erteleyeceğim (5 Yıl)" seçeneğini seçerse, Situation'ın erken kapanmasını KESİNLİKLE engeller!)
+			var:PD_franco_prussian_tension > 450
+		}
+	}
+}
+
+### Army Balance
+PD_percent_of_army_balance = {
+	OR = {
+		AND = {
+			expected_army_size <= 12
+			regular_army_size < {
+				value = root.expected_army_size
+				multiply = 0.9
+			}
+		}
+		AND = {
+			expected_army_size > 12
+			expected_army_size <= 30
+			regular_army_size < {
+				value = root.expected_army_size
+				multiply = 0.75
+			}
+		}
+		AND = {
+			expected_army_size > 30
+			expected_army_size <= 50
+			regular_army_size < {
+				value = root.expected_army_size
+				multiply = 0.6
+			}
+		}
+		AND = {
+			expected_army_size > 50
+			expected_army_size <= 120
+			regular_army_size < {
+				value = root.expected_army_size
+				multiply = 0.45
+			}
+		}
+		AND = {
+			expected_army_size > 120
+			regular_army_size < {
+				value = root.expected_army_size
+				multiply = 0.3
+			}
+		}
+	}
+}

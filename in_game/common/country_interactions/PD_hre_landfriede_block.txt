@@ -1,0 +1,24 @@
+﻿TRY_INJECT:enforce_landfriede = {
+	# --- AI KARAR MEKANİZMASI ---
+	ai_will_do = {
+		# PRUSSIAN DESTINY KİLİDİ
+		if = {
+			limit = {
+				OR = {
+					# DURUM 1: Brandenburg hedefte ve hırs aktif
+					AND = {
+						has_global_variable = prussian_ambition_active
+						scope:recipient = c:BRA
+					}
+					# DURUM 2: Prusya hedefte ve yükseliş aktif
+					AND = {
+						has_global_variable = prussian_ascension_active
+						scope:recipient = c:PRU
+					}
+				}
+			}
+			# Şartlar sağlandığında AI'nin bu butona basma isteğini SIFIRLA
+			multiply = 0
+		}
+	}
+}

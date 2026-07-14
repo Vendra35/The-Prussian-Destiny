@@ -1,0 +1,145 @@
+﻿PD_war_goal_prussian_ambition = {
+	type = superiority
+	attacker = {
+		# Bu hedeflerin savaş skor bedelini ucuzlatıyoruz ki AI kesin alabilsin
+		conquer_cost = 1
+		subjugate_cost = 1
+		antagonism = 0.25
+		# AI SADECE BU TOPRAKLARI ALABİLİR
+		allowed_locations = {
+			OR = {
+				scope:location.area = area:brandenburg_area
+				scope:location.area = area:pomerania_area
+				scope:location.area = area:prussia_area
+				# Magdeburg Börde Bölgesi Lokasyonları (Düzgün tekte yazılmış hali böyledir.)
+				scope:location.province_definition = province_definition:magdeburger_borde_province
+			}
+		}
+		allowed_subjugation = {
+			OR = {
+				scope:loser.capital.area = area:brandenburg_area
+				scope:loser.capital.area = area:pomerania_area
+				scope:loser.capital.area = area:prussia_area
+				scope:loser.capital.area = area:greater_poland_area
+			}
+		}
+	}
+	defender = {
+	}
+	ticking_war_score = 0.5
+}
+
+# PHASE 2: SILEZYA VE KUZEY ALMANYA İLHAKI (AŞAMA 1 ve 2 HEDEFLERİ)
+PD_war_goal_prussian_ascension = {
+	type = superiority
+	attacker = {
+		# Silezya ve küçükleri yutarken çok ucuza kapatsın
+		conquer_cost = 0.5
+		subjugate_cost = 0.5
+		antagonism = 0.25		# AE (Agresif genişleme) düşük olsun, dünya koalisyon kurmasın
+		# AI SADECE BU TOPRAKLARI ALABİLİR (Silezya ve Phase 2 hedefleri)
+		# allowed_locations doğrudan "o an bakılan toprağı" (this) kontrol eder.
+		allowed_locations = {
+			OR = {
+				scope:location.area = area:silesia_area
+				scope:location.area = area:lower_saxony_area
+				scope:location.area = area:upper_saxony_area
+				scope:location.area = area:mecklenburg_area
+				scope:location.area = area:holstein_area
+				scope:location.area = area:westphalia_area
+				scope:location.area = area:hesse_area
+				scope:location.area = area:rhineland_area
+				scope:location.area = area:brandenburg_area
+				scope:location.area = area:pomerania_area
+				scope:location.area = area:prussia_area
+				# scope:location.area = area:greater_poland_area
+				scope:location.province_definition = province_definition:poznan_province
+				scope:location.province_definition = province_definition:koscian_province
+				scope:location.province_definition = province_definition:arnskrone_province
+				scope:location.province_definition = province_definition:naklo_province
+				scope:location.province_definition = province_definition:znin_province
+			}
+		}
+		# SUBJUGATION (Vassal yapma) ülkeye atıldığı için, o ülkenin "Başkentine" bakarız.
+		# Eğer başkenti bu bölgelerden birindeyse, AI o ülkeyi vassal yapabilir.
+		allowed_subjugation = {
+			scope:loser = {
+				capital = {
+					OR = {
+						scope:loser.capital.area = area:silesia_area
+						scope:loser.capital.area = area:lower_saxony_area
+						scope:loser.capital.area = area:upper_saxony_area
+						scope:loser.capital.area = area:mecklenburg_area
+						scope:loser.capital.area = area:holstein_area
+						scope:loser.capital.area = area:westphalia_area
+						scope:loser.capital.area = area:hesse_area
+						scope:loser.capital.area = area:rhineland_area
+						scope:loser.capital.area = area:brandenburg_area
+						scope:loser.capital.area = area:pomerania_area
+						scope:loser.capital.area = area:prussia_area
+						scope:loser.capital.area = area:greater_poland_area
+					}
+				}
+			}
+		}
+	}
+	defender = {
+	}
+	ticking_war_score = 0.5
+}
+
+# PHASE 3: AVUSTURYA/İMPARATOR İLE KARDEŞLER SAVAŞI (BOSS FIGHT)
+PD_war_goal_prussian_hegemony = {
+	type = superiority
+	attacker = {
+		# Bu savaş toprak almaktan çok düşmanı ezme savaşıdır.
+		conquer_cost = 10
+		subjugate_cost = 10
+		antagonism = 1
+		# AI İmparatoru yenerken tüm Alman coğrafyasından toprak koparabilir
+		allowed_locations = {
+			OR = {
+				# scope:location.area = area:greater_poland_area
+				scope:location.province_definition = province_definition:poznan_province
+				scope:location.province_definition = province_definition:koscian_province
+				scope:location.province_definition = province_definition:arnskrone_province
+				scope:location.province_definition = province_definition:naklo_province
+				scope:location.province_definition = province_definition:znin_province
+			}
+		}
+		allowed_subjugation = {
+			always = no
+		}
+	}
+	defender = {
+	}
+	ticking_war_score = 1	# Hedefi tuttuğunda savaş skoru çok daha hızlı akar
+}
+
+# KAN VE DEMIR Wargoali. Fransa saldirgan ama Prusya asil bu hedefleri almali (Alsace, vs)
+PD_war_goal_blood_and_iron = {
+	type = superiority
+	attacker = {
+		# Fransa icin bedel umrumuzda degil
+		conquer_cost = 10
+		subjugate_cost = 10
+		antagonism = 2
+	}
+	defender = {
+		# Prusya icin bedel umrumuzda degil peace treaty ile veriyoruz zaten kazanınca!
+		conquer_cost = 10
+		subjugate_cost = 10
+		antagonism = 2		# Az agresif genisleme
+		# Defender (NGC) Sadece su bolgeleri ucuz war score ile talep edebilir: (Alsace-Lorraine tarihsel hatti)
+		allowed_locations = {
+			OR = {
+				scope:location.area = area:alsace_area
+				scope:location.area = area:lorraine_area
+				scope:location.area = area:franche_comte_area
+				# Ayrica Paris (Ile-de-France)
+				# scope:location = location:paris
+			}
+		}
+	}
+	ticking_war_score = 0.5
+}

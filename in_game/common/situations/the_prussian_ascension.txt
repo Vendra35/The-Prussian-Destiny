@@ -1,0 +1,1214 @@
+﻿the_prussian_ascension = {
+	monthly_spawn_chance = 100
+	can_start = {
+		# Phase 2'yi baþlatacak global deðiþken (Event ile bunu aktifleþtireceksin)
+		has_global_variable = prussian_ascension_active
+		country_exists = c:PRU
+		# Prusya zaten her yeri almýþsa bu situation baþlamasýn
+		c:PRU = {
+			OR = {
+				area:silesia_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+							}
+						}
+					}
+				}
+				area:lower_saxony_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+							}
+						}
+					}
+				}
+				area:upper_saxony_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+							}
+						}
+					}
+				}
+				area:mecklenburg_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+							}
+						}
+					}
+				}
+				area:holstein_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+							}
+						}
+					}
+				}
+				area:westphalia_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+							}
+						}
+					}
+				}
+				area:hesse_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+							}
+						}
+					}
+				}
+				area:rhineland_area = {
+					any_ownable_location_in_area = {
+						owner = {
+							NOR = {
+								this = c:PRU
+								is_subject_of = c:PRU
+								this = c:FRA
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	visible = {
+		OR = {
+			trigger_if = {
+				limit = {
+					country_exists = c:PRU
+				}
+				OR = {
+					is_neighbor_of = c:PRU
+					is_rival_of = c:PRU
+					is_enemy_of = c:PRU
+					is_subject_or_below_of = c:PRU
+				}
+			}
+			# Almanya ve etrafý bu durumu görsün
+			has_presence_in = region:north_german_region
+			has_presence_in = region:south_german_region
+			has_presence_in = region:france_region
+			has_presence_in = region:baltic_region
+			has_presence_in = region:italy_region
+		}
+	}
+	# --- SÝTUATÝON BÝTÝRME SCRÝPTED TRÝGGERI ---
+	can_end = {
+		prussian_ascension_end_trigger = yes
+	}
+	on_start = {
+		# Aþama kontrolü: 1 = Silezya, 2 = Batý=Saxony/Mecklenburg/Holstein 3 = Büyük Ultimatom Boss Fight
+		set_variable = {
+			name = PD_phase2_current_step
+			value = 1
+		}
+		# Deðiþkenleri Phase 2 için sýfýrdan kuruyoruz
+		set_variable = {
+			name = PD_phase2_conquest_cooldown
+			value = 115
+		}
+		set_variable = {
+			name = PD_phase2_conquest_target
+			value = 0
+		}
+		set_variable = {
+			name = PD_phase2_conquest_target_country
+			value = c:PRU
+		}
+		c:PRU = {
+			# NGF Baþlangýç Eventi (Ýttifaklarý kýrma vs. için)
+			trigger_event_non_silently = pd_brandenburg.200
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add_country_modifier = {
+					modifier = PD_prussia_preparing_for_ascension
+					years = -1
+					mode = replace
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				this != c:PRU
+				OR = {
+					has_presence_in = region:north_german_region
+					has_presence_in = region:south_german_region
+					has_presence_in = region:baltic_region
+					has_presence_in = region:france_region
+					has_presence_in = region:italy_region
+				}
+				NOT = {
+					any_owned_location = {
+						OR = {
+							this.area = area:silesia_area
+							this.area = area:upper_saxony_area
+							this.area = area:lower_saxony_area
+							this.area = area:mecklenburg_area
+							this.area = area:holstein_area
+						}
+					}
+				}
+			}
+			# Spectator Ülkelere NGF Situatoný(tüm hali) Baþladý Eventý Yolluyoruz Haber Veriyoruz.
+			trigger_event_non_silently = pd_brandenburg.201
+		}
+		# Kurbanlara Haber Verme Eventleri(Acaba prusya önce gözünü nereye dikecek nerelere geniþleyecek?)
+		every_country = {
+			limit = {
+				this != c:PRU
+				any_owned_location = {
+					OR = {
+						this.area = area:silesia_area
+						this.area = area:upper_saxony_area
+						this.area = area:lower_saxony_area
+						this.area = area:mecklenburg_area
+						this.area = area:holstein_area
+					}
+				}
+			}
+			# Kurbanlara giden event: "Prusya gözünü bize dikti!"
+			trigger_event_non_silently = pd_brandenburg.202
+		}
+	}
+	on_monthly = {
+		if = {
+			limit = {
+				has_game_rule = PD_the_prussian_ascension_auto_conquest_yes
+			}
+			if = {
+				limit = {
+					# --- DİNAMİK TARİH KONTROLÜ ---
+					OR = {
+						# A: Frontloaded Mod - Mevcut 1632 tarihini koruyoruz
+						AND = {
+							has_game_rule = PD_timeline_frontloaded
+							current_date > 1632.1.1
+						}
+						# B: Strict Historical Mod - 1648 Uyanış + 97 Yıl = 1745
+						AND = {
+							has_game_rule = PD_timeline_strict_historical
+							current_date > 1745.1.1
+						}
+					}
+					# ------------------------------
+					c:PRU = {
+						at_war = no
+					}
+				}
+				area:silesia_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:lower_saxony_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:upper_saxony_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:mecklenburg_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:holstein_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:westphalia_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:hesse_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:rhineland_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+									this = c:FRA
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:brandenburg_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:pomerania_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+				area:prussia_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+						change_location_owner = c:PRU
+					}
+				}
+			}
+		}
+		# --- AÞAMA KONTROLÜ VE DÝPLOMASÝ ---
+		if = {
+			limit = {
+				var:PD_phase2_current_step = 1
+				# Silezya tamamen Prusya'nýn veya vassallarýnýn eline geçti mi?
+				NOT = {
+					area:silesia_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			every_country = {
+				limit = {
+					this != c:PRU
+					OR = {
+						has_presence_in = region:north_german_region
+						has_presence_in = region:south_german_region
+						has_presence_in = region:baltic_region
+						has_presence_in = region:france_region
+						has_presence_in = region:italy_region
+					}
+					NOT = {
+						any_owned_location = {
+							OR = {
+								this.area = area:silesia_area
+								this.area = area:lower_saxony_area
+								this.area = area:upper_saxony_area
+								this.area = area:mecklenburg_area
+								this.area = area:holstein_area
+								this.area = area:westphalia_area
+								this.area = area:hesse_area
+								this.area = area:rhineland_area
+							}
+						}
+					}
+				}
+				# Spectator Ülkelere NGF Phase 2 Baþladý Eventý Yolluyoruz Haber Veriyoruz.
+				trigger_event_non_silently = pd_brandenburg.208
+			}
+			every_country = {
+				limit = {
+					this != c:PRU
+					any_owned_location = {
+						OR = {
+							this.area = area:lower_saxony_area
+							this.area = area:upper_saxony_area
+							this.area = area:mecklenburg_area
+							this.area = area:holstein_area
+							this.area = area:westphalia_area
+							this.area = area:hesse_area
+							this.area = area:rhineland_area
+						}
+					}
+				}
+				# Kurban Ülkelere NGF Phase 2 Baþladý Silezya annexlendi sýrada kim var? Eventý Yolluyoruz Haber Veriyoruz.
+				trigger_event_non_silently = pd_brandenburg.209
+			}
+			# Silezya bittiyse Aþama 2'ye (Batýya - Saxony) geçiyoruz!
+			set_variable = {
+				name = PD_phase2_current_step
+				value = 2
+			}
+		}
+		# --- AÞAMA 2: ZOLLVEREIN (GÜMRÜK BÝRLÝÐÝ) DÝPLOMASÝSÝ VE Saxony-holstein-mecklenburg BÖLGESÝ---
+		if = {
+			limit = {
+				var:PD_phase2_current_step = 2
+			}
+			# Batýdaki küçük sýnýr devletlerine "Bize Katýlýn" eventi atýyoruz
+			every_country = {
+				limit = {
+					num_locations <= 2					# Sadece 2 topraktan küçük olanlara gider
+					# FLAG YERÝNE SENÝN ÇALIÞAN VARIABLE SÝSTEMÝNÝ KULLANIYORUZ:
+					NOT = {
+						has_variable = PD_zollverein_asked
+					}
+					NOT = {
+						is_subject_of = c:PRU
+					}
+					NOT = {
+						has_truce_with = c:PRU
+					}
+					any_owned_location = {
+						OR = {
+							this.area = area:upper_saxony_area
+							this.area = area:lower_saxony_area
+							this.area = area:mecklenburg_area
+							this.area = area:holstein_area
+							this.area = area:westphalia_area
+							this.area = area:hesse_area
+							this.area = area:rhineland_area
+						}
+					}
+				}
+				# SORDUÐUMUZU KAYDEDÝYORUZ KÝ SPAM YAPMASIN:
+				set_variable = {
+					name = PD_zollverein_asked
+					value = 1
+				}
+				# Bu event kurban ülkeye gider: "Prusya korumasý altýna gir (Vassal ol) ya da yok ol!"
+				trigger_event_non_silently = pd_brandenburg.210
+			}
+		}
+		# #######################################################################
+		# --- AÞAMA 2'DEN 3'E GEÇÝÞ (BATI BÖLGELERÝ TAMAM MI?) ---
+		# #######################################################################
+		if = {
+			limit = {
+				var:PD_phase2_current_step = 2
+				# Saksonya, Mecklenburg, Holstein, Westphalia VE ANA BÖLGELER(BRA, POME, PRUSSIA) tamamen Prusya veya vassallarýnýn eline geçti mi?
+				NOT = {
+					area:upper_saxony_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:lower_saxony_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:mecklenburg_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:holstein_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:westphalia_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:hesse_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:rhineland_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+									this = c:FRA
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:brandenburg_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:pomerania_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+				NOT = {
+					area:prussia_area = {
+						any_ownable_location_in_area = {
+							owner = {
+								NOR = {
+									this = c:PRU
+									is_subject_of = c:PRU
+								}
+							}
+						}
+					}
+				}
+			}
+			# Her þey tamamsa Aþama 3: BÜYÜK ÜLTÝMATOM BAÞLAR!
+			set_variable = {
+				name = PD_phase2_current_step
+				value = 3
+			}
+			# Avrupa'ya haber ver: "Sýradaki hedef Ýmparator!" (Event 216)
+			every_country = {
+				limit = {
+					has_presence_in = continent:europe
+					this != c:PRU
+				}
+				trigger_event_non_silently = pd_brandenburg.216
+			}
+		}
+		# #######################################################################
+		# --- AÞAMA 3: ÝMPARATORLUK ÜLTÝMATOMU (BOSS FIGHT BAÞLIYOR) ---
+		# #######################################################################
+		# --- YENÝ: BOSS FIGHT RESET SÝGORTASI (Ateþkes Bittiðinde Tekrar Saldýrmak Ýçin) ---
+		if = {
+			limit = {
+				var:PD_phase2_current_step = 3
+				has_variable = PD_austria_ultimatum_sent				# Ültimatom daha önce atýlmýþ
+				NOT = {
+					has_variable = PD_hegemony_victory
+				}
+				# Ama zafer KAZANILAMAMIÞ!
+				c:PRU = {
+					at_war = no					# Prusya barýþta
+					# Hedefteki Boss ile ateþkesi (Truce) bitmiþ mi?
+					OR = {
+						# 1. Ýmparator varsa ve onunla ateþkes YOKSA
+						AND = {
+							exists = international_organization:hre
+							exists = international_organization:hre.leader_country
+							NOT = {
+								has_truce_with = international_organization:hre.leader_country
+							}
+						}
+						# 2. HRE birleþip tag olduysa ve onunla ateþkes YOKSA
+						AND = {
+							exists = c:HRE
+							NOT = {
+								has_truce_with = c:HRE
+							}
+						}
+					}
+				}
+			}
+			# Þartlar saðlandý! Kilidi kaldýrýyoruz ki aþaðýdaki kod ültimatomu TEKRAR fýrlatsýn!
+			remove_variable = PD_austria_ultimatum_sent
+		}
+		# --- ORÝJÝNAL ÜLTÝMATOM KODUN (Buradan aþaðýsý senin kodun) ---
+		if = {
+			limit = {
+				var:PD_phase2_current_step = 3
+				# Daha önce ültimatom atýlmadýysa at (Spam kilidi)
+				NOT = {
+					has_variable = PD_austria_ultimatum_sent
+				}
+				# Savaþ spamýný önlemek için Prusya barýþta olsun
+				c:PRU = {
+					at_war = no
+				}
+			}
+			set_variable = {
+				name = PD_austria_ultimatum_sent
+				value = 1
+			}
+			# 1. ÝHTÝMAL: HRE Organizasyonu hala yaþýyorsa, Ýmparatora yolla!
+			if = {
+				limit = {
+					exists = international_organization:hre
+					exists = international_organization:hre.leader_country
+				}
+				international_organization:hre.leader_country ?= {
+					trigger_event_non_silently = pd_brandenburg.214
+				}
+			}
+			# 2. ÝHTÝMAL: HRE birleþip tek ülke (Tag) olduysa, Ültimatomu direkt (HRE)ye yolla!
+			else_if = {
+				limit = {
+					exists = c:HRE
+				}
+				c:HRE = {
+					trigger_event_non_silently = pd_brandenburg.214
+				}
+			}
+		}
+		# 1. HEDEF SEÇME BLOÐU
+		if = {
+			limit = {
+				var:PD_phase2_conquest_target = 0
+				c:PRU = {
+					at_war = no
+				}
+			}
+			c:PRU = {
+				ordered_neighbor_country = {
+					limit = {
+						is_rebel_country = no
+						NOT = {
+							has_truce_with = prev
+						}
+						NOT = {
+							is_subject_of = prev
+						}
+						# GÜVENLÝK SÝGORTASI: Hedefin TÜM defansif ittifak ağı gücü, BRA'nın çıplak gücünden KÜÇÜK olmalı.
+						defensive_alliance_strength < c:PRU.offensive_alliance_strength
+						# AÞAMALI HEDEF SEÇÝMÝ (Phase 2 Targets) - DÜZELTÝLMÝÞ KISIM
+						OR = {
+							# Eðer Aşama 1'deysek SADECE Silezya'yı gör
+							AND = {
+								situation:the_prussian_ascension = {
+									var:PD_phase2_current_step = 1
+								}
+								any_owned_location = {
+									OR = {
+										this.area = area:silesia_area
+										this.area = area:brandenburg_area
+										this.area = area:pomerania_area
+										this.area = area:prussia_area
+										this.area = area:mecklenburg_area
+										this.area = area:lower_saxony_area
+										this.area = area:upper_saxony_area
+									}
+								}
+							}
+							# Eðer Aþama 2'deysek Saxony, Mecklenburg, Holstein ve Westphalia'yý gör
+							AND = {
+								situation:the_prussian_ascension = {
+									var:PD_phase2_current_step = 2
+								}
+								any_owned_location = {
+									OR = {
+										this.area = area:upper_saxony_area
+										this.area = area:lower_saxony_area
+										this.area = area:mecklenburg_area
+										this.area = area:holstein_area
+										this.area = area:westphalia_area
+										this.area = area:hesse_area
+										this.area = area:rhineland_area
+										this.area = area:brandenburg_area
+										this.area = area:pomerania_area
+										this.area = area:prussia_area
+									}
+								}
+							}
+						}
+					}
+					max = 1
+					order_by = {
+						value = num_locations
+						multiply = -1
+					}
+					situation:the_prussian_ascension = {
+						set_variable = {
+							name = PD_phase2_conquest_target_country
+							value = prev
+						}
+						set_variable = {
+							name = PD_phase2_conquest_target
+							value = 1
+						}
+					}
+				}
+			}
+		}
+		# SAYAÇ ARTIRMA
+		change_variable = {
+			name = PD_phase2_conquest_cooldown
+			add = 1
+		}
+		# --- GÜVENLİK SİGORTASI (FALLBACK) BRANDENBURG İÇİN ---
+		if = {
+			limit = {
+				var:PD_phase2_conquest_target = 1
+				OR = {
+					# 1. Hedef ülke haritadan silindiyse (ilhak edildiyse) veya multiplayer'da scope koptuysa
+					NOT = {
+						country_exists = var:PD_phase2_conquest_target_country
+					}
+					# 2. Hedef bir şekilde bizim vasalımız olduysa veya araya ateşkes girdiyse
+					var:PD_phase2_conquest_target_country = {
+						OR = {
+							is_subject_of = c:PRU
+							has_truce_with = c:PRU
+						}
+					}
+				}
+			}
+			# Hedef geçersiz! Sistemi sıfırla ki motor yeni hedef arasın:
+			situation:the_prussian_ascension = {
+				set_variable = {
+					name = PD_phase2_conquest_target
+					value = 0
+				}
+			}
+		}
+		# 2. SAVAÞ AÇMA BLOÐU
+		if = {
+			limit = {
+				var:PD_phase2_conquest_target = 1
+				OR = {
+					# Terminator Mode: Hızlı agresif genişleme (1 yılda bir)
+					AND = {
+						has_game_rule = BRA_buff_enabled
+						var:PD_phase2_conquest_cooldown > 12
+					}
+					# Historical / Vanilla Mode: Yavaş ve istikrarlı genişleme (5 yılda bir / 60 ay)
+					AND = {
+						NOT = {
+							has_game_rule = BRA_buff_enabled
+						}
+						var:PD_phase2_conquest_cooldown > 60
+					}
+				}
+			}
+			c:PRU = {
+				if = {
+					limit = {
+						OR = {
+							# Terminator Mode: Son savaştan 1 yıl (12 ay) geçtiyse saldırabilir.
+							AND = {
+								has_game_rule = BRA_buff_enabled
+								months_since_war >= 12
+							}
+							# Historical / Vanilla Mode: Son savaştan en az 2 yıl (24 ay) geçmiş olmalı.
+							AND = {
+								NOT = {
+									has_game_rule = BRA_buff_enabled
+								}
+								months_since_war >= 24
+							}
+						}
+						situation:the_prussian_ascension = {
+							var:PD_phase2_conquest_target_country = {
+								NOT = {
+									is_subject_of = prev
+								}
+								NOT = {
+									has_truce_with = prev
+								}
+							}
+						}
+					}
+					# SAVAÞ ÝLANI EVENTÝ (Hedefe dalýyoruz)
+					trigger_event_silently = pd_brandenburg.203
+				}
+			}
+		}
+	}
+	on_ending = {
+		c:PRU = {
+			if = {
+				limit = {
+					is_ai = yes
+					NOT = {
+						has_global_variable = PD_hegemony_lost
+					}
+					NOT = {
+						has_game_rule = PD_blood_and_iron_mechanic_disabled
+					}
+				}
+				add_country_modifier = {
+					modifier = PD_preparing_for_blood_and_iron
+					days = -1
+				}
+			}
+			remove_country_modifier = PD_prussia_preparing_for_ascension
+			remove_country_modifier = PD_brandenburg_ascension_campaign
+			remove_country_modifier = PD_brandenburg_ascension_campaign_historical
+			remove_country_modifier = PD_brandenburg_military_supremacy
+			remove_country_modifier = PD_brandenburg_military_supremacy_historical
+			remove_country_modifier = PD_brandenburg_zollverein_ambition
+			remove_country_modifier = PD_imperial_outcast_situation_2
+			# Baþarýlý olma þartý (Silezya, vb. almýþ mý VE Avusturya Savaþýndan zaferle çýkmýþ mý?)
+			if = {
+				limit = {
+					# YENÝ EKLENEN SAVAÞ/ZAFER KONTROLLERÝ:
+					# --- 1. HATA BURADAYDI, ÇÖZÜLDÜ: Deðiþkeni Situation'a soruyoruz! ---
+					situation:the_prussian_ascension = {
+						var:PD_phase2_current_step = 3
+					}
+					at_war = no
+					# ÇÖZÜM BURADA: Ya deðiþkeni aldýk ya da HRE lideri kalmadý (Hükmen Galibiyet)!
+					OR = {
+						has_variable = PD_hegemony_victory
+						AND = {
+							# HRE Organizasyonu DAÐILMIÞ olmalý...
+							NOT = {
+								exists = international_organization:hre
+								exists = international_organization:hre.leader_country
+							}
+							# ...VE tek bir Mega-Devlete (Tag) DÖNÜÞMEMÝÞ olmalý!
+							# (Yoksa Prusya kaybettiði halde havadan zafer kazanýr)
+							NOT = {
+								exists = c:HRE
+							}
+						}
+					}
+					NOT = {
+						has_variable = PD_submitted_to_emperor
+					}
+					# Eðer ültimatomda korkup geri adým attýysa BAÞARISIZ sayýlýr.
+					# BÖLGE KONTROLLERÝ (Ayný Kalýyor):
+					AND = {
+						NOT = {
+							area:silesia_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:upper_saxony_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:lower_saxony_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:mecklenburg_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:holstein_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:westphalia_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:hesse_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:rhineland_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+											this = c:FRA
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:brandenburg_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:pomerania_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+						NOT = {
+							area:prussia_area = {
+								any_ownable_location_in_area = {
+									owner = {
+										NOR = {
+											this = c:PRU
+											is_subject_of = c:PRU
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_game_rule = BRA_buff_disabled
+						}
+					}
+					add_country_modifier = {
+						modifier = PD_the_new_german_order
+						years = -1
+					}
+				}
+				# #######################################################################
+				# --- BÜYÜK ZAFER: KUZEY ALMAN FEDERASYONU (NGF) DOÐUYOR ---
+				# #######################################################################
+				# 1. Zollverein ile baðladýðýmýz tüm küçük devletleri tek çatý altýnda topluyoruz (Anschluss)
+				# --- ÝLHAK (ANNEX) ÝÞLEMÝ DÜZELTÝLDÝ ---
+				# ÇÖZÜM BURADA: HRE hala ayaktaysa (Barýþla yýkýlmamýþsa veya hükmen kazanýlmýþsa), acýmadan burada YIK!
+				if = {
+					limit = {
+						exists = international_organization:hre
+					}
+					destroy_international_organization = {
+						target = international_organization:hre
+					}
+				}
+				every_subject = {
+					limit = {
+						OR = {
+							has_presence_in = region:north_german_region
+						}
+					}
+					# Prusya'ya dönüp diyoruz ki: "Þu an baktýðýmýz vasalý (this) ilhak et."
+					c:PRU = {
+						annex_country = {
+							country = prev							# 'prev', yani bir önceki scope olan vasalý (every_subject) kasteder
+							reason = Diplomatic
+							transfer = yes
+						}
+					}
+				}
+				# Baþardýysa Kendine ve Spectator Ülkelere Event yolluyor haber veriyoruz.
+				every_country = {
+					limit = {
+						this != c:PRU
+						OR = {
+							has_presence_in = region:north_german_region
+							has_presence_in = region:south_german_region
+							has_presence_in = region:baltic_region
+							has_presence_in = region:france_region
+							has_presence_in = region:italy_region
+						}
+					}
+					# Prussia win the situaton and Great War
+					trigger_event_non_silently = pd_brandenburg.204
+				}
+				c:PRU = {
+					# Prussia win the situaton and Great War and Changing Tag to NGC Event.
+					trigger_event_non_silently = pd_brandenburg.205
+				}
+			}
+			else = {
+				# BAÞARISIZ BÝTÝÞ CEZALARI
+				# Baþarýsýzsa Kendine ve Spectator Ülkelere Event yolluyor haber veriyoruz.
+				every_country = {
+					limit = {
+						this != c:PRU
+						OR = {
+							has_presence_in = region:north_german_region
+							has_presence_in = region:south_german_region
+							has_presence_in = region:baltic_region
+							has_presence_in = region:france_region
+							has_presence_in = region:italy_region
+						}
+					}
+					# Prussia lose
+					trigger_event_non_silently = pd_brandenburg.206
+				}
+				c:PRU = {
+					# Prussia lose
+					trigger_event_non_silently = pd_brandenburg.207
+				}
+			}
+		}
+		# Temizlik
+		# 2. KURBANLARIN KORKU MODIFIERINI TEMÝZLEME
+		every_country = {
+			limit = {
+				has_country_modifier = PD_brandenburg_imperial_anxiety
+			}
+			remove_country_modifier = PD_brandenburg_imperial_anxiety
+		}
+		remove_variable = PD_austria_ultimatum_sent
+		remove_variable = PD_phase2_conquest_cooldown
+		remove_variable = PD_phase2_conquest_target
+		remove_variable = PD_phase2_conquest_target_country
+		remove_variable = PD_zollverein_asked
+		remove_variable = PD_hegemony_victory
+		remove_variable = PD_submitted_to_emperor
+		remove_variable = PD_phase2_current_step
+		remove_global_variable = prussian_ascension_active
+	}
+	tooltip = {
+		#custom_tooltip = PD_PRUSSIAN_TARGET_LOCATION_TT_2
+	}
+	# --- HARÝTA MODU (ÇÝZGÝLER) ---
+	map_color = {
+		if = {
+			limit = {
+				OR = {
+					# 1. Þart: Toprak Prusya'nýn mý?
+					owner ?= c:PRU
+					# 2. Þart: HRE hala yaþýyorsa VE Toprak HRE Liderinin mi?
+					AND = {
+						exists = international_organization:hre
+						exists = international_organization:hre.leader_country
+						owner ?= international_organization:hre.leader_country
+					}
+				}
+			}
+			# Eðer yukarýdakilerden biriyse, o ülkenin kendi rengini haritaya bas
+			value = this.owner.country_color
+		}
+		else = {
+			value = define:NMapColors|DEFAULT_COLOR
+		}
+	}
+	secondary_map_color = {
+		if = {
+			limit = {
+				owner ?= {
+					is_subject_of = c:PRU
+				}
+			}
+			value = blue
+		}
+		else_if = {
+			limit = {
+				OR = {
+					this.area = area:silesia_area
+					this.area = area:upper_saxony_area
+					this.area = area:lower_saxony_area
+					this.area = area:mecklenburg_area
+					this.area = area:holstein_area
+					this.area = area:westphalia_area
+					this.area = area:hesse_area
+					this.area = area:rhineland_area
+					this.area = area:brandenburg_area
+					this.area = area:pomerania_area
+					this.area = area:prussia_area
+				}
+				NOT = {
+					owner = c:PRU
+				}
+			}
+			value = yellow			# Hedefleri sarý göster
+		}
+	}
+}

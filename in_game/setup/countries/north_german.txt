@@ -1,0 +1,4 @@
+﻿NGC = {
+	color = map_GER
+	color2 = map_GER
+}

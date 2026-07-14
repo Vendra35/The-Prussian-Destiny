@@ -1,0 +1,60 @@
+﻿# ---------------------------------------------------------
+# PRUSSIA DESTINY (PD) - MOD GAME RULES
+# ---------------------------------------------------------
+# Phase 1: Rise of Brandenburg Automation (Yapay Zeka Yönlendirmesi)
+PD_brandenburg_rise_auto_conquest = {
+	default = PD_brandenburg_rise_auto_conquest_yes
+	PD_brandenburg_rise_auto_conquest_yes = {
+		flag = general_rule
+	}
+	PD_brandenburg_rise_auto_conquest_no = {
+		flag = general_rule
+	}
+}
+
+# Phase 2: Prussian Ascension Automation (Silezya, Saxony, Mecklenburg ve Holstein)
+PD_the_prussian_ascension_auto_conquest = {
+	default = PD_the_prussian_ascension_auto_conquest_yes
+	PD_the_prussian_ascension_auto_conquest_yes = {
+		flag = general_rule
+	}
+	PD_the_prussian_ascension_auto_conquest_no = {
+		flag = general_rule
+	}
+}
+
+# Phase 1: OP Askeri Buff Kuralı (Prussian Awakening)
+BRA_prussian_buff_rule = {
+	default = BRA_buff_historical
+	BRA_buff_historical = {
+		flag = general_rule
+	}
+	BRA_buff_enabled = {
+		flag = general_rule
+	}
+	BRA_buff_disabled = {
+		flag = general_rule
+	}
+}
+
+# Phase 3: Blood and Iron (Mekanik Otomasyonu, Tension vs.)
+PD_blood_and_iron_mechanic_rule = {
+	default = PD_blood_and_iron_mechanic_enabled
+	PD_blood_and_iron_mechanic_enabled = {
+		flag = general_rule
+	}
+	PD_blood_and_iron_mechanic_disabled = {
+		flag = general_rule
+	}
+}
+
+# Timeline & Pacing Rules for Ascension
+PD_timeline_pacing_rule = {
+	default = PD_timeline_frontloaded
+	PD_timeline_frontloaded = {
+		flag = general_rule
+	}
+	PD_timeline_strict_historical = {
+		flag = general_rule
+	}
+}

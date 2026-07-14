@@ -1,0 +1,914 @@
+﻿the_prussian_ambition = {
+	monthly_spawn_chance = 100
+	can_start = {
+		has_global_variable = prussian_ambition_active
+		country_exists = c:BRA
+		country_exists = c:TEU
+	}
+	visible = {
+		OR = {
+			trigger_if = {
+				limit = {
+					country_exists = c:BRA
+				}
+				OR = {
+					is_neighbor_of = c:BRA
+					is_rival_of = c:BRA
+					is_enemy_of = c:BRA
+					is_subject_or_below_of = c:BRA
+				}
+			}
+			has_presence_in = region:north_german_region
+			has_presence_in = region:south_german_region
+			has_presence_in = region:baltic_region
+			has_presence_in = region:france_region
+			has_presence_in = region:italy_region
+		}
+	}
+	# --- SİTUATİON BİTİRME SCRİPTED TRİGGERI ---
+	can_end = {
+		prussian_ambition_end_trigger = yes
+	}
+	# FOR EU5 1.3
+	# can_end = {
+	# 	end_reason = {
+	# 		trigger = {
+	# 			prussian_ambition_end_trigger = yes
+	# 		}
+	# 		desc = "prussian_ambition_end_desc"
+	# 	}
+	# }
+	on_start = {
+		set_variable = {
+			name = PD_conquest_cooldown
+			value = 100
+		}
+		set_variable = {
+			name = PD_conquest_target
+			value = 0
+		}
+		set_variable = {
+			name = PD_conquest_target_rival
+			value = 0
+		}
+		set_variable = {
+			name = PD_conquest_target_country
+			value = c:BRA
+		}
+		set_variable = {
+			name = PD_conquest_target_rival_country
+			value = c:BRA
+		}
+		# Teuton için değişkenler
+		set_variable = {
+			name = PD_teu_conquest_cooldown
+			value = 0
+		}
+		set_variable = {
+			name = PD_teu_conquest_target
+			value = 0
+		}
+		set_variable = {
+			name = PD_teu_conquest_target_country
+			value = c:TEU
+		}
+		# SİTUATİON BAŞLADIKTAN SONRA HEMEN YAKIN BÖLGEDEKİ ALLİANCE'LARI KIRIYORUZ
+		c:BRA = {
+			trigger_event_non_silently = pd_brandenburg.100
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add_country_modifier = {
+					modifier = PD_brandenburg_preparing_for_conquest
+					years = -1
+					mode = replace
+				}
+			}
+		}
+		c:TEU = {
+			if = {
+				limit = {
+					is_ai = yes
+				}
+				add_country_modifier = {
+					modifier = PD_brandenburg_preparing_for_conquest
+					years = -1
+					mode = replace
+				}
+			}
+		}
+		# Sinek yutma Free city.
+		if = {
+			limit = {
+				c:BRA = {
+					is_ai = yes
+				}
+			}
+			# --- BRANDENBURGTAKİ TEK TOPRAKLI SİNEKLERİ (FREE CITY) TEMİZLEME ---
+			# ---(WE DO THIS BECAUSE OF FREE CITIES, IN EARLY GAME FC CAN LOCK BRANDENBURG EXPANSION DUE TO THE HRE DEFEND THEM)---
+			every_country = {
+				limit = {
+					is_ai = yes					# Kurban da AI olmalı (Multiplayer'da oyuncuyu yutmasın)
+					NOT = {
+						this = c:BRA
+					}
+					NOT = {
+						is_subject_of = c:BRA
+					}
+					# SADECE TEK TOPRAĞI OLANLARI BUL
+					num_locations = 1
+					# Sadece Brandenburg bölgesindekileri yut! (OR bloğuna gerek yok, direkt şart olarak yazdık)
+					has_presence_in = area:brandenburg_area
+				}
+				# Radar birini buldu! Şimdi Brandenburg'a geçip "Bulduğum bu adamı (prev) yut" diyoruz:
+				c:BRA = {
+					annex_country = {
+						country = prev						# 'prev', yani radara yakalanan o tek topraklı ülke
+						reason = Diplomatic
+						transfer = yes
+					}
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				this != c:BRA
+				OR = {
+					has_presence_in = region:north_german_region
+					has_presence_in = region:south_german_region
+					has_presence_in = region:baltic_region
+					has_presence_in = region:france_region
+					has_presence_in = region:italy_region
+				}
+				NOT = {
+					any_owned_location = {
+						OR = {
+							this.area = area:brandenburg_area
+							this.area = area:pomerania_area
+							this.area = area:prussia_area
+						}
+					}
+				}
+			}
+			# Spectator Ülkelere Situation Başladı Eventı Yolluyoruz Haber Veriyoruz.
+			trigger_event_non_silently = pd_brandenburg.101
+		}
+		every_country = {
+			limit = {
+				this != c:BRA
+				any_owned_location = {
+					OR = {
+						this.area = area:brandenburg_area
+						this.area = area:pomerania_area
+						this.area = area:prussia_area
+					}
+				}
+			}
+			# Kurbanlara Ülkelere Situation Başladı Eventı Yolluyoruz Haber Veriyoruz.
+			trigger_event_non_silently = pd_brandenburg.102
+		}
+		# KAPSAMI (SCOPE) BRANDENBURG OLARAK BELİRLİYORUZ
+		c:BRA = {
+			# 1. EĞER BAŞKENT BERLİN DEĞİLSE, ZORLA BERLİN'E TAŞI
+			if = {
+				limit = {
+					NOT = {
+						capital = location:berlin
+					}
+				}
+				set_capital = location:berlin
+			}
+			# 2. BAŞKENTİ TAŞISAK DA TAŞIMASAK DA O MODIFIER'I BERLİN'E KESİN OLARAK VER!
+			location:berlin = {
+				add_location_modifier = {
+					modifier = PD_berlin_iron_capital
+					years = -1
+				}
+			}
+		}
+	}
+	# on_monthly bloğu
+	on_monthly = {
+		# --- PUAN HESAPLAMA (SCORE CALCULATION) ---
+		situation:the_prussian_ambition = {
+			if = {
+				limit = {
+					country_exists = c:BRA
+				}
+				set_variable = {
+					name = PD_bra_score
+					value = c:BRA.military_strength
+				}
+				change_variable = {
+					name = PD_bra_score
+					add = c:BRA.monthly_income_trade_and_tax
+				}
+				c:BRA = {
+					set_variable = {
+						name = temp_prestige
+						value = prestige
+					}
+					change_variable = {
+						name = temp_prestige
+						multiply = 0.2
+					}
+				}
+				change_variable = {
+					name = PD_bra_score
+					add = c:BRA.var:temp_prestige
+				}
+			}
+			if = {
+				limit = {
+					country_exists = c:TEU
+				}
+				set_variable = {
+					name = PD_teu_score
+					value = c:TEU.military_strength
+				}
+				change_variable = {
+					name = PD_teu_score
+					add = c:TEU.monthly_income_trade_and_tax
+				}
+				c:TEU = {
+					set_variable = {
+						name = temp_prestige
+						value = prestige
+					}
+					change_variable = {
+						name = temp_prestige
+						multiply = 0.2
+					}
+				}
+				change_variable = {
+					name = PD_teu_score
+					add = c:TEU.var:temp_prestige
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_game_rule = PD_brandenburg_rise_auto_conquest_yes
+				OR = {
+					# Frontloaded ise 1495'ten sonra başla
+					AND = {
+						has_game_rule = PD_timeline_frontloaded
+						current_date > 1495.1.1
+					}
+					# Historical ise 1520'den sonra başla (1525 bitişine yakın)
+					AND = {
+						has_game_rule = PD_timeline_strict_historical
+						current_date > 1520.1.1
+					}
+				}
+			}
+			# 1. SENARYO: BRANDENBURG ÜSTÜN İSE (VEYA EŞİTSE)
+			if = {
+				limit = {
+					country_exists = c:TEU
+					situation:the_prussian_ambition = {
+						var:PD_bra_score >= var:PD_teu_score
+					}
+					c:BRA = {
+						is_ai = yes
+						at_war = no
+					}
+				}
+				# Doğrudan Knockout At! (Tötonları Vassal/Fiefdom Yaparak End Trigger'ı tetikler) (Gerek yok çünkü zaten on_ending kısmında vassal'ı yapıyoruz ama yine de kalsın, daha hızlı bitirir durumu ayrıca zaten toprak verme sadece burda var ondan kalmalı)
+				c:TEU = {
+					trigger_event_non_silently = pd_brandenburg.113					# Teutonlara Knockout Atarak Subject Yapar.
+				}
+				# Hedef Prusya formlanması olduğu için ufak AI komşularını aradan çıkarmaya (Pomerania vs) devam eder BRA için.
+				area:brandenburg_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+				area:pomerania_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+				province_definition:danzig_province = {
+					every_ownable_location_in_province_definition = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+				province_definition:lower_prussia_province = {
+					every_ownable_location_in_province_definition = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+			}
+			# 2. SENARYO: TÖTON ŞÖVALYELERİ ÜSTÜN İSE
+			else_if = {
+				limit = {
+					country_exists = c:BRA
+					situation:the_prussian_ambition = {
+						var:PD_teu_score > var:PD_bra_score
+					}
+					c:TEU = {
+						is_ai = yes
+						at_war = no
+					}
+				}
+				# Brandenburg'a Knockout Atarak Subject Yapıp End Trigger'ı tetikler
+				c:BRA = {
+					trigger_event_non_silently = pd_brandenburg.115					# Brandenburga Knockout Atarak Subject Yapar.
+				}
+				# Hedef Prusya formlanması olduğu için ufak AI komşularını aradan çıkarmaya (Pomerania vs) devam eder TEU için
+				area:brandenburg_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+				area:pomerania_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:TEU
+									is_subject_of = c:TEU
+								}
+							}
+						}
+						change_location_owner = c:TEU
+					}
+				}
+			}
+		}
+		##########
+		if = {
+			limit = {
+				var:PD_conquest_target = 0
+				c:BRA = {
+					at_war = no
+				}
+			}
+			c:BRA = {
+				ordered_neighbor_country = {
+					limit = {
+						is_rebel_country = no
+						NOT = {
+							has_truce_with = prev
+						}
+						NOT = {
+							is_subject_of = prev
+						}
+						# Hedefin TÜM defansif ittifak ağı gücü, BRA'nın çıplak gücünden KÜÇÜK olmalı.
+						defensive_alliance_strength < c:BRA.offensive_alliance_strength
+						any_owned_location = {
+							OR = {
+								this.area = area:brandenburg_area
+								this.area = area:pomerania_area
+								this.area = area:prussia_area
+							}
+						}
+					}
+					max = 1
+					order_by = {
+						value = num_locations
+						multiply = -1
+					}
+					situation:the_prussian_ambition = {
+						set_variable = {
+							name = PD_conquest_target_country
+							value = prev
+						}
+						set_variable = {
+							name = PD_conquest_target
+							value = 1
+						}
+					}
+				}
+			}
+		}
+		########## (BRA)
+		if = {
+			limit = {
+				var:PD_conquest_target_rival = 0
+				var:PD_conquest_target_rival_country = c:BRA
+				c:BRA = {
+					at_war = no
+				}
+			}
+			### Rİval yardım
+			c:BRA = {
+				trigger_event_silently = pd_brandenburg.108
+			}
+		}
+		change_variable = {
+			name = PD_conquest_cooldown
+			add = 1
+		}
+		# --- GÜVENLİK SİGORTASI (FALLBACK) BRANDENBURG İÇİN ---
+		if = {
+			limit = {
+				var:PD_conquest_target = 1
+				OR = {
+					# 1. Hedef ülke haritadan silindiyse (ilhak edildiyse) veya multiplayer'da scope koptuysa
+					NOT = {
+						country_exists = var:PD_conquest_target_country
+					}
+					# 2. Hedef bir şekilde bizim vasalımız olduysa veya araya ateşkes girdiyse
+					var:PD_conquest_target_country = {
+						OR = {
+							is_subject_of = c:BRA
+							has_truce_with = c:BRA
+						}
+					}
+				}
+			}
+			# Hedef geçersiz! Sistemi sıfırla ki motor yeni hedef arasın:
+			situation:the_prussian_ambition = {
+				set_variable = {
+					name = PD_conquest_target
+					value = 0
+				}
+			}
+		}
+		# --- GÜVENLİK SİGORTASI (FALLBACK) TÖTONLAR İÇİN ---
+		if = {
+			limit = {
+				var:PD_teu_conquest_target = 1
+				OR = {
+					NOT = {
+						country_exists = var:PD_teu_conquest_target_country
+					}
+					var:PD_teu_conquest_target_country = {
+						OR = {
+							is_subject_of = c:TEU
+							has_truce_with = c:TEU
+						}
+					}
+				}
+			}
+			situation:the_prussian_ambition = {
+				set_variable = {
+					name = PD_teu_conquest_target
+					value = 0
+				}
+			}
+		}
+		###### Etrafa savaş açmaya başlar.(BRA)
+		if = {
+			limit = {
+				var:PD_conquest_target = 1
+				OR = {
+					# Terminator Mode: Hızlı agresif genişleme (1 yılda bir)
+					AND = {
+						has_game_rule = BRA_buff_enabled
+						var:PD_conquest_cooldown > 12
+					}
+					# Historical / Vanilla Mode: Yavaş ve istikrarlı genişleme (20 yılda bir / 240 ay)
+					AND = {
+						NOT = {
+							has_game_rule = BRA_buff_enabled
+						}
+						var:PD_conquest_cooldown > 240
+					}
+				}
+				OR = {
+					var:PD_conquest_target_rival = 1
+					var:PD_conquest_target_rival_country = {
+						NOT = {
+							OR = {
+								tag = BRA
+								tag = PRU
+							}
+						}
+						at_war = no
+					}
+				}
+			}
+			c:BRA = {
+				if = {
+					limit = {
+						OR = {
+							# Terminator Mode: Son savaştan 1 yıl (12 ay) geçtiyse saldırabilir.
+							AND = {
+								has_game_rule = BRA_buff_enabled
+								months_since_war >= 12
+							}
+							# Historical / Vanilla Mode: Son savaştan en az 2 yıl (24 ay) geçmiş olmalı.
+							AND = {
+								NOT = {
+									has_game_rule = BRA_buff_enabled
+								}
+								months_since_war >= 24
+							}
+						}
+						situation:the_prussian_ambition = {
+							var:PD_conquest_target_country = {
+								NOT = {
+									is_subject_of = prev
+								}
+								NOT = {
+									has_truce_with = prev
+								}
+							}
+						}
+					}
+					trigger_event_silently = pd_brandenburg.103
+				}
+			}
+		}
+		##########(TEU)
+		if = {
+			limit = {
+				var:PD_teu_conquest_target = 0
+				c:TEU = {
+					at_war = no
+				}
+			}
+			c:TEU = {
+				ordered_neighbor_country = {
+					limit = {
+						is_rebel_country = no
+						NOT = {
+							has_truce_with = prev
+						}
+						NOT = {
+							is_subject_of = prev
+						}
+						# Hedefin TÜM defansif ittifak ağı gücü, TEU'nun çıplak gücünden KÜÇÜK olmalı.
+						defensive_alliance_strength < c:TEU.offensive_alliance_strength
+						any_owned_location = {
+							OR = {
+								this.area = area:brandenburg_area
+								this.area = area:pomerania_area
+								this.area = area:prussia_area
+							}
+						}
+					}
+					max = 1
+					order_by = {
+						value = num_locations
+						multiply = -1
+					}
+					situation:the_prussian_ambition = {
+						set_variable = {
+							name = PD_teu_conquest_target_country
+							value = prev
+						}
+						set_variable = {
+							name = PD_teu_conquest_target
+							value = 1
+						}
+					}
+				}
+			}
+		}
+		change_variable = {
+			name = PD_teu_conquest_cooldown
+			add = 1
+		}
+		###### Etrafa savaş açmaya başlar.(TEU)
+		if = {
+			limit = {
+				var:PD_teu_conquest_target = 1
+				OR = {
+					# Terminator Mode: Hızlı agresif genişleme (10 yılda bir)
+					AND = {
+						has_game_rule = BRA_buff_enabled
+						var:PD_teu_conquest_cooldown > 48
+					}
+					# Historical / Vanilla Mode: Yavaş ve istikrarlı genişleme (20 yılda bir / 240 ay)
+					AND = {
+						NOT = {
+							has_game_rule = BRA_buff_enabled
+						}
+						var:PD_teu_conquest_cooldown > 480
+					}
+				}
+			}
+			c:TEU = {
+				if = {
+					limit = {
+						OR = {
+							# Terminator Mode: Son savaştan 1 yıl (12 ay) geçtiyse saldırabilir.
+							AND = {
+								has_game_rule = BRA_buff_enabled
+								months_since_war >= 12
+							}
+							# Historical / Vanilla Mode: Son savaştan en az 2 yıl (24 ay) geçmiş olmalı.
+							AND = {
+								NOT = {
+									has_game_rule = BRA_buff_enabled
+								}
+								months_since_war >= 24
+							}
+						}
+						situation:the_prussian_ambition = {
+							var:PD_teu_conquest_target_country = {
+								NOT = {
+									is_subject_of = prev
+								}
+								NOT = {
+									has_truce_with = prev
+								}
+							}
+						}
+					}
+					trigger_event_silently = pd_brandenburg.117
+				}
+			}
+		}
+	}
+	# SİTUATİON BİTİRME BAŞARILI YA DA BAŞARISIZ KONTROLÜ VE ÖDÜL/PENALTY VERME:
+	on_ending = {
+		# 1. Eski Modifier'ları Temizle
+		c:BRA = {
+			remove_country_modifier = prussian_destiny_modifier
+			remove_country_modifier = prussian_destiny_modifier_1
+			remove_country_modifier = prussian_historical_modifier
+			remove_country_modifier = PD_brandenburg_preparing_for_conquest
+		}
+		c:TEU = {
+			remove_country_modifier = prussian_destiny_modifier
+			remove_country_modifier = prussian_historical_modifier
+			remove_country_modifier = PD_brandenburg_preparing_for_conquest			# (Daha TEU'ya conquest yapma özelliği vermediğimiz için bu modifier'ı eklemedik ona, ondan şuanlık yazmaya gerek yok)
+		}
+		# 2. KİM KAZANDI KONTROLÜ (Skor veya Knockout)
+		if = {
+			# BRANDENBURG ZAFERİ: TEU yoksa, TEU zaten vassalımızsa VEYA Puanımız onlardan yüksekse
+			limit = {
+				OR = {
+					NOT = {
+						country_exists = c:TEU
+					}
+					c:TEU = {
+						is_subject_of = c:BRA
+					}
+					AND = {
+						country_exists = c:TEU
+						country_exists = c:BRA
+						situation:the_prussian_ambition = {
+							var:PD_bra_score >= var:PD_teu_score
+						}
+					}
+				}
+			}
+			# Brandenburg Ödüllerini Alır
+			c:BRA = {
+				if = {
+					limit = {
+						has_game_rule = BRA_buff_enabled
+					}
+					add_country_modifier = {
+						modifier = prussian_destiny_modifier_2
+						years = -1
+					}
+				}
+				else_if = {
+					limit = {
+						has_game_rule = BRA_buff_historical
+					}
+					add_country_modifier = {
+						modifier = prussian_historical_modifier_2
+						years = -1
+					}
+				}
+				else_if = {
+					limit = {
+						has_game_rule = BRA_buff_disabled
+					}
+					add_country_modifier = {
+						modifier = prussian_ambition_balanced_reward
+						years = 20
+					}
+				}
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_country_modifier = {
+						modifier = PD_the_sleeping_giant
+						years = -1
+						mode = replace
+					}
+				}
+				trigger_event_non_silently = pd_brandenburg.105				# Brandenburg Win For Himself
+			}
+			# Teutonic Order'ı Subject Yap
+			if = {
+				limit = {
+					country_exists = c:TEU
+					NOT = {
+						c:TEU = {
+							is_subject_of = c:BRA
+						}
+					}
+				}
+				c:TEU = {
+					trigger_event_non_silently = pd_brandenburg.113					# Teuton Scoreda kaybederse Brandenburg Onu vassal yaparkenki teuton'a gidecek event.
+					trigger_event_non_silently = pd_brandenburg.111					# Teuton Lose For Himself		
+				}
+			}
+			# Spectator Haberleşmesi
+			every_country = {
+				limit = {
+					this != c:BRA
+					OR = {
+						has_presence_in = region:north_german_region
+						has_presence_in = region:south_german_region
+						has_presence_in = region:baltic_region
+					}
+				}
+				trigger_event_non_silently = pd_brandenburg.104				# Brandenburg Win For Spectators
+			}
+		}
+		else = {
+			# TEUTONIC ZAFERİ (Fallback)
+			c:TEU = {
+				if = {
+					limit = {
+						has_game_rule = BRA_buff_enabled
+					}
+					add_country_modifier = {
+						modifier = prussian_destiny_modifier_2
+						years = -1
+					}
+					international_organization:hre = {
+						add_country_to_international_organization = c:TEU
+					}
+				}
+				else_if = {
+					limit = {
+						has_game_rule = BRA_buff_historical
+					}
+					add_country_modifier = {
+						modifier = prussian_historical_modifier_2
+						years = -1
+					}
+					international_organization:hre = {
+						add_country_to_international_organization = c:TEU
+					}
+				}
+				else_if = {
+					limit = {
+						has_game_rule = BRA_buff_disabled
+					}
+					add_country_modifier = {
+						modifier = prussian_ambition_balanced_reward
+						years = 20
+					}
+					international_organization:hre = {
+						add_country_to_international_organization = c:TEU
+					}
+				}
+				if = {
+					limit = {
+						is_ai = yes
+					}
+					add_country_modifier = {
+						modifier = PD_the_sleeping_giant
+						years = -1
+						mode = replace
+					}
+				}
+			}
+			# Brandenburg'u Subject Yap
+			if = {
+				limit = {
+					country_exists = c:BRA
+					NOT = {
+						c:BRA = {
+							is_subject_of = c:TEU
+						}
+					}
+				}
+				c:BRA = {
+					trigger_event_non_silently = pd_brandenburg.115					# Brandenburg Scoreda kaybederse Teuton Onu vassal yaparkenki Brandenburg'a gidecek event.
+				}
+			}
+			# Spectator Haberleşmesi
+			every_country = {
+				limit = {
+					this != c:TEU
+					OR = {
+						has_presence_in = region:north_german_region
+						has_presence_in = region:south_german_region
+						has_presence_in = region:baltic_region
+					}
+				}
+				trigger_event_non_silently = pd_brandenburg.112				# Teuton Win For Spectators
+			}
+		}
+		# Değişkenleri Temizle
+		remove_global_variable = prussian_ambition_active
+		remove_variable = PD_conquest_cooldown
+		remove_variable = PD_conquest_target
+		remove_variable = PD_conquest_target_rival
+		remove_variable = PD_conquest_target_country
+		remove_variable = PD_conquest_target_rival_country
+		remove_variable = PD_teu_conquest_cooldown
+		remove_variable = PD_teu_conquest_target
+		remove_variable = PD_teu_conquest_target_country
+		remove_variable = PD_bra_score
+		remove_variable = PD_teu_score
+	}
+	tooltip = {
+		custom_tooltip = PD_PRUSSIAN_TARGET_LOCATION_TT
+	}
+	# --- HARİTA MODU (ÇİZGİLER) ---
+	map_color = {
+		if = {
+			limit = {
+				owner ?= c:BRA
+			}
+			value = this.owner.country_color
+		}
+		else_if = {
+			limit = {
+				owner ?= c:TEU
+			}
+			value = this.owner.country_color
+		}
+		else = {
+			value = define:NMapColors|DEFAULT_COLOR
+		}
+	}
+	secondary_map_color = {
+		if = {
+			limit = {
+				owner ?= {
+					is_subject_of = c:BRA
+				}
+			}
+			value = brown
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					is_subject_of = c:TEU
+				}
+			}
+			value = dark_grey
+		}
+		else_if = {
+			limit = {
+				OR = {
+					this.area = area:brandenburg_area
+					this.area = area:pomerania_area
+					this.area = area:prussia_area
+					#this.province = province:poznan_province
+				}
+				NOT = {
+					owner = c:BRA
+				}
+				NOT = {
+					owner = c:TEU
+				}
+			}
+			value = yellow
+		}
+	}
+}

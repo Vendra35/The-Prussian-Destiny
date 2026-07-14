@@ -1,0 +1,415 @@
+﻿the_blood_and_iron = {
+	monthly_spawn_chance = 100
+	can_start = {
+		# Prusya 2. Aşamayı daha önce İmparatora karşı KAYBETTİYSE, bu senaryo asla başlayamaz!
+		NOT = {
+			has_global_variable = PD_hegemony_lost
+		}
+		# Phase 3'ü başlatacak global değişken
+		has_game_rule = PD_blood_and_iron_mechanic_enabled
+		has_global_variable = blood_and_iron_active
+		# PRU veya NGC'den en az biri var olmalı
+		OR = {
+			country_exists = c:PRU
+			country_exists = c:NGC
+		}
+		country_exists = c:FRA
+		# Fransa, PRU veya NGC ile savaşta OLMAMALI
+		c:FRA = {
+			NOT = {
+				OR = {
+					is_at_war_with = c:PRU
+					is_at_war_with = c:NGC
+				}
+			}
+		}
+		# PRU veya NGC (hangisi aktifse) barışta olmalı
+		NOT = {
+			any_country = {
+				OR = {
+					this = c:PRU
+					this = c:NGC
+				}
+				at_war = yes
+			}
+		}
+		# --- DİNAMİK TARİH KİLİDİ ---
+		OR = {
+			# Durum B: Frontloaded (Hızlı) Mod
+			AND = {
+				has_game_rule = PD_timeline_frontloaded
+				current_date > 1638.1.1
+			}
+			# Durum C: Strict Historical Mod
+			AND = {
+				has_game_rule = PD_timeline_strict_historical
+				current_date > 1751.1.1
+			}
+		}
+	}
+	visible = {
+		OR = {
+			trigger_if = {
+				limit = {
+					OR = {
+						country_exists = c:PRU
+						country_exists = c:NGC
+					}
+				}
+				OR = {
+					this = c:PRU
+					this = c:NGC
+					this = c:FRA
+					is_neighbor_of = c:PRU
+					is_neighbor_of = c:NGC
+					is_rival_of = c:PRU
+					is_rival_of = c:NGC
+				}
+			}
+			has_presence_in = continent:europe
+		}
+	}
+	# --- SITUATION BİTİRME KONTROLÜ ---
+	can_end = {
+		blood_and_iron_end_trigger = yes
+	}
+	on_start = {
+		# Tansiyon (Tension) metre - Maksimum 100
+		set_variable = {
+			name = PD_franco_prussian_tension
+			value = 0
+		}
+		# --- OPTİMİZE EDİLMİŞ EVENT TETİKLEME (on_start) ---
+		if = {
+			limit = {
+				country_exists = c:NGC
+			}
+			c:NGC = {
+				trigger_event_non_silently = pd_brandenburg.300
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:PRU
+			}
+			c:PRU = {
+				trigger_event_non_silently = pd_brandenburg.300
+			}
+		}
+		# Fransa'ya event ve duruma göre Truce (Ateşkes) ekle
+		c:FRA = {
+			trigger_event_non_silently = pd_brandenburg.301
+			if = {
+				limit = {
+					country_exists = c:PRU
+				}
+				add_truce_with = {
+					target = c:PRU
+					years = 10
+					mutual = yes
+				}
+			}
+			if = {
+				limit = {
+					country_exists = c:NGC
+				}
+				add_truce_with = {
+					target = c:NGC
+					years = 10
+					mutual = yes
+				}
+			}
+		}
+	}
+	on_monthly = {
+		# Tansiyon her ay +1 artar
+		change_variable = {
+			name = PD_franco_prussian_tension
+			add = 1
+		}
+		# Tansiyon 25: The Luxembourg Crisis
+		if = {
+			limit = {
+				var:PD_franco_prussian_tension >= 25
+				NOT = {
+					has_global_variable = pd_tension_25_fired
+				}
+			}
+			every_country = {
+				limit = {
+					has_presence_in = continent:europe
+				}
+				trigger_event_non_silently = pd_brandenburg.309
+			}
+			set_global_variable = pd_tension_25_fired
+		}
+		# Tansiyon 50: The Arms Race
+		if = {
+			limit = {
+				var:PD_franco_prussian_tension >= 50
+				NOT = {
+					has_global_variable = pd_tension_50_fired
+				}
+			}
+			every_country = {
+				limit = {
+					has_presence_in = continent:europe
+				}
+				trigger_event_non_silently = pd_brandenburg.310
+			}
+			set_global_variable = pd_tension_50_fired
+		}
+		# Tansiyon 75: The Diplomatic Breakdown
+		if = {
+			limit = {
+				var:PD_franco_prussian_tension >= 75
+				NOT = {
+					has_global_variable = pd_tension_75_fired
+				}
+			}
+			every_country = {
+				limit = {
+					has_presence_in = continent:europe
+				}
+				trigger_event_non_silently = pd_brandenburg.311
+			}
+			set_global_variable = pd_tension_75_fired
+		}
+		# Tansiyon 100 olunca Ems Telgrafı patlar!
+		if = {
+			limit = {
+				var:PD_franco_prussian_tension >= 100
+				NOT = {
+					has_global_variable = ems_dispatch_fired
+				}
+			}
+			# OPTİMİZE EDİLMİŞ HEDEFLEME (O(1) Complexity)
+			if = {
+				limit = {
+					country_exists = c:NGC
+				}
+				c:NGC = {
+					trigger_event_non_silently = pd_brandenburg.302
+				}
+			}
+			else_if = {
+				limit = {
+					country_exists = c:PRU
+				}
+				c:PRU = {
+					trigger_event_non_silently = pd_brandenburg.302
+				}
+			}
+			set_global_variable = ems_dispatch_fired
+		}
+		# --- YENİ EKLENEN BRUTE FORCE KISMI ---
+		# RÖVANŞ 1 (Round 2): Tansiyon 250 (Ems'ten ~12.5 Yıl Sonra)
+		if = {
+			limit = {
+				var:PD_franco_prussian_tension >= 250
+				NOT = {
+					has_global_variable = german_empire_formed
+				}
+				NOT = {
+					has_global_variable = blood_and_iron_lost
+				}
+				# O an savaşta OLMAMALARI lazım!
+				c:FRA = {
+					at_war = no
+				}
+				OR = {
+					c:NGC = {
+						at_war = no
+					}
+					c:PRU = {
+						at_war = no
+					}
+				}
+			}
+			# Fransa'ya "Kan ve Demir" eventi tekrar gider!
+			c:FRA = {
+				trigger_event_non_silently = pd_brandenburg.304
+			}
+		}
+		# RÖVANŞ 2 (Round 3): Tansiyon 480 (Ems'ten ~31.5 Yıl Sonra)
+		if = {
+			limit = {
+				var:PD_franco_prussian_tension >= 400
+				NOT = {
+					has_global_variable = german_empire_formed
+				}
+				NOT = {
+					has_global_variable = blood_and_iron_lost
+				}
+				# O an savaşta OLMAMALARI lazım!
+				c:FRA = {
+					at_war = no
+				}
+				OR = {
+					c:NGC = {
+						at_war = no
+					}
+					c:PRU = {
+						at_war = no
+					}
+				}
+			}
+			# Fransa'ya "Kan ve Demir" eventi tekrar gider!
+			c:FRA = {
+				trigger_event_non_silently = pd_brandenburg.304
+			}
+		}
+	}
+	# --- BİTİŞ TEMİZLİĞİ (ON ENDING) ---
+	on_ending = {
+		every_country = {
+			limit = {
+				has_country_modifier = PD_preparing_for_blood_and_iron
+			}
+			remove_country_modifier = PD_preparing_for_blood_and_iron
+		}
+		every_country = {
+			limit = {
+				has_country_modifier = PD_prussian_general_staff_buff
+			}
+			remove_country_modifier = PD_prussian_general_staff_buff
+		}
+		every_country = {
+			limit = {
+				has_country_modifier = PD_prussian_general_staff_buff_historical
+			}
+			remove_country_modifier = PD_prussian_general_staff_buff_historical
+		}
+		c:FRA = {
+			if = {
+				limit = {
+					country_exists = c:PRU
+					has_casus_belli_of_type_on = {
+						target = c:PRU
+						type = casus_belli:cb_PD_blood_and_iron
+					}
+				}
+				remove_casus_belli = {
+					target = c:PRU
+					type = casus_belli:cb_PD_blood_and_iron
+				}
+			}
+			if = {
+				limit = {
+					country_exists = c:NGC
+					has_casus_belli_of_type_on = {
+						target = c:NGC
+						type = casus_belli:cb_PD_blood_and_iron
+					}
+				}
+				remove_casus_belli = {
+					target = c:NGC
+					type = casus_belli:cb_PD_blood_and_iron
+				}
+			}
+		}
+		remove_variable = PD_franco_prussian_tension
+		remove_global_variable = blood_and_iron_active
+		remove_global_variable = pd_tension_25_fired
+		remove_global_variable = pd_tension_50_fired
+		remove_global_variable = pd_tension_75_fired
+		remove_global_variable = ems_dispatch_fired
+		remove_global_variable = german_empire_formed
+		remove_global_variable = blood_and_iron_lost
+	}
+	tooltip = {
+		if = {
+			limit = {
+				OR = {
+					this.area = area:alsace_area
+					this.area = area:lorraine_area
+					this.area = area:franche_comte_area
+				}
+				NOR = {
+					owner = c:PRU
+					owner = c:NGC
+				}
+			}
+			custom_tooltip = PD_blood_and_iron_map_tt
+		}
+	}
+	# --- HARİTA MODU (RENKLER VE ÇİZGİLER) ---
+	map_color = {
+		if = {
+			limit = {
+				OR = {
+					owner ?= c:PRU
+					owner ?= c:NGC
+					owner ?= c:FRA
+				}
+			}
+			value = this.owner.country_color
+		}
+		else = {
+			value = define:NMapColors|DEFAULT_COLOR
+		}
+	}
+	secondary_map_color = {
+		if = {
+			limit = {
+				owner ?= {
+					OR = {
+						is_subject_of = c:PRU
+						is_subject_of = c:NGC
+					}
+				}
+			}
+			value = dark_grey
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					OR = {
+						has_scripted_relation = {
+							target = c:PRU
+							type = relation_type:alliance
+						}
+						has_scripted_relation = {
+							target = c:NGC
+							type = relation_type:alliance
+						}
+					}
+				}
+			}
+			value = dark_grey
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					is_subject_of = c:FRA
+				}
+			}
+			value = blue
+		}
+		else_if = {
+			limit = {
+				owner ?= {
+					has_scripted_relation = {
+						target = c:FRA
+						type = relation_type:alliance
+					}
+				}
+			}
+			value = blue
+		}
+		else_if = {
+			limit = {
+				OR = {
+					this.area = area:alsace_area
+					this.area = area:lorraine_area
+					this.area = area:franche_comte_area
+				}
+				NOR = {
+					owner = c:PRU
+					owner = c:NGC
+				}
+			}
+			value = red
+		}
+	}
+}

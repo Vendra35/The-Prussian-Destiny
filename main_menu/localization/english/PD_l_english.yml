@@ -1,0 +1,571 @@
+﻿l_english:
+
+ # ==============================================================================
+ # -------------------------- SITUATION 1: THE PRUSSIAN DESTINY -------------------
+ # ==============================================================================
+
+ # --- EVENT 10 (SITUATION BA?LATICI - DISASTER SONRASI) ---
+ pd_brandenburg.10.title: "The Marcher State's Destiny"
+ pd_brandenburg.10.desc: "The turmoil that plagued our realm has finally subsided. With internal order restored and the nobility brought to heel, the House of Hohenzollern can finally look beyond our borders.\n\nThe Baltic coastline calls to us, as does the isolated territory of Prussia. If we are to secure our legacy, we must act decisively before the turn of the century."
+ pd_brandenburg.10.a: "Our borders must expand."
+
+ # --- DESTINY EVENT 1 (SITUATION SONUCU / HAR?TA BOYAYICI) ---
+ pd_brandenburg.1.title: "The Rise of the Hohenzollern"
+ pd_brandenburg.1.desc: "For centuries, the Margraviate of [GetCountry('BRA').GetName] was but a plaything of the Empire. But the sands are shifting. The House of Hohenzollern has looked toward the Baltic, seeing not just land, but a destiny carved in steel and discipline.\n\nFrom the ports of Pomerania to the fortresses of K?nigsberg, the North shall tremble as a new power awakens to claim its rightful place among the Great Powers."
+ pd_brandenburg.1.a: "Ein Volk, ein Reich, ein Schicksal!"
+
+ # --- DESTINY EVENT 2 (OYUNCU BA?ARISIZ OLDU?UNDA) ---
+ pd_brandenburg.2.title: "A Missed Opportunity"
+ pd_brandenburg.2.desc: "The moment has passed. The Baltic coast remains out of our grasp, and the Prussian lands are still beyond our control. Our rivals will mock our inaction, and our people will question our resolve.\n\nWe have failed to seize our destiny, and now we must live with the consequences."
+ pd_brandenburg.2.a: "We will rise again, stronger than before."
+
+ # --- G?ZL? EVENT SE?ENEKLER? (Log Hatalar?n? ?nlemek ??in) ---
+ pd_brandenburg.998.a: "Hidden Action"
+ pd_brandenburg.999.a: "Hidden Action"
+ PD_brandenburg_dhe_free_buildings: "Royal Decree"
+
+ # ----------------------- SAVA? HAZIRLI?I VE D?PLOMAS? EVENTLER? -----------------------
+ pd_brandenburg.100.title: "Isolating the Target"
+ pd_brandenburg.100.desc: "Our ambitions in the north require a clear battlefield. We cannot afford the complications of minor alliances dragging us into unwanted conflicts. The Margrave has ordered our diplomats to sever ties with any nation that might stand in the way of our imminent expansion."
+ pd_brandenburg.100.a: "Clear the diplomatic web."
+
+ pd_brandenburg.101.title: "The Eagle Stirs"
+ pd_brandenburg.101.desc: "Reports from Berlin indicate that the state of Brandenburg is mobilizing its forces. Diplomats are being recalled, alliances are being broken, and the Prussian ambition is no longer just a whisper in the court. War is coming to the region."
+ pd_brandenburg.101.a: "We shall watch closely."
+
+ pd_brandenburg.102.title: "The Marcher Lord's Gaze"
+ pd_brandenburg.102.desc: "Ominous news has arrived at our court. [GetCountry('BRA').GetName] has severed key diplomatic ties and their armies are massing near our borders. It is clear that we are the target of their so-called 'Prussian Destiny'. We must prepare for the worst."
+ pd_brandenburg.102.a: "To arms! We will defend our lands!"
+
+ # --- M?TTEF?K ARAMA VE RAK?P KONTROL? (108 ve 109) ---
+ pd_brandenburg.108.title: "Diplomatic Maneuvers"
+ pd_brandenburg.108.desc.1: "Our intended target has powerful friends, but also bitter enemies. We have identified a nation that shares our rivalry with them. Perhaps a temporary alliance of convenience would secure our victory?"
+ pd_brandenburg.108.desc.2: "Our target stands alone, or their enemies are too distant to be of use. We must rely solely on our own Prussian discipline to see this conquest through."
+ pd_brandenburg.108.a: "Send an envoy to their rival. We strike together!"
+ pd_brandenburg.108.b: "We need no help. Prussian steel is enough."
+ pd_brandenburg.108.c: "So be it. We march alone."
+
+ pd_brandenburg.109.title: "An Envoy from Berlin"
+ pd_brandenburg.109.desc: "An envoy from [GetCountry('BRA').GetName] has arrived at our court with a proposal. They intend to march upon our mutual rival and ask for our direct military support in the coming conflict. This is an opportunity to crush our enemy, but it will tie our fate to the rising power in the North."
+ pd_brandenburg.109.a: "We will answer the call! Death to our rival!"
+ pd_brandenburg.109.a.tt: "We will automatically join [GetCountry('BRA').GetName]'s war."
+ pd_brandenburg.109.b: "We have our own affairs to attend to."
+
+ # --- SAVA? ?LANI VE OTOMAT?K KATILIM (103 ve 110) ---
+# --- Brandenburg Savaş açma eventi 103 ---
+ pd_brandenburg.103.title: "The Drums of War"
+ pd_brandenburg.103.desc: "The preparations are complete. Our armies are drilled, our diplomats have set the stage, and the target is isolated. The time has come to cross the border and take what rightfully belongs to our glorious state by iron and blood."
+ pd_brandenburg.103.a: "Gott mit uns! Declare war!"
+ pd_brandenburg.103.b: "We are not ready yet. Let us gather our strength... (Postpone for 20 years)"
+
+# --- Teuton Savaş açma eventi 117 ---
+ pd_brandenburg.117.title: "The Crusade Resumes"
+ pd_brandenburg.117.desc: "The Hochmeister has decreed it: our holy mission in the Baltic is far from over. The knights have gathered, their armor gleaming beneath the banners of the black cross. Our target is weak and ripe for righteous conquest. It is time to ride forth and bring them into the fold of the Order."
+ pd_brandenburg.117.a: "For the Order! Declare war!"
+ pd_brandenburg.117.b: "Hold the charge. We must consolidate first... (Postpone for 20 years)"
+
+ pd_brandenburg.110.title: "Honoring the Pact"
+ pd_brandenburg.110.desc: "[GetCountry('BRA').GetName] has formally declared war on our mutual rival, just as we agreed. Their banners are marching, and it is time for us to uphold our end of the bargain. Sound the trumpets!"
+ pd_brandenburg.110.a: "Into the fray!"
+
+ # --- SAVA? SONU?LARI: BA?ARI (104 ve 105) ---
+ pd_brandenburg.105.title: "Victory in the North"
+ pd_brandenburg.105.desc: "Our recent campaign was a resounding success. The enemy has been crushed, and the lands we claimed are now firmly under our administration. Our military prestige has soared, and Europe now recognizes the true strength of our armies."
+ pd_brandenburg.105.a: "A glorious day for our nation!"
+
+ pd_brandenburg.104.title: "A New Power Emerges"
+ pd_brandenburg.104.desc: "[GetCountry('BRA').GetName] has emerged victorious in their recent conflict. Their disciplined armies have secured new territories, and the balance of power in the region has decisively shifted in their favor. The Margrave is no longer just an Elector; he is a conqueror."
+ pd_brandenburg.104.a: "They grow too powerful."
+
+ # --- SAVA? SONU?LARI: BA?ARISIZLIK (106 ve 107) ---
+ pd_brandenburg.107.title: "A Bitter Defeat"
+ pd_brandenburg.107.desc: "The campaign was a disaster. Despite the discipline of our troops, we failed to secure our objectives. The expansion has been halted, our armies are battered, and our prestige has taken a severe blow. We must retreat and lick our wounds."
+ pd_brandenburg.107.a: "We will remember this humiliation."
+
+#  pd_brandenburg.106.title: "The Eagle Grounded"
+#  pd_brandenburg.106.desc: "The so-called 'Prussian Destiny' of [GetCountry('BRA').GetName] has ended in failure. Their armies were repelled, and their expansionist dreams have been shattered. The balance of power remains intact, and the Hohenzollerns have been taught a harsh lesson in humility."
+#  pd_brandenburg.106.a: "A relief for the entire region."
+
+ # --- SAVA? SONU?LARI: DEVAMI (111 ve 112) ---
+ pd_brandenburg.111.title: "The Teutonic Defeat"
+ pd_brandenburg.111.desc: "Word has reached our court regarding the recent conflicts in the east. The Teutonic Order, fighting on their own terms, has suffered a crushing defeat. Their armies are shattered, and their control over the Baltic coast is rapidly deteriorating. This display of weakness by the Hochmeister jeopardizes the stability of the region and forces us to re-evaluate our future ambitions in the Prussian territories."
+ pd_brandenburg.111.a: "A pathetic display of incompetence."
+
+ pd_brandenburg.112.title: "Triumph of the Black Cross"
+ pd_brandenburg.112.desc: "Reports from the Baltic bring significant news. [GetCountry('TEU').GetName] has emerged victorious from their recent campaign, decisively routing their enemies. Many courts assumed the crusading knights were a fading power, but their highly disciplined forces have proven otherwise. This victory reaffirms their military grip on the region, forcing neighboring realms to carefully re-evaluate the balance of power in the east."
+ pd_brandenburg.112.a: "We must monitor their ambitions closely."
+
+ # Event 113: Töton'un Brandenburg'a boyun eğmesi (Töton'a giden event)
+ pd_brandenburg.113.title: "Bowing to the Elector"
+ pd_brandenburg.113.desc: "Our recent struggles have left the Order in a perilous state. With our influence waning and the Margraviate of Brandenburg asserting its dominance over the region, the Hochmeister has been presented with an ultimatum. To ensure the survival of the Teutonic state, we have no choice but to swear fealty to Brandenburg and become their fiefdom."
+ pd_brandenburg.113.a: "A humiliating, yet necessary concession."
+
+ # Event 114: Brandenburg'un Töton'u vassal yapma bildirimi (Brandenburg'a giden event)
+ pd_brandenburg.114.title: "The Teutonic Submission"
+ pd_brandenburg.114.desc: "Our diplomatic and strategic maneuvering has finally borne fruit! Recognizing our undeniable supremacy, the Hochmeister of the Teutonic Order has formally bent the knee. However, integrating the crusading knights required a strict reorganization. To consolidate our control and avoid unnecessary conflicts, we have forced the Order to release its former vassals and cede all far-flung territories outside the Prussian and North German realms. Stripped of its overextension, the Order is now a compact, highly focused military fiefdom that will firmly secure our ambitions in the East."
+ pd_brandenburg.114.a: "The Black Cross now answers to us, and us alone."
+
+ # Event 115: Brandenburg'un Töton'a boyun eğmesi (Brandenburg'a giden event)
+ pd_brandenburg.115.title: "Subjugated by the Knights"
+ pd_brandenburg.115.desc: "Our ambitions have crumbled before the disciplined might of the Teutonic Order. Having completely lost our leverage in the region, the Elector is forced to accept harsh terms of subjugation. To spare our lands from utter devastation, the Margraviate of Brandenburg is now officially a fiefdom of the Hochmeister."
+ pd_brandenburg.115.a: "We will endure this dark chapter."
+
+ # Event 116: Töton'un Brandenburg'u vassal yapma bildirimi (Töton'a giden event)
+ pd_brandenburg.116.title: "The Elector Bows"
+ pd_brandenburg.116.desc: "A glorious victory for the Order! We have completely outmaneuvered the arrogant lords of Brandenburg. Realizing the hopelessness of their situation, the Elector has officially sworn fealty to the Hochmeister. Brandenburg now exists merely as our fiefdom, cementing our absolute dominance over the region."
+ pd_brandenburg.116.a: "Deus Vult! Our supremacy is absolute."
+
+# --- Brandenburg DHE ---
+
+ pd_brandenburg_dhe.1.title: "The Margraviate's Forge"
+ pd_brandenburg_dhe.1.entry: "(PD) - The Margraviate's Forge (AI Only)"
+ pd_brandenburg_dhe.1.desc: "The city of [ShowLocationName('brandenburg')] stands as the historic heart of our realm. It is here that the true military transformation of our state must begin. By expanding its armories and drilling the local populace, we will forge an army capable of securing our borders and fulfilling our grand ambitions."
+ pd_brandenburg_dhe.1.a: "For the Margrave!"
+ pd_brandenburg_dhe.1.a.tt1: "We will research the [ShowAdvanceName('landsknechte')] [advance|e] for free."
+ pd_brandenburg_dhe.1.a.tt2: "The military infrastructure of Brandenburg will be expanded:"
+ pd_brandenburg_dhe.1.a.tt3: "Five [ShowBuildingTypeName('armory')] and [ShowBuildingTypeName('gun_smith')] [buildings|e] will be constructed in [ShowLocationName('brandenburg')] for free. A great number of [pops|e] will convert to our [faith|e] and [culture|e], and five groups of [ShowUnitDefinitionName('a_landsknechte')] will flock to our banner."
+ pd_brandenburg_dhe.1.a.tt4: "The Prussian destiny takes root in the [ShowLocationName('brandenburg')]."
+ pd_brandenburg_dhe.2.title: "The Iron Forge of the North"
+ pd_brandenburg_dhe.2.entry: "(PD) - The Iron Forge of the North (AI Only)"
+ pd_brandenburg_dhe.2.desc: "Berlin is no longer merely a city; it is to be the heart of Prussian military discipline. Behind the walls of [ShowLocationName('berlin')], our people shall learn true soldierly conduct. It is here where the armies to shake the world will be forged, and the Prussian ambition will take its shape within these streets."
+ pd_brandenburg_dhe.2.a: "Discipline is Everything."
+#  pd_brandenburg_dhe.2.a.tt0: "We will research the [ShowAdvanceName('bastion_advance')] [advance|e] for free."
+ pd_brandenburg_dhe.2.a.tt1: "We will research the [ShowAdvanceName('unlock_men_at_arms_advance')] [advance|e] for free."
+ pd_brandenburg_dhe.2.a.tt2: "Berlin's military infrastructure will be modernized:"
+ pd_brandenburg_dhe.2.a.tt3: "Four [ShowBuildingTypeName('armory')] and [ShowBuildingTypeName('gun_smith')] [buildings|e] will be constructed in [ShowLocationName('berlin')] for free. A great number of [pops|e] will convert to our [faith|e] and [culture|e], and ten groups of [ShowUnitDefinitionName('a_men_at_arms')] will flock to our banner."
+ pd_brandenburg_dhe.2.a.tt4: "The Prussian destiny spreads throughout Berlin."
+
+ pd_brandenburg_dhe.3.title: "The Awakening of the State"
+ pd_brandenburg_dhe.3.entry: "(PD) - The Awakening of the State (AI Only)"
+ pd_brandenburg_dhe.3.desc: "As our ambitions reach beyond the Baltic shores and into the heart of the Empire, so too must our military evolve. The old ways of war are ending. In the grand squares of [ShowLocationName('berlin')], a new generation of ruthlessly disciplined pikemen is being drilled from dawn until dusk. The populace is being united under a single faith and the singular identity of Prussia, feeding the ever-hungry armories that will soon equip the most terrifying fighting force Europe has ever seen."
+ pd_brandenburg_dhe.3.a: "The State exists to serve the Army."
+ pd_brandenburg_dhe.3.a.tt1: "We will research the [ShowAdvanceName('unlock_pikemen_advance')] [advance|e] for free."
+ pd_brandenburg_dhe.3.a.tt2: "Berlin will be transformed into an unrivaled military stronghold:"
+ pd_brandenburg_dhe.3.a.tt3: "Five [ShowBuildingTypeName('armory')] and [ShowBuildingTypeName('gun_smith')] [buildings|e] will be constructed in [ShowLocationName('berlin')] for free. An overwhelming majority of the local [pops|e] will embrace our [faith|e] and assimilate into Prussian [culture|e]. Furthermore, twelve heavily drilled regiments of [ShowUnitDefinitionName('a_pikemen')] will be raised immediately."
+ pd_brandenburg_dhe.3.a.tt4: "The Prussian Ascension has truly begun."
+
+# Brandenburg için 1512 veya 1618 yılları arasında 2. situation başlamadan prusya formlama DHE eventi.
+ pd_brandenburg_dhe.4.title: "The Prussian Inheritance"
+ pd_brandenburg_dhe.4.entry: "(PD) - The Prussian Inheritance"
+ pd_brandenburg_dhe.4.desc: "The time has come to formalize the ultimate union of our realms. The lands of the Teutonic Order, long held as a vassal to our Electorate, are now being fully integrated into the administrative machinery of [ShowLocationName('berlin')]. What began as a calculated subjugation has culminated in the complete annexation of the Baltic territories. By merging the disciplined martial heritage of the crusading knights with our centralized state apparatus, we have erased the fractured borders of the past. Brandenburg and Prussia are no longer divided entities; they are forged into a singular, undeniable power."
+ pd_brandenburg_dhe.4.a: "The Eagles are united at last."
+
+# Teuton için 1512 veya 1618 yılları arasında 2. situation başlamadan prusya formlama DHE eventi.
+ pd_brandenburg_dhe.5.title: "The Integration of the March"
+ pd_brandenburg_dhe.5.desc: "The time has come to finalize our mastery over the northern realms. The Electorate of Brandenburg, long held as a subjugated fiefdom to the Order, is now being entirely dismantled and integrated into our monastic administration. The secular authority of the Elector in [ShowLocationName('berlin')] has been systematically replaced by the disciplined rule of our Komturs. By absorbing their administrative apparatus into our holy martial state, we have permanently erased the fractured borders of the past. The Mark and the Order are no longer separate entities; they are forged into a singular, undeniable power under the Black Cross."
+ pd_brandenburg_dhe.5.a: "Berlin belongs to the Hochmeister."
+
+# Kültürü prusya yapma ve topraktaki insanları zorla asimile etme eventi. Sadece AI Brandenburg için geçerli olacak ve 1512 veya 1618(Time Pacing Game Rule'una göre) yılları arasında 2. situation başlamadan önce tetiklenecek.
+ pd_brandenburg_dhe.6.title: "The Iron Standardization"
+ pd_brandenburg_dhe.6.entry: "(PD) - The Iron Standardization (AI Only)"
+ pd_brandenburg_dhe.6.desc: "A fractured realm cannot survive the coming storms. In the administrative halls of [ShowLocationName('berlin')], a radical transformation is underway. The chaotic levies and divided loyalties of the past are being systematically erased by the state. The court has decreed that faith, language, and the art of war must be unified under a single, uncompromising standard. We are not merely preparing for a campaign; we are forging a highly efficient state machinery where every citizen, every musket, and every prayer serves a singular, calculated purpose."
+ pd_brandenburg_dhe.6.a: "Order must be forged, not inherited."
+ pd_brandenburg_dhe.6.a.tt1: "The state bureaucracy has mastered the [ShowAdvanceName('unlock_pikemen_advance')] [advance|e]."
+ pd_brandenburg_dhe.6.a.tt2: "The industrial and administrative capacity of Berlin will be radically expanded:"
+ pd_brandenburg_dhe.6.a.tt3: "State-funded [ShowBuildingTypeName('armory')] and [ShowBuildingTypeName('gun_smith')] [buildings|e] will be rapidly constructed in [ShowLocationName('berlin')]. A sweeping demographic standardization will assimilate the local [pops|e] into the Prussian [culture|e]. Furthermore, the first professional standing regiments of [ShowUnitDefinitionName('a_pikemen')] will be commissioned."
+ pd_brandenburg_dhe.6.a.tt4: "The foundation of a modern, centralized state is laid."
+
+
+ # --- 1.SITUATION (DURUM) VE HEDEFLER ---
+ the_prussian_ambition: "The Prussian Destiny"
+ the_prussian_ambition_desc: "The struggle for dominance over [ShowAreaName('brandenburg_area')], [ShowAreaName('pomerania_area')] and [ShowAreaName('prussia_area')] has begun.\n\nBoth the Hohenzollerns of [GetCountry('BRA').GetName] and the Hochmeisters of the Teutonic Order are competing for absolute control. The victor will emerge as the undisputed Baltic power, laying the foundation for the future of Prussia, while the loser will be reduced to a mere fiefdom.\n\n#Y ----------------------------------------#!\n\n#G HISTORICAL CONTEXT & AI BEHAVIOR:#!\nHistorically, the 15th and 16th centuries saw a bitter diplomatic and military tug-of-war between the ambitious Electorate of Brandenburg and the crusading Teutonic Order. This critical period defined who would master the vital Baltic coastlines and the Prussian heartland. #Y Note:#! This initial struggle will reach its climax based on your chosen Timeline Pacing Game Rule (#G c. 1500#! for Frontloaded or #G c. 1525#! for Strict Historical), determining which house shall forge the Prussian destiny.\n\n#Y What to Expect:#! Both AI nations will actively compete for regional dominance through a weighted scoring system. Expect a calculated, opportunistic struggle rather than chaotic expansion. They will bide their time, secure their borders, and attempt to subjugate one another through diplomatic superiority or precise military action before the situation time limit. You are witnessing the fierce power struggle that will birth the most disciplined military state in Europe."
+
+#  # --- SITUATION 1: PRUSSIAN DESTINY ENDING REASONS FOR EU5 1.3---
+#  prussian_ambition_end_desc: "The Prussian Destiny will be fulfilled if:"
+#  prussian_ascension_end_desc: "The Prussian Ascension will be completed if:"
+#  blood_and_iron_end_desc: "The Blood and Iron struggle will conclude if:"
+
+ # --- GUI ---
+ BRA_SCORE_TT: "Score: [SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue|2]"
+ PD_BRA_MILITARY_STRENGTH_BRA_TT_TITLE: "[GetCountry('BRA').GetAdjectiveWithNoTooltip] Military Strength"
+ PD_BRA_SCORE_TT: "Score: Calculated with a weighted formula based on military strength, income, and prestige."
+
+ TEU_SCORE_TT: "Score: [SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue|2]"
+ PD_TEU_MILITARY_STRENGTH_TEU_TT_TITLE: "[GetCountry('TEU').GetAdjectiveWithNoTooltip] Military Strength"
+ PD_TEU_SCORE_TT: "Score: Calculated with a weighted formula based on military strength, income, and prestige."
+
+ prussian_ambition_pomerania_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('pomerania_area')] [area|e]"
+ prussian_ambition_prussia_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('prussia_area')] [area|e]"
+ prussian_ambition_brandenburg_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('brandenburg_area')] [area|e]"
+ prussian_ambition_knockout_teu_tt: "[GetCountry('TEU').GetName] became a subject of [GetCountry('BRA').GetName], or is completely driven out of Prussia, Brandenburg, and Pomerania while [GetCountry('BRA').GetName] owns [ShowLocationName('gdansk')] or [ShowLocationName('konigsberg')]."
+ prussian_ambition_knockout_bra_tt: "[GetCountry('BRA').GetName] became a subject of [GetCountry('TEU').GetName], or is completely driven out of Prussia, Brandenburg, and Pomerania."
+ prussian_ambition_time_limit_tt: "The time limit has been reached (1500 for Frontloaded Rule / 1525 for Strict Historical Rule) and both sides are at peace. (The country with the most Dominance Score will win)"
+ PD_PRUSSIAN_TARGET_LOCATION_TT: "#Y STRATEGIC OBJECTIVE:#!\nThis location is a vital target for the Prussian Destiny. It must be secured and brought under our control."
+ #PD_PRUSSIAN_TARGET_LOCATION_TT_2: "#Y STRATEGIC OBJECTIVE:#!\nThis location is a vital target for the Prussian Ascension. It must be secured and brought under our control."
+ prussian_ascension_silesia_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('silesia_area')] [area|e]"
+ prussian_ascension_lower_saxony_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('lower_saxony_area')] [area|e]"
+ prussian_ascension_upper_saxony_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('upper_saxony_area')] [area|e]"
+ prussian_ascension_mecklenburg_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('mecklenburg_area')] [area|e]"
+ prussian_ascension_holstein_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('holstein_area')] [area|e]"
+ prussian_ascension_westphalia_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('westphalia_area')] [area|e]"
+ prussian_ascension_hesse_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('hesse_area')] [area|e]"
+ prussian_ascension_rhineland_tt: "Prussia, France, or their subjects own all accessible [locations|e] in the [ShowAreaName('rhineland_area')] [area|e]"
+ prussian_ascension_boss_fight_tt: "Prussia have defeated the [GetUniqueInternationalOrganization('hre').GetName] in the Hegemony War and established their Hegemony."
+ prussian_ascension_prussia_lost_hegemony_war_tt: "[GetUniqueInternationalOrganization('hre').GetName] have defeated the [GetCountry('PRU').GetName] in the Hegemony War and maintained their dominance over the German states."
+
+ #### WAR GOALS, CBS, PEACE TREATIES
+ cb_PD_prussian_ambition: "Prussian Destiny"
+ cb_PD_prussian_ambition_desc: "We must bridge our fragmented domains by securing the Baltic coastline and the Prussian lands to fulfill our destiny.\n\nConquest with this [casus_belli|e] will be limited to the [ShowAreaName('brandenburg_area')], [ShowAreaName('pomerania_area')], and [ShowAreaName('prussia_area')] [areas|e]."
+ war_goal_PD_war_goal_prussian_ambition: "Superiority"
+ war_goal_PD_war_goal_prussian_ambition_desc: "[war_goal|e] is to win more battles than our enemy."
+#  PD_prussian_ambition_take_regions_entry: "Secure the Prussian Legacy"
+#  PD_prussian_ambition_take_regions_entry_short: "Secure the Prussian Legacy"
+#  PD_prussian_ambition_take_regions_desc: "Force the enemy to cede all territories within our rightful areas of interest in Brandenburg, Pomerania, and Prussia."
+#  PD_prussian_ambition_take_regions_tt: "Transfer all owned [locations|e] in [ShowAreaName('brandenburg_area')], [ShowAreaName('pomerania_area')], and [ShowAreaName('prussia_area')] to us."
+
+ # 2.SITUATION --- Phase 2: Prussian Ascension
+ cb_PD_prussian_ascension: "Prussian Ascension"
+ cb_PD_prussian_ascension_desc: "Prussian influence must expand to its natural limits. By securing the rich fields of Silesia and the vital trade hubs of the North, we shall prove that Prussia is no longer a mere duchy, but a rising titan.\n\nConquest with this [casus_belli|e] will be limited to the [ShowAreaName('silesia_area')], [ShowAreaName('upper_saxony_area')], [ShowAreaName('lower_saxony_area')], [ShowAreaName('mecklenburg_area')], [ShowAreaName('westphalia_area')] and [ShowAreaName('holstein_area')] [areas|e]."
+ 
+ war_goal_PD_war_goal_prussian_ascension: "Superiority"
+ war_goal_PD_war_goal_prussian_ascension_desc: "[war_goal|e] is to win more battles than our enemy."
+
+ # 2.SITUATION --- Phase 3: Brother's War (Hegemony) HRE Boss Sava??
+ cb_PD_hegemony: "German Hegemony"
+ cb_PD_hegemony_desc: "The time has come to decide the fate of the German people. We no longer recognize the Emperor's right to dictate our future. This is a struggle for the very soul of the Empire?a war to decide who truly leads the German nation.\n\nVictory in this [casus_belli|e] requires proving our undeniable superiority on the field of battle against the Imperial forces."
+ 
+ war_goal_PD_war_goal_prussian_hegemony: "Germanic Supremacy"
+ war_goal_PD_war_goal_prussian_hegemony_desc: "Our [war_goal|e] is to utterly crush the Emperor's armies in battle, proving once and for all that the era of the old Imperial order is over and the age of Berlin has begun."
+ 
+ PD_prussian_ascension_take_regions_entry: "Annex Claimed Territories"
+ PD_prussian_ascension_take_regions_entry_short: "Annex Claimed Territories"
+ PD_prussian_ascension_take_regions_desc: "Force the enemy to cede all their territories within our rightful areas of interest in Silesia and Northern Germany."
+ PD_prussian_ascension_take_regions_tt: "Transfer all owned [locations|e] in [ShowAreaName('silesia_area')], [ShowAreaName('lower_saxony_area')], [ShowAreaName('upper_saxony_area')], [ShowAreaName('mecklenburg_area')], [ShowAreaName('holstein_area')], [ShowAreaName('westphalia_area')], [ShowAreaName('hesse_area')], and [ShowAreaName('rhineland_area')] to us."
+
+ PD_hegemony_demand_submission_entry: "Enforce German Hegemony"
+ PD_hegemony_demand_submission_entry_short: "Enforce German Hegemony"
+ PD_hegemony_demand_submission_desc: "Utterly humiliate the Emperor, forcing them to cede all authority over the German states. This action will permanently dismantle the Holy Roman Empire."
+ PD_hegemony_demand_submission_tt: "The Emperor is humiliated and forced to cede all authority over Northern Germany. This monumental victory will trigger the formation of the North German Confederation and Dismantle the HRE."
+
+ # ==============================================================================
+ # -------------------------- SITUATION 2: THE PRUSSIAN ASCENSION -------------------
+ # ==============================================================================
+
+##################---- EVENTS ----##################
+
+# --- ASCENSION EVENT (SITUATON 2 BA?LATAN EVENT) ---
+ pd_brandenburg.299.title: "The Prussian Ascension"
+ pd_brandenburg.299.desc: "For decades, the Hohenzollerns have consolidated their power along the Baltic coast and the heart of Brandenburg. Yet, the old order of the Holy Roman Empire, with its archaic laws and Imperial dominance from Vienna, suffocates our true potential.\n\nA new era dawns. With our borders secure, our administration stable, and our armies disciplined, it is time to look south and west. We shall bind the minor northern princes to our treasury through a grand 'Zollverein' (Customs Union), and we shall pry the rich lands of Silesia from the Emperor's grasp. The age of subservience is over; the era of Iron and Blood has begun!"
+ pd_brandenburg.299.a: "Gott mit uns! (God with us!)"
+
+ # --- EVENT 200 (PHASE 2 BA?LANGICI VE ?TT?FAK KIRMA) ---
+ pd_brandenburg.200.title: "The Silesian Question"
+ pd_brandenburg.200.desc: "The Hohenzollern eagle now looks south and west. Our destiny in the Baltic is secure, but true dominance requires the industrial wealth of [ShowAreaName('silesia_area')] and the strategic depth of Saxony.\n\nThe Margrave has ordered our diplomats to sever any ties of friendship with nations in these regions. The time for peaceful coexistence in Northern Germany is over. A new era of 'Blood and Iron' begins."
+ pd_brandenburg.200.a: "Lauf, denn ich komme!"
+
+ # --- EVENT 201 (?ZLEY?C?LERE 2. SITUATION BA?LADI HABER?) ---
+ pd_brandenburg.201.title: "The Sleeping Giant Awakens"
+ pd_brandenburg.201.desc: "For decades, the Black Eagle of the North was unnervingly quiet. After securing their Baltic holdings, the rulers of Berlin turned inward, focusing entirely on fortifying their cities and building a massive economy. Europe thought them pacified. We mistook their silence for peace.\nWe were fools. The sleeping giant has awakened.\nTerrifying reports are now pouring in from [ShowAreaName('silesia_area')] and [ShowAreaName('upper_saxony_area')]. Berlin has recalled its diplomats and severed all ties. Their endless columns of highly disciplined soldiers are massing once again. It is now brutally clear: they do not just want a kingdom. They aim to dismantle the old order of Germany entirely."
+ pd_brandenburg.201.a: "Their ambition knows no bounds..."
+
+ # --- EVENT 202 (?LK KURBANLARA HABER) ---
+ pd_brandenburg.202.title: "The Shadow of Prussia"
+ pd_brandenburg.202.desc: "Prussian envoys have unceremoniously cut ties with our court, and their disciplined regiments are gathering on our borders. The rumors are true: Berlin intends to subjugate our lands to fuel their rising empire. We must find powerful allies, and quickly, or face annihilation."
+ pd_brandenburg.202.a: "May God protect us."
+
+ # --- EVENT 203 (SAVA? ?LANI) ---
+ pd_brandenburg.203.title: "Blood and Iron"
+ pd_brandenburg.203.desc: "The waiting is over. The orders have been issued to the general staff. Our disciplined ranks will now march into the target territories, bringing them under the enlightened, if forceful, administration of the Prussian crown. Let the cannons speak!"
+ pd_brandenburg.203.a: "Forward, march!"
+ pd_brandenburg.203.b: "Our armies need more time before we march... (Postpone for 5 years)"
+
+ # --- EVENT 204 (?ZLEY?C?LER ???N HRE'N?N ??K??? VE NGC'N?N DO?U?U HABER?) ---
+ pd_brandenburg.204.title: "The Birth of the North German Confederation"
+ pd_brandenburg.204.desc: "The unthinkable has occurred! Following a devastating and decisive victory over the Emperor's forces, Prussia has shattered the ancient Holy Roman Empire once and for all.\n\nAt the peace tables, Berlin dictated absolute terms, formally annexing the northern states and uniting them under a single, terrifying new banner: The North German Confederation. The thousand-year era of fractured German princes is over. A new, unified titan has awakened in the heart of Europe, and the balance of power will never be the same."
+ pd_brandenburg.204.a: "The map of Europe has been permanently redrawn."
+
+ # --- EVENT 205 (OYUNCU ???N S?TUAT?ON ZAFER?) ---
+ pd_brandenburg.205.title: "Master of the North"
+ pd_brandenburg.205.desc: "Victory! The rich lands we claimed now fuel the iron ranks of Prussia. We have bridged the gap to the west and established ourselves as the undisputed master of Northern Germany. The path to a united Federation is clearer than ever."
+ pd_brandenburg.205.a: "Gott mit uns!"
+
+ # --- EVENT 206 (?ZLEY?C?LER ???N PRUSYA S?TUAT?ON YEN?LG?S?) ---
+ pd_brandenburg.206.title: "The Eagle Repelled"
+ pd_brandenburg.206.desc: "In a surprising turn of events, the Prussian advance has been halted. Their ambitious campaigns into the south and west ended in humiliating defeat. The German princes breathe a sigh of relief as the Hohenzollern menace is contained... for now."
+ pd_brandenburg.206.a: "A victory for the old order."
+
+ # --- EVENT 207 (OYUNCU ???N S?TUAT?ON YEN?LG?S?) ---
+ pd_brandenburg.207.title: "Halted in our Tracks"
+ pd_brandenburg.207.desc: "Disaster! Our forces have been repelled from our rightful claims. The expansion has failed, leaving our treasury drained and our pride wounded. The dream of a united North is delayed, and our rivals mock our supposed 'discipline'."
+ pd_brandenburg.207.a: "A temporary and bitter setback."
+
+ # --- EVENT 208 (S?LEZYA B?T?P SIRA SAKSONYA'YA GELD???NDE ?ZLEY?C?LERE) ---
+ pd_brandenburg.208.title: "The Fall of Silesia"
+ pd_brandenburg.208.desc: "Prussia has successfully integrated the rich lands of Silesia. Yet, their armies do not rest. The Hohenzollern gaze now falls upon the minor states of Saxony and the West. Will Berlin use diplomacy, or the sword? When will this relentless expansion end?"
+ pd_brandenburg.208.a: "They are forging a new empire."
+
+ # --- EVENT 209 (ZOLLVEREIN KURBANLARINA "SIRA S?ZE GELD?" HABER?) ---
+ pd_brandenburg.209.title: "The Zollverein's Shadow"
+ pd_brandenburg.209.desc: "With Silesia under Prussian control, Berlin's diplomats and soldiers now loom over our borders. They speak of a 'Customs Union' and 'Economic protection', but we know the truth: it is subjugation in all but name. We must prepare for an ultimatum."
+ pd_brandenburg.209.a: "We must tread carefully."
+
+ # --- EVENT 210 (ZOLLVEREIN ?LT?MATOMU - K???K ?LKELERE G?DEN EVENT) ---
+ pd_brandenburg.210.title: "The Zollverein Proposal"
+ pd_brandenburg.210.desc: "An envoy from [GetCountry('PRU').GetName] has arrived at our court. They present a thinly veiled 'offer' to join the Zollverein, a customs union led by Berlin. \n\nIn exchange for economic integration and their 'protection', we must effectively surrender our foreign policy and become a vassal of the Prussian crown. To refuse is to invite the wrath of the most disciplined army in Europe."
+ pd_brandenburg.210.a: "There is no need for bloodshed. We recognize Prussian supremacy."
+ pd_brandenburg.210.b: "The North will never kneel to Berlin! (WAR)"
+
+# --- EVENT 211 (ZOLLVEREIN KABUL ED?LD? - PRUSYA'YA B?LD?R?M) ---
+ pd_brandenburg.211.title: "A Northern State Joins the Zollverein!"
+ pd_brandenburg.211.desc: "Excellent news from the diplomatic corps! Recognizing the inevitable supremacy of our armies and the economic benefits of our union, the targeted state has bowed to our pressure.\n\nThey have signed the treaties and are now a loyal subject of the Prussian state. The North grows stronger without a single shot fired."
+ pd_brandenburg.211.a: "Diplomacy is merely war by other means."
+ pd_brandenburg.211.b: "Our armies are ready. We need no more vassals."
+
+ # --- EVENT 212 (ZOLLVEREIN REDDED?LD? - PRUSYA'YA B?LD?R?M) ---
+ pd_brandenburg.212.title: "The Zollverein is Rejected!"
+ pd_brandenburg.212.desc: "The fools have rejected our generous offer of integration into the Zollverein. They cling to their petty independence, perhaps hoping that the Emperor or some foreign power will save them. \n\nThey leave us no choice. The diplomatic phase is over."
+ pd_brandenburg.212.a: "Then they shall have blood and iron!"
+
+ # --- EVENT 213: ?MPARATORUN KAYGISI (Avusturya'ya Giden Event) ---
+ pd_brandenburg.213.title: "The Northern Menace"
+ pd_brandenburg.213.desc: "Grave news from the Imperial Diet. [GetCountry('PRU').GetName] has not only secured the Baltic coast but is now aggressively expanding its economic and military influence southward.\n\nThey call it a 'Zollverein', a customs union, but our advisors know the truth. It is a calculated move to strip the Holy Roman Empire of its northern princes, binding them to Berlin with chains of silver and iron. The Imperial authority in the north is eroding by the day."
+ pd_brandenburg.213.a: "This insolence cannot be tolerated forever."
+
+ # --- EVENT 214: ?MPARATORUN ?LT?MATOMU (Avusturya/HRE Liderine Gider) ---
+ pd_brandenburg.214.title: "The Northern Insolence"
+ pd_brandenburg.214.desc: "The audacity of [GetCountry('PRU').GetName] has crossed the final line. They have subjugated the northern princes, swallowed Silesia, and formed their illicit 'Zollverein'. They now stand as a direct challenge to the Imperial authority of the Holy Roman Empire.\n\nWe must send a final, unyielding ultimatum to Berlin: Disband your union, retreat from your occupied territories, and bow to the Emperor, or face the full, devastating might of the Imperial armies."
+ pd_brandenburg.214.a: "Send the ultimatum. They must withdraw!"
+ pd_brandenburg.214.b: "They are too powerful. We must accept this new reality."
+
+ # --- EVENT 215: PRUSYA ?LT?MATOMU ALIYOR (Kan ve Demir Karar?) ---
+ pd_brandenburg.215.title: "The Emperor's Ultimatum"
+ pd_brandenburg.215.desc: "An Imperial envoy from Vienna has arrived in our court, carrying terms of absolute surrender. The Emperor demands that we dismantle our administration in the newly acquired territories, dissolve the Zollverein, and kneel before the archaic institutions of the Holy Roman Empire.\n\nTo submit is to erase decades of our glorious progress and humiliate our state forever. To refuse is to plunge the German states into a devastating Brothers' War. The world watches us."
+ pd_brandenburg.215.a: "The great questions of the day will be settled by Iron and Blood!"
+ pd_brandenburg.215.b: "We cannot face Vienna. We must yield..."
+
+ # --- EVENT 216: AVRUPA'YA SAVA? ?NCES? GER?L?M HABER? ---
+ pd_brandenburg.216.title: "The Gathering Storm"
+ pd_brandenburg.216.desc: "The situation within the Empire has reached a boiling point. Having first wrested the wealthy lands of Silesia from Imperial influence, and subsequently subjugated the princes of Saxony and the northern coasts, [GetCountry('PRU').GetName] now stands unchallenged in the North.\n\nWith their regional consolidation complete, the court in Berlin has turned its full attention toward the Emperor. This is no longer a matter of mere border disputes; it is a direct challenge to the ancient Imperial order.\nTensions are at an all-time high. The old order of the Holy Roman Empire is about to face its greatest existential threat. War seems inevitable."
+ pd_brandenburg.216.a: "A clash of titans approaches."
+
+ # --- EVENT 217: T?M AVRUPAYA B?Y?K SAVA? BA?LADI HABER? ---
+ pd_brandenburg.217.title: "The Brothers' War"
+ pd_brandenburg.217.desc: "The unthinkable has happened! Diplomatic channels have completely broken down, and the forces of [GetCountry('PRU').GetName] have officially declared war upon the Emperor. What began as a regional consolidation in the North has now erupted into a full-scale struggle for dominance over the German states.\n\nThe disciplined ranks of the Prussian army are marching south to dismantle the ancient Holy Roman Empire once and for all. Europe watches in awe and terror as the era of Iron and Blood reaches its climax."
+ pd_brandenburg.217.a: "The fate of the Empire hangs in the balance."
+
+  # --- PHASE 2 HRE EMPEROR VICTORY ---
+ pd_brandenburg.220.title: "The Upstart Crushed"
+ pd_brandenburg.220.desc: "Against all odds, the Imperial armies have prevailed! The so-called invincible Prussian State lies broken before the Emperor's forces. Their illegal 'Zollverein' is humiliated, and their northern hegemony has collapsed.\n\nThe Emperor has restored order to the Holy Roman Empire. Imperial authority sits unchallenged, and the Prussian ambition has been permanently shattered."
+ pd_brandenburg.220.a: "Gott erhalte den Kaiser!"
+ PD_emperor_victory_event_tt: "We have gained the [ShowModifier('PD_emperor_restoration_of_order')] modifier for 50 years. [GetCountry('PRU').GetName] has lost their ascension and military supremacy modifiers, and gained the crippling [ShowModifier('PD_shattered_german_ambition')] modifier for 50 years.\n\n#G THE FALL OF THE ZOLLVEREIN:#! All of [GetCountry('PRU').GetName]'s dependent Northern German subjects have immediately declared their independence."
+
+ pd_brandenburg.221.title: "The Ambition Shattered"
+ pd_brandenburg.221.desc: "Disaster! Our attempt to seize hegemony from the Emperor has failed catastrophically. The Imperial armies have crushed our forces on the battlefield.\n\nWe have been forced to accept a humiliating peace. Our geopolitical dominance in the North is heavily contested, and the dream of a united Germany under the Prussian crown has been delayed."
+ pd_brandenburg.221.a: "A dark day for Prussia..."
+ PD_prussia_defeat_event_tt: "Our glorious ascension campaign has been violently halted. We have lost all our temporary ascension modifiers and have gained the crippling [ShowModifier('PD_shattered_german_ambition')] modifier for 50 years. The Emperor has gained the [ShowModifier('PD_emperor_restoration_of_order')] modifier.\n\n#R THE FALL OF THE ZOLLVEREIN:#! Our entire web of diplomacy has collapsed. All of our dependent Northern German subjects have immediately severed their ties with us and declared independence!"
+
+ PD_emperor_crush_prussian_hegemony_entry: "Restore Imperial Order"
+ PD_emperor_crush_prussian_hegemony_entry_short: "Restore Imperial Order"
+ PD_emperor_crush_prussian_hegemony_desc: "Break the military core of the Prussian state and permanently shatter their ambitions in the North, securing the Emperor's absolute authority over the German states."
+ PD_emperor_crush_prussian_hegemony_tt: "The Prussian threat will be forcefully aborted. They will suffer immense unrest, lose their historical situation modifiers, and gain the crippling [ShowModifier('PD_shattered_german_ambition')] modifier for 50 years. We will gain the glorious [ShowModifier('PD_emperor_restoration_of_order')] modifier.\n\n#G THE FALL OF THE ZOLLVEREIN:#! All of their Northern German subjects will immediately be granted independence."
+
+ # --- SITUATION (DURUM) VE HEDEFLER (PHASE 2) ---
+ the_prussian_ascension: "The Prussian Ascension"
+ the_prussian_ascension_desc: "With our eastern borders secured, [GetCountry('PRU').GetName] must now challenge the old Imperial order and establish total hegemony over [ShowRegionName('north_german_region')]. \n\nFirst, the wealthy [ShowAreaName('silesia_area')] must be ripped from its current masters. Then, we shall march west into the Saxon and Westphalian lands, uniting the northern states through our 'Zollverein' (Customs Union) or crushing those who resist.\n\n#Y ----------------------------------------#!\n\n#G HISTORICAL CONTEXT & AI BEHAVIOR:#!\nIn 1740, Frederick the Great shocked Europe by invading Silesia, igniting a bitter rivalry with Austria. Later, Prussia deployed the 'Zollverein' to economically bind the minor German states to Berlin, making political unification under Prussian dominance inevitable. #Y Note:#! In this campaign, this ambition will awaken based on your chosen Timeline Pacing Game Rule (#G c. 1522#! for Frontloaded or #G c. 1648#! for Strict Historical).\n\n#Y What to Expect:#! The AI will prioritize a daring military strike into Silesia once its 'awakening' date is reached. Upon success, it will dynamically shift its focus west. It will first attempt to peacefully vassalize small neighbors via the Zollverein diplomacy. If they refuse, or if they are too large, the Prussian military apparatus will roll over them. This is the exact historical path that paved the way for the North German Confederation.\n#R However, the HRE Emperor can intervene after Prussia completed their conquest!#! During the Hegemony War, if a player is the HRE leader or their ally, they can enforce the 'Restore Imperial Order' peace treaty to shatter Prussia's sphere of influence, cancel this Situation, and permanently halt their ambitions."
+
+
+
+ # --- STATIC MODIFIER NAMES ---
+ STATIC_MODIFIER_NAME_prussian_destiny_modifier: "Prussian Awakening (Terminator)"
+ STATIC_MODIFIER_DESC_prussian_destiny_modifier: "Our ambitions are clear, and the army is ready to forge our destiny. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_prussian_destiny_modifier_1: "Imperial Outcast"
+ STATIC_MODIFIER_DESC_prussian_destiny_modifier_1: "The Emperor views us as a threat to the established order. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_PD_imperial_outcast_situation_2: "Imperial Outcast"
+ STATIC_MODIFIER_DESC_PD_imperial_outcast_situation_2: "The Emperor views us as a threat to the established order. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_prussian_destiny_modifier_2: "Fulfilled Prussian Destiny (Terminator)"
+ STATIC_MODIFIER_DESC_prussian_destiny_modifier_2: "Our initial destiny in the Baltic is secured, but greater ambitions await. #color_red (This effect will be removed upon the start of the 2nd Situation: Around 1520 for Frontloaded Rule / 1648 for Strict Historical Rule)#!"
+ STATIC_MODIFIER_NAME_prussian_ambition_penalty_ai: "Shattered Destiny"
+ STATIC_MODIFIER_NAME_prussian_ambition_penalty_player: "Unfulfilled Destiny"
+ STATIC_MODIFIER_NAME_prussian_ambition_balanced_reward: "Prussian Triumph"
+ STATIC_MODIFIER_NAME_PD_brandenburg_preparing_for_conquest: "Prussian War Preparations"
+ STATIC_MODIFIER_NAME_PD_the_sleeping_giant: "The Sleeping Giant" 
+ STATIC_MODIFIER_DESC_PD_the_sleeping_giant: "This state consolidates its power and bides its time. #color_red (This effect will be removed upon the start of the 2nd Situation: Around 1520 for Frontloaded Rule / 1648 for Strict Historical Rule)#!"
+ STATIC_MODIFIER_NAME_PD_berlin_iron_capital: "Heart of Iron and Blood"
+ STATIC_MODIFIER_NAME_PD_prussia_preparing_for_ascension: "Ascension War Preparations"
+ STATIC_MODIFIER_NAME_PD_brandenburg_military_supremacy: "Prussian Military Supremacy (Terminator)"
+ STATIC_MODIFIER_DESC_PD_brandenburg_military_supremacy: "The absolute military superiority of the Prussian state. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_PD_brandenburg_zollverein_ambition: "Zollverein Ambition"
+ STATIC_MODIFIER_DESC_PD_brandenburg_zollverein_ambition: "Prussia pursues the economic subjugation of its neighbors through the Zollverein. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_PD_brandenburg_imperial_anxiety: "Imperial Anxiety"
+ STATIC_MODIFIER_NAME_PD_brandenburg_ascension_campaign: "The Ascension Campaign (Terminator)"
+ STATIC_MODIFIER_DESC_PD_brandenburg_ascension_campaign: "Our push for Hegemony has begun. None shall stand in our way. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_PD_brandenburg_hre_dismantled: "Fallen Empire"
+ STATIC_MODIFIER_NAME_PD_the_new_german_order: "The New German Order" 
+ STATIC_MODIFIER_NAME_PD_defender_of_the_rhine: "Defender of the Rhine"
+ STATIC_MODIFIER_NAME_PD_shattered_german_ambition: "Shattered German Ambition"
+ STATIC_MODIFIER_NAME_PD_prussian_general_staff_buff: "Prussian General Staff Operational (Terminator)"
+ STATIC_MODIFIER_DESC_PD_prussian_general_staff_buff: "The General Staff has taken direct control of operations to ensure swift victory. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ # Historical Modifiers
+ STATIC_MODIFIER_NAME_prussian_historical_modifier: "Prussian Awakening"
+ STATIC_MODIFIER_DESC_prussian_historical_modifier: "The disciplined core of the Prussian army awakens. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_prussian_historical_modifier_2: "Fulfilled Prussian Destiny"
+ STATIC_MODIFIER_DESC_prussian_historical_modifier_2: "Our initial destiny in the Baltic is secured, but greater ambitions await. #color_red (This effect will be removed upon the start of the 2nd Situation: Around 1520 for Frontloaded Rule / 1648 for Strict Historical Rule)#!"
+ STATIC_MODIFIER_NAME_PD_brandenburg_ascension_campaign_historical: "The Ascension Campaign"
+ STATIC_MODIFIER_DESC_PD_brandenburg_ascension_campaign_historical: "Prussia's rise disrupts the balance of the Holy Roman Empire. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_PD_brandenburg_military_supremacy_historical: "Prussian Military Supremacy"
+ STATIC_MODIFIER_DESC_PD_brandenburg_military_supremacy_historical: "The Prussian army has established absolute dominance on the battlefield. #color_red (This effect will be removed upon the completion of the current Situation.)#!"
+ STATIC_MODIFIER_NAME_PD_prussian_general_staff_buff_historical: "Prussian General Staff Operational"
+ STATIC_MODIFIER_NAME_PD_preparing_for_blood_and_iron: "Preparing for Blood and Iron"
+ STATIC_MODIFIER_NAME_PD_emperor_restoration_of_order: "Restoration of the Imperial Order"
+ STATIC_MODIFIER_DESC_PD_emperor_restoration_of_order: "The upstart Prussian threat has been decisively crushed, securing Imperial dominance over the Holy Roman Empire for generations to come."
+ 
+ 
+
+ # --- OYUN KURALLARI (Config) ---
+ rule_PD_brandenburg_rise_auto_conquest: "(PD) Formation of Prussia Conquest Automation"
+ setting_PD_brandenburg_rise_auto_conquest_no: "Deactivated (Normal Game)"
+ setting_PD_brandenburg_rise_auto_conquest_no_desc: "The AI will not receive any automatic territorial annexations. Historical expansion for [GetCountry('BRA').GetName] must be achieved through standard gameplay mechanics, and its rise to power is not guaranteed."
+ setting_PD_brandenburg_rise_auto_conquest_yes: "Activated (Prussian Rise)"
+ setting_PD_brandenburg_rise_auto_conquest_yes_desc: "Ensures the rise of [GetCountry('BRA').GetName]. By the designated date (#G 1495#! for #Y Frontloaded Rule#! / #G 1520#! for #Y Strict Historical Rule#!), if the country is at peace, the AI will automatically annex the Pomerania and Brandenburg areas, and force the defeated country into vassalage to fulfill its destiny.\n#G Highly recommended if [GetCountry('PRU').GetName] is controlled by the AI.#!"
+
+ rule_BRA_prussian_buff_rule: "(PD) Prussian Military Buffs and Conquest Speed"
+ setting_BRA_buff_disabled: "Vanilla (No Buffs)"
+ setting_BRA_buff_disabled_desc: "No special military modifiers will be granted. \n#color_red Not recommended for AI-controlled Prussia, as it may struggle to achieve its objectives without any advantages.#!"
+ setting_BRA_buff_historical: "Historical (Balanced and Historical Conquest)"
+ setting_BRA_buff_historical_desc: "Grants the balanced [ShowModifier('prussian_historical_modifier')] for 1st situation and [ShowModifier('PD_brandenburg_military_supremacy_historical')] for 2nd situation. These effects focus on slow historical progression rather than outright domination.\n#G Highly recommended if [GetCountry('PRU').GetName] is controlled by the AI to ensure a historical rise without excessive early blobbing.#!"
+ setting_BRA_buff_enabled: "Terminator (Fast Conquest and Arcade Boss)"
+ setting_BRA_buff_enabled_desc: "Grants the massive [ShowModifier('prussian_destiny_modifier')] for 1st situation and [ShowModifier('PD_brandenburg_military_supremacy')] for 2nd situation. #color_red WARNING: Transforms the AI into an apocalyptic end-game threat with lightning-fast conquest speed and massive buffs. Enable only for an extreme challenge. Provides 'Very Easy Mode' for players.#!"
+
+ rule_PD_the_prussian_ascension_auto_conquest: "(PD) Path to the North German Federation Conquest Automation"
+ setting_PD_the_prussian_ascension_auto_conquest_no: "Deactivated (Normal Game)"
+ setting_PD_the_prussian_ascension_auto_conquest_no_desc: "The AI will not receive any automatic territorial annexations. [GetCountry('PRU').GetName] must secure its historical borders in Silesia and Saxony purely through standard warfare and diplomacy. Without a safety net, unpredictable RNG or strong enemy alliances may permanently halt the Prussian advance. The historical formation of the NGC is entirely left to chance."
+ setting_PD_the_prussian_ascension_auto_conquest_yes: "Activated (NGC Historical Path)"
+ setting_PD_the_prussian_ascension_auto_conquest_yes_desc: "If the AI fails to secure its historical borders organically, this setting acts as a safety net. By the designated date (#G 1632#! for #Y Frontloaded Rule#! / #G 1745#! for #Y Strict Historical Rule#!), the AI will automatically annex the required territories to ensure the historical progression towards the NGC.\n#G Highly recommended if [GetCountry('PRU').GetName] is controlled by the AI.#!"
+
+ # --- GAME RULES (PHASE 3) ---
+ rule_PD_blood_and_iron_mechanic_rule: "(PD) The Blood and Iron Situation"
+ setting_PD_blood_and_iron_mechanic_enabled: "Activated (Franco-Prussian War Historical Path)"
+ setting_PD_blood_and_iron_mechanic_enabled_desc: "Experience Prussian Destiny's third stage, where Franco-Prussian tensions lead to the German Empire's formation.#color_red Note for Human French Players: [GetCountry('FRA').GetName] will face a guaranteed offensive war against a super-powered Germany.#! \n#G However, if France emerges victorious, they will get [ShowModifier('PD_defender_of_the_rhine')] modifier!#!"
+ setting_PD_blood_and_iron_mechanic_disabled: "Deactivated (Normal Game)"
+ setting_PD_blood_and_iron_mechanic_disabled_desc: "The third situation is disabled. The historical Franco-Prussian escalation and tension mechanics will not trigger."
+
+ # --- Game Rules (Timeline & Pacing) ---
+ rule_PD_timeline_pacing_rule: "(PD) Timeline & Pacing"
+ setting_PD_timeline_frontloaded: "Dynamic & Frontloaded"
+ setting_PD_timeline_frontloaded_desc: "Prussia's rise and the major situations can trigger as soon as conditions are met (often around #G 1500#!). This allows you to experience the mod's full content without waiting for the late game.\n#G Recommended if you usually don't play late into the 1700s and want to experience this content early on. Otherwise, switch to the strict historical setting.#!"
+ setting_PD_timeline_strict_historical: "Strict Historical Dates (Historical Path)"
+ setting_PD_timeline_strict_historical_desc: "Prussia will not awaken until its authentic historical milestones. Major events are locked behind specific dates (e.g., #G 1618#! Prussia formation and #G 1648#! for the [ShowSituationName('the_prussian_ascension')] [situation|e]).\n#G Highly recommended for long campaigns. Perfect for a highly realistic historical playthrough.#!"
+
+
+
+ # --- NGC Flag ---
+ NGC: "North German Confederation"
+ NGC_ADJ: "North German"
+ NGC_f: "North German Confederation"
+ NGC_f_desc: "A union of northern German states forged through shared culture, language, and ambition. United under strong leadership, it stands as the first major step toward a fully unified German nation."
+ ngc_confederation: ""
+
+ # -------------------------- SITUATION 3: BLOOD AND IRON -------------------
+ the_blood_and_iron: "Blood and Iron"
+ the_blood_and_iron_desc: "The North German states are united under Berlin's banner, but the great question of Germany remains unanswered. Over the Rhine, the French Empire watches our rise with fear and jealousy. Chancellor Bismarck knows that to knit the final pieces of Germany together, a common enemy is needed.\n\nThe destiny of Germany will not be settled by speeches and majority decisions, but by iron and blood. We must navigate the rising diplomatic tension, isolate France, and force them into a war that will rally the reluctant Southern German states to our side.\n\n#Y ----------------------------------------#!\n\n#G HISTORICAL CONTEXT & AI BEHAVIOR:#!\nIn 1870, Otto von Bismarck successfully provoked France into declaring war on Prussia by editing the 'Ems Dispatch' to insult both nations. The aggressive French response frightened the independent Southern German states, causing them to immediately ally with Prussia.\n\n#Y What to Expect:#! As tensions passively rise each month, diplomatic flavor events will fire. Upon reaching maximum tension, the 'Ems Dispatch' will trigger. The Southern German states will automatically form an alliance with the North German Confederation, and France will declare war shortly after. Winning this final defensive war will allow the formation of the German Empire and the automatic annexation of the red-highlighted imperial borderlands ([ShowAreaName('alsace_area')], [ShowAreaName('lorraine_area')] and [ShowAreaName('franche_comte_area')]).\n#R However, the French coalition can intervene! If a player is France or their ally, they can enforce the 'Shatter the German Menace' peace treaty. This will instantly end the Situation, inflict severe debuffs on the German forces, and secure powerful buffs for the victors.#!"
+
+ # --- PHASE 3 EVENTLERI ---
+ pd_brandenburg.300.title: "The Path to Empire"
+ pd_brandenburg.300.desc: "With the North secured, only one obstacle remains to full German unification: the reluctance of the Southern states and the paranoia of France. We must carefully navigate the diplomatic tensions, isolate the French, and when the moment is right, provoke them into a war they cannot win. Only then will the South rally to our cause."
+ pd_brandenburg.300.a: "The final piece of the puzzle."
+
+ pd_brandenburg.301.title: "The Prussian Threat"
+ pd_brandenburg.301.desc: "The sudden and aggressive rise of the North German Confederation has completely upended the balance of power in Europe. Paris watches in horror as their neighbor across the Rhine grows stronger by the day. French diplomats demand security guarantees, but Berlin's replies are increasingly uncooperative."
+ pd_brandenburg.301.a: "We must not let them unite."
+
+ pd_brandenburg.302.title: "The Ems Dispatch"
+ pd_brandenburg.302.desc: "A minor succession dispute in Spain has given Bismarck the perfect opportunity. When the French ambassador aggressively demanded that the Hohenzollern family renounce their claims forever, King Wilhelm politely declined and sent a telegram to Berlin. Our Chancellor has meticulously edited this telegram to make it sound like a grave insult to both sides. The press is already printing it!"
+ pd_brandenburg.302.a: "Release it to the press. Let the French seethe!"
+
+ pd_brandenburg.303.title: "The Southern Princes Rally"
+ pd_brandenburg.303.desc: "The edited Ems Dispatch has outraged the French public to the point of war, but it has had a profound effect on the German people as well. Seeing France aggressively bullying a German monarch has sparked a wave of pan-German nationalism. The southern princes have forgotten their old rivalries and pledged their armies to our command."
+ pd_brandenburg.303.a: "Deutschland ?ber alles!"
+
+ pd_brandenburg.304.title: "The Ems Insult"
+ pd_brandenburg.304.desc: "The Prussians have intentionally humiliated our ambassador in the press! The streets of Paris are filled with angry mobs demanding vengeance against this upstart proto-German confederation. The Emperor's honor is at stake. There is only one response to such an insult."
+ pd_brandenburg.304.a: "A Berlin! (Declare War)"
+ pd_brandenburg.304.b: "Let our armies gather. We shall attack on our own terms."
+
+ pd_brandenburg.305.title: "The Franco-Prussian War"
+ pd_brandenburg.305.desc: "War has broken out! France, insulted by the Ems Dispatch, has foolishly declared war on the North German Confederation. Instead of isolating Berlin, they have driven all the southern German states straight into Bismarck's open arms. This is no longer just a war; it is the birth pangs of an Empire."
+ pd_brandenburg.305.a: "The world watches."
+
+ pd_brandenburg.306.title: "The Proclamation of the German Empire"
+ pd_brandenburg.306.desc: "Victory! The French armies have been crushed, their Emperor captured, and Paris itself besieged. In the ultimate humiliation, our Chancellor has gathered the princes of Germany in the Hall of Mirrors at the Palace of Versailles. There, surrounded by the glory of our fallen enemy, King Wilhelm is proclaimed German Emperor.\n\nThe regional kings and dukes have sworn fealty. The South is integrated. Alsace-Lorraine is ours. A new superpower, forged in blood and iron, now dominates the continent."
+ pd_brandenburg.306.a: "Heil dir im Siegerkranz!"
+
+ # --- WARGOALS VE CASUS BELLI ---
+ cb_PD_blood_and_iron: "Blood and Iron"
+ cb_PD_blood_and_iron_desc: "A war to settle the German Question once and for all."
+ war_goal_PD_war_goal_blood_and_iron: "Defend against French Aggression"
+ war_goal_PD_war_goal_blood_and_iron_desc: "We must defend our fatherland, and in doing so, take the natural border of Alsace-Lorraine for the security of a united Germany."
+ PD_blood_and_iron_proclaim_germany_entry: "Proclaim the German Empire"
+ PD_blood_and_iron_proclaim_germany_entry_short: "Proclaim the German Empire"
+ PD_blood_and_iron_proclaim_germany_desc: "Force France to cede the historically German lands of Alsace-Lorraine and proclaim the united German Empire in the halls of Versailles."
+ PD_blood_and_iron_proclaim_germany_tt: "France will cede [ShowAreaName('alsace_area')], [ShowAreaName('lorraine_area')] and [ShowAreaName('franche_comte_area')] areas. This monumental victory will trigger the formation of the German Empire! and the integration of all allied Southern German states."
+
+ # --- PHASE 3 FRENCH VICTORY ---
+ pd_brandenburg.307.title: "The Prussian Menace Shattered"
+ pd_brandenburg.307.desc: "Against all expectations, our glorious armies have repelled the northern aggression! The so-called invincible war machine of the North German Confederation lies broken on our battlefields.\n\nNot only have we defended our homeland, but we have humiliated Berlin on the world stage. Their dreams of uniting the German states under iron and blood have been permanently shattered. France remains the undisputed hegemon of Europe!"
+ pd_brandenburg.307.a: "Vive la France!"
+
+ pd_brandenburg.308.title: "Shattered Ambitions"
+ pd_brandenburg.308.desc: "Disaster! Our forces have been routed. The French defensive lines proved too much for our armies, and our great offensive has collapsed in humiliating defeat.\n\nOur prestige is ruined, the southern German states have lost all faith in our leadership, and internal unrest spreads through our cities. The dream of a united German Empire is dead, drowned not in glory, but in shame."
+ pd_brandenburg.308.a: "A dark day for the Fatherland."
+
+ PD_france_shatter_prussian_menace_entry: "Shatter the German Menace"
+ PD_france_shatter_prussian_menace_entry_short: "Shatter the German Menace"
+ PD_france_shatter_prussian_menace_desc: "Break the military illusion of the North German Confederation, crippling their unification ambitions and securing French dominance in Europe."
+ PD_france_shatter_prussian_menace_tt: "The North German unification will be forcefully aborted. [GetCountry('NGC').GetName] will suffer immense unrest, and gain the crippling [ShowModifier('PD_shattered_german_ambition')] modifier for 50 years. We will gain the glorious [ShowModifier('PD_defender_of_the_rhine')] modifier."
+
+ # --- TENSION FLAVOR EVENTS(25-50-75) ---
+ pd_brandenburg.309.title: "The Luxembourg Crisis"
+ pd_brandenburg.309.desc: "Tensions between Paris and Berlin are escalating. A major diplomatic incident has just sparked over the status of Luxembourg. France sought to purchase the territory to offset Prussian gains, but Chancellor Bismarck publicly leaked the deal, causing an uproar in the German states. While war has been averted for now, the trust between the two empires is irreparably damaged."
+ pd_brandenburg.309.a: "The rift deepens..."
+
+ pd_brandenburg.310.title: "The Continental Arms Race"
+ pd_brandenburg.310.desc: "Reports from both sides of the Rhine speak of massive military preparations. [GetCountry('FRA').GetName] is rapidly reforming its army, equipping troops with the deadly new Chassepot rifle. In response, the [GetCountry('NGC').GetName] is expanding its railway networks and mobilizing its General Staff to ensure lightning-fast troop movements. The continent holds its breath."
+ pd_brandenburg.310.a: "Preparing for the inevitable."
+
+ pd_brandenburg.311.title: "The Diplomatic Breakdown"
+ pd_brandenburg.311.desc: "The delicate peace in Europe is fraying. Ambassadors in both Paris and Berlin are trading insults rather than treaties. The French press demands action against the rising 'German Menace', while pan-German nationalists clamor for a unified front against French meddling. It feels like only a single spark is needed to ignite the powder keg."
+ pd_brandenburg.311.a: "One spark is all it takes."
+
+ blood_and_iron_ngc_destroyed_tt: "The [GetCountry('NGC').GetName] no longer exists."
+ blood_and_iron_fra_destroyed_tt: "[GetCountry('FRA').GetName] no longer exists."
+ blood_and_iron_victory_tt: "[GetCountry('NGC').GetName] have defeated [GetCountry('FRA').GetName] and are ready to proclaim the #YGerman Empire#!."
+ blood_and_iron_defeat_tt: "[GetCountry('FRA').GetName] has successfully halted [GetCountry('NGC').GetName] unification plans."
+ blood_and_iron_stalemate_tt: "Stalemate: If no decisive peace treaty is signed after 3 major war attempts (at 100, 250, and 400 months), the Situation is going to be closed permanently at 450 months (37.5 years)."
+ PD_blood_and_iron_map_tt: "#R Targeted Imperial Territory#!\nIf [GetCountry('NGC').GetName] wins the war against [GetCountry('FRA').GetName], they will automatically annex this region."
+
+#---------- Bureaucratic Localization (For Flavor) ----------
+
+ # 1. Bundesschatzamt (Ekonomi - Federal Hazine)
+ pd_ngc_bundesschatzamt_bureaucracy: "Bundesschatzamt"
+ pd_ngc_bundesschatzamt_bureaucracy_desc: "The central financial administration of the Confederation. It harmonizes the disparate treasuries of the North German states into a single, disciplined fiscal engine, ensuring that every thaler is accounted for in the service of the federal budget."
+
+ # 2. Norddeutsche Gewerbeordnung (Ekonomi - Sanayi ve Ticaret Kanunu)
+ pd_ngc_gewerbeordnung_bureaucracy: "Norddeutsche Gewerbeordnung"
+ pd_ngc_gewerbeordnung_bureaucracy_desc: "A unified legal framework that shatters the old guild monopolies and standardizes trade across the North. This regulation paves the way for industrial dominance by ensuring that labor and capital can flow freely throughout the federal territories."
+
+ # 3. Bundeskanzleramt (Diplomasi - Federal Şansölyelik)
+ pd_ngc_bundeskanzleramt_bureaucracy: "Bundeskanzleramt"
+ pd_ngc_bundeskanzleramt_bureaucracy_desc: "The executive heart of the Confederation. Overseen by the Federal Chancellor, this office streamlines diplomatic efforts and ensures that the diverse interests of member states are subordinated to a single, powerful, and rational foreign policy."
+
+ # 4. Landwehr-Inspektion (Askeri - Rezerv Denetimi)
+ pd_ngc_landwehr_inspektion_bureaucracy: "Landwehr-Inspektion"
+ pd_ngc_landwehr_inspektion_bureaucracy_desc: "Modernizing the traditional citizen-soldier. This body oversees the rigorous training and inspection of reserve forces, ensuring that the transition from a local levy to a professionalized national guard is seamless and combat-ready at a moment's notice."
+
+ # 5. Artillerie-Prüfungs-Kommission (Askeri - Teknik ve Kuşatma)
+ pd_ngc_artillerie_kommission_bureaucracy: "Artillerie-Prüfungs-Kommission"
+ pd_ngc_artillerie_kommission_bureaucracy_desc: "Dedicated to the supremacy of fire. This technical body oversees the development and standardization of heavy ordnance, turning the Confederation’s military into a force capable of shattering the strongest fortifications in Europe with unmatched precision."
+
+ # 6. Königliches Militärkabinett (Askeri - Mutlak Komuta)
+ pd_ngc_militaerkabinett_bureaucracy: "Königliches Militärkabinett"
+ pd_ngc_militaerkabinett_bureaucracy_desc: "The sovereign's personal military staff. By insulating the officer corps from civilian oversight and administrative meddling, it ensures that the army remains a loyal and autonomous tool of the state, directed solely by the strategic will of the crown."
+
+
+
+
+
+
+
+
+
+
+

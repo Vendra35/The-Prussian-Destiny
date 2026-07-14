@@ -1,0 +1,434 @@
+﻿# PD_prussian_ambition_take_regions = {
+# 	cost = 20	# %20 savaþ skoru
+# 	potential = {
+# 		scope:war = {
+# 			is_no_cb_war = no
+# 			casus_belli ?= casus_belli:cb_PD_prussian_ambition
+# 		}
+# 	}
+# 	allow = {
+# 		scope:winner = {
+# 			is_war_leader_of = scope:war
+# 			OR = {
+# 				tag = BRA
+# 				tag = PRU
+# 			}
+# 		}
+# 		# Barýþýn masaya gelebilmesi için kaybedenin bu bölgelerde EN AZ 1 topraðý olmalý
+# 		scope:loser = {
+# 			any_owned_location = {
+# 				OR = {
+# 					this.area = area:brandenburg_area
+# 					this.area = area:pomerania_area
+# 					this.area = area:prussia_area
+# 				}
+# 			}
+# 		}
+# 	}
+# 	effect = {
+# 		custom_tooltip = {
+# 			text = PD_prussian_ambition_take_regions_tt
+# 			area:brandenburg_area = {
+# 				every_location_in_area = {
+# 					limit = {
+# 						owner = scope:loser
+# 					}
+# 					change_location_owner = scope:winner
+# 				}
+# 			}
+# 			area:pomerania_area = {
+# 				every_location_in_area = {
+# 					limit = {
+# 						owner = scope:loser
+# 					}
+# 					change_location_owner = scope:winner
+# 				}
+# 			}
+# 			area:prussia_area = {
+# 				every_location_in_area = {
+# 					limit = {
+# 						owner = scope:loser
+# 					}
+# 					change_location_owner = scope:winner
+# 				}
+# 			}
+# 		}
+# 	}
+# 	# AI bu antlaþmayý seçmek ZORUNDA:
+# 	ai_desire = {
+# 		value = 500000000
+# 	}
+# }
+PD_prussian_ascension_take_regions = {
+	cost = 20	# %20 savaþ skoru
+	potential = {
+		scope:war = {
+			is_no_cb_war = no
+			casus_belli ?= casus_belli:cb_PD_prussian_ascension
+		}
+	}
+	allow = {
+		scope:winner = {
+			is_war_leader_of = scope:war
+			OR = {
+				tag = BRA
+				tag = PRU
+			}
+		}
+		# Barýþýn masaya gelebilmesi için kaybedenin bu bölgelerde EN AZ 1 topraðý olmalý
+		scope:loser = {
+			any_owned_location = {
+				OR = {
+					this.area = area:silesia_area
+					this.area = area:lower_saxony_area
+					this.area = area:upper_saxony_area
+					this.area = area:mecklenburg_area
+					this.area = area:holstein_area
+					this.area = area:westphalia_area
+					this.area = area:hesse_area
+				}
+			}
+		}
+	}
+	effect = {
+		# Ekranda sadece senin yazdýðýn o jilet gibi "Topraklar bize geçecek" yazýsý görünecek
+		custom_tooltip = {
+			text = PD_prussian_ascension_take_regions_tt
+		}
+		# Oyun arka planda topraklarý verirken iþlemleri gizleyecek ve deniz/boþ topraklarý atlayacak
+		hidden_effect = {
+			area:silesia_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes						# <-- ÇÖZÜM: Önce "Buranýn bir sahibi var mý?" diye sor (Deniz çökmesini engeller)
+						owner ?= scope:loser						# <-- ÇÖZÜM: Jomini güvenli eþleþmesi
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:lower_saxony_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= scope:loser
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:upper_saxony_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= scope:loser
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:mecklenburg_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= scope:loser
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:holstein_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= scope:loser
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:westphalia_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= scope:loser
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:hesse_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= scope:loser
+					}
+					change_location_owner = scope:winner
+				}
+			}
+		}
+	}
+	ai_desire = {
+		value = 500000000
+	}
+}
+
+PD_hegemony_demand_submission = {
+	cost = 20
+	potential = {
+		scope:war = {
+			is_no_cb_war = no
+			casus_belli ?= casus_belli:cb_PD_hegemony
+		}
+	}
+	allow = {
+		scope:winner = {
+			is_war_leader_of = scope:war
+			OR = {
+				tag = BRA
+				tag = PRU
+			}
+		}
+		# SADECE Kutsal Roma Ýmparatoruna karþý kullanýlabilir
+		scope:loser = {
+			# ÇÖZÜM BURADA: Artýk "Ýlla þu anki imparator mu?" diye sormuyoruz.
+			# Hegemony CB'si ile açýlmýþ bu savaþýn düþman lideri olmasý imzayý atmasý için yeterli!
+			is_war_leader_of = scope:war
+		}
+	}
+	effect = {
+		custom_tooltip = {
+			text = PD_hegemony_demand_submission_tt
+		}
+		# 1. KUTSAL ROMA ÝMPARATORLUÐU DAÐITILIYOR
+		# Kazanan sýfatýyla organizasyonu tamamen yok ediyoruz.
+		# Prusya prestij kazanýyor ve NGF EVENTÝNÝ TETÝKLEYECEK VARÝABLE 1 YAPILIYOR!
+		scope:winner = {
+			# GÜVENLÝK SÝGORTASI: Savaþ sýrasýnda bir þekilde HRE çoktan yýkýlmýþsa oyun çökmesin!
+			if = {
+				limit = {
+					exists = international_organization:hre
+				}
+				destroy_international_organization = {
+					target = international_organization:hre
+				}
+			}
+			add_prestige = 100
+			set_variable = {
+				name = PD_hegemony_victory
+				value = 1
+			}
+		}
+		# Ýmparatorun gururu ayaklar altýna alýnýyor
+		scope:loser = {
+			add_prestige = -100
+			add_country_modifier = {
+				modifier = PD_brandenburg_hre_dismantled
+				years = -1
+				mode = replace
+			}
+		}
+	}
+	ai_desire = {
+		value = 500000000
+	}
+}
+
+# BLOOD AND IRON BARIS ANTLASMASI (PEACE TREATY) - ALMAN IMPARATORLUGU
+PD_blood_and_iron_proclaim_germany = {
+	cost = 25	# Savas skoru 25 yeterli
+	potential = {
+		scope:war = {
+			is_no_cb_war = no
+			casus_belli ?= casus_belli:cb_PD_blood_and_iron
+		}
+	}
+	allow = {
+		scope:winner = {
+			is_war_leader_of = scope:war
+			# DİNAMİK ETİKET İZNİ
+			OR = {
+				tag = NGC
+				tag = PRU
+			}
+		}
+		scope:loser = {
+			is_war_leader_of = scope:war
+			tag = FRA
+		}
+	}
+	effect = {
+		custom_tooltip = {
+			text = PD_blood_and_iron_proclaim_germany_tt
+		}
+		# Fransa Alsace, Lorraine ve Franche-Comte bölgelerini NGC'ye devrediyor
+		hidden_effect = {
+			area:alsace_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= {
+							OR = {
+								this = scope:loser
+								is_subject_of = scope:loser
+							}
+						}
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:lorraine_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= {
+							OR = {
+								this = scope:loser
+								is_subject_of = scope:loser
+							}
+						}
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:franche_comte_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= {
+							OR = {
+								this = scope:loser
+								is_subject_of = scope:loser
+							}
+						}
+					}
+					change_location_owner = scope:winner
+				}
+			}
+		}
+		# Event tetikle (Alman Imparatorlugunun Kurulusu)
+		scope:winner = {
+			trigger_event_non_silently = pd_brandenburg.306
+		}
+		# Situation sonlandirma trigger'ini aktif et
+		set_global_variable = blood_and_iron_won
+	}
+	ai_desire = {
+		value = 500000000
+	}
+}
+
+# BLOOD AND IRON BARIS ANTLASMASI (PEACE TREATY) - FRANSA ZAFERI
+PD_france_shatter_prussian_menace = {
+	cost = 50
+	potential = {
+		scope:war = {
+			is_no_cb_war = no
+			casus_belli ?= casus_belli:cb_PD_blood_and_iron
+		}
+	}
+	allow = {
+		scope:winner = {
+			is_war_leader_of = scope:war
+			tag = FRA
+		}
+		scope:loser = {
+			is_war_leader_of = scope:war
+			# DİNAMİK ETİKET İZNİ
+			OR = {
+				tag = NGC
+				tag = PRU
+			}
+		}
+		# Sadece oyuncu bu savaşa müdahilse (Fransa oyuncuysa veya oyuncu Fransa'ya yardım ediyorsa) kullanılabilsin. 
+		# Böylece 1v1 AI savaşlarında Fransa şans eseri kazansa da tarihi saptıramaz.
+		any_country = {
+			is_ai = no
+			is_at_war_with = scope:loser
+		}
+	}
+	effect = {
+		custom_tooltip = {
+			text = PD_france_shatter_prussian_menace_tt
+		}
+		hidden_effect = {
+			scope:loser = {
+				add_stability = -50
+				remove_country_modifier = PD_the_new_german_order
+				add_country_modifier = {
+					modifier = PD_shattered_german_ambition
+					years = 50
+					mode = replace
+				}
+			}
+			scope:winner = {
+				add_country_modifier = {
+					modifier = PD_defender_of_the_rhine
+					years = 50
+					mode = replace
+				}
+			}
+		}
+		# Event tetikle (Fransa'nÄ±n Zaferi)
+		scope:winner = {
+			trigger_event_non_silently = pd_brandenburg.307
+		}
+	}
+	ai_desire = {
+		value = 500000000
+	}
+}
+
+# PRUSYANIN HEGEMONYA SAVASINI (PHASE 2) IMPARATOR KAZANIRSA EKLENECEK BARIS ANTLASMASI 
+PD_emperor_crush_prussian_hegemony = {
+	cost = 50
+	potential = {
+		scope:war = {
+			is_no_cb_war = no
+			casus_belli ?= casus_belli:cb_PD_hegemony
+		}
+	}
+	allow = {
+		scope:loser = {
+			is_war_leader_of = scope:war
+			OR = {
+				tag = PRU
+				tag = BRA
+			}
+		}
+		# Sadece oyuncu kazanırsa veya savaşta oyuncu varsa kullanılabilsin
+		any_country = {
+			is_ai = no
+			is_at_war_with = scope:loser
+		}
+	}
+	effect = {
+		custom_tooltip = {
+			text = PD_emperor_crush_prussian_hegemony_tt
+		}
+		hidden_effect = {
+			scope:loser = {
+				add_stability = -50
+				add_country_modifier = {
+					modifier = PD_shattered_german_ambition
+					years = 50
+					mode = replace
+				}
+				# Situation'Ä± bitir (Fail durumu)
+				# trigger_event vs de eklenebilir veya situation end fail
+			}
+			scope:winner = {
+				add_prestige = 50
+				add_country_modifier = {
+					modifier = PD_emperor_restoration_of_order
+					years = 50
+					mode = replace
+				}
+			}
+		}
+		# Event tetikle (Imparatorun Zaferi)
+		scope:winner = {
+			trigger_event_non_silently = pd_brandenburg.220
+		}
+		scope:loser = {
+			trigger_event_non_silently = pd_brandenburg.221
+		}
+	}
+	ai_desire = {
+		value = 500000000
+	}
+}
