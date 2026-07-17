@@ -29,15 +29,6 @@
 	can_end = {
 		prussian_ambition_end_trigger = yes
 	}
-	# FOR EU5 1.3
-	# can_end = {
-	# 	end_reason = {
-	# 		trigger = {
-	# 			prussian_ambition_end_trigger = yes
-	# 		}
-	# 		desc = "prussian_ambition_end_desc"
-	# 	}
-	# }
 	on_start = {
 		set_variable = {
 			name = PD_conquest_cooldown
