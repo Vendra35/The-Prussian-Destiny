@@ -270,6 +270,11 @@ pd_brandenburg_dhe.3 = {
 }
 
 # Brandenburg için 1512 veya 1618 yılları arasında 2. situation başlamadan prusya formlama DHE eventi.
+# NOT: Vanilla form_country yolu kasıtlı olarak kapatılmadı, ama pratikte
+# risksiz — PRU_f, "Military Order" reformuna sahip olmamayı şart koşuyor
+# ve TEU bu reformu ancak DHE zincirinin sekülerleşme sürecinden geçerek
+# kaybediyor. O yüzden situation açıkken üçüncü bir gücün (ya da TEU'nun
+# reform hâlâ üstündeyken) PRU_f'i vanilla yoldan formlaması mümkün değil.
 pd_brandenburg_dhe.4 = {
 	type = country_event
 	title = pd_brandenburg_dhe.4.title
@@ -340,6 +345,7 @@ pd_brandenburg_dhe.4 = {
 	option = {
 		name = pd_brandenburg_dhe.4.a
 		# Hata önleyici: Sadece Tötonlar hala yaşıyorsa VE o 3 bölgeden birinde varlığı varsa annexle
+		# 1) TEU hâlâ yaşıyor ve ROOT'un vassalıysa → mevcut annex bloğu aynen kalıyor
 		if = {
 			limit = {
 				country_exists = c:TEU
@@ -360,6 +366,34 @@ pd_brandenburg_dhe.4 = {
 				}
 			}
 		}
+		# 2) YENİ: PRU zaten varsa VE birinin (kim olursa olsun) vassalıysa
+		# → tepedeki gerçek overlord'u bul, o kendi vassalını yutsun.
+		# Mongol modundaki idiomla aynı: top_overlord_or_this, overlordu yoksa
+		# kendisini döndürür — o yüzden "bağımsız mı" kontrolünü buradan yapıyoruz.
+		if = {
+			limit = {
+				country_exists = c:PRU
+				NOT = {
+					c:PRU = {
+						# bağımsızsa top_overlord = kendisi
+						top_overlord_or_this ?= c:PRU
+					}
+				}
+			}
+			c:PRU = {
+				top_overlord_or_this = {
+					save_temporary_scope_as = pru_true_overlord
+				}
+			}
+			scope:pru_true_overlord = {
+				annex_country = {
+					country = c:PRU
+					reason = Diplomatic
+					transfer = yes
+				}
+			}
+		}
+		# 3) Artık PRU yok (hiç yoktu, ya da az önce overlord'u tarafından yutuldu) → forma.
 		if = {
 			limit = {
 				NOT = {
@@ -372,6 +406,11 @@ pd_brandenburg_dhe.4 = {
 }
 
 # Teuton için 1512 veya 1618 yılları arasında 2. situation başlamadan prusya formlama DHE eventi.
+# NOT: Vanilla form_country yolu kasıtlı olarak kapatılmadı, ama pratikte
+# risksiz — PRU_f, "Military Order" reformuna sahip olmamayı şart koşuyor
+# ve TEU bu reformu ancak DHE zincirinin sekülerleşme sürecinden geçerek
+# kaybediyor. O yüzden situation açıkken üçüncü bir gücün (ya da TEU'nun
+# reform hâlâ üstündeyken) PRU_f'i vanilla yoldan formlaması mümkün değil.
 pd_brandenburg_dhe.5 = {
 	type = country_event
 	title = pd_brandenburg_dhe.5.title
@@ -388,6 +427,7 @@ pd_brandenburg_dhe.5 = {
 		tag = TEU
 		at_war = no
 		# Softlock Failsafe: Ya vassalın olacak, ya da o bölgelerden tamamen kazınmış olacak.
+		# 1) BRA hâlâ yaşıyor ve ROOT'un vassalıysa → mevcut annex bloğu aynen kalıyor
 		OR = {
 			# Orijinal İhtimal: Brandenburg yaşıyor ve vassalım
 			AND = {
@@ -453,6 +493,34 @@ pd_brandenburg_dhe.5 = {
 				}
 			}
 		}
+		# 2) YENİ: PRU zaten varsa VE birinin (kim olursa olsun) vassalıysa
+		# → tepedeki gerçek overlord'u bul, o kendi vassalını yutsun.
+		# Mongol modundaki idiomla aynı: top_overlord_or_this, overlordu yoksa
+		# kendisini döndürür — o yüzden "bağımsız mı" kontrolünü buradan yapıyoruz.
+		if = {
+			limit = {
+				country_exists = c:PRU
+				NOT = {
+					c:PRU = {
+						# bağımsızsa top_overlord = kendisi
+						top_overlord_or_this ?= c:PRU
+					}
+				}
+			}
+			c:PRU = {
+				top_overlord_or_this = {
+					save_temporary_scope_as = pru_true_overlord
+				}
+			}
+			scope:pru_true_overlord = {
+				annex_country = {
+					country = c:PRU
+					reason = Diplomatic
+					transfer = yes
+				}
+			}
+		}
+		# 3) Artık PRU yok (hiç yoktu, ya da az önce overlord'u tarafından yutuldu) → forma.
 		if = {
 			limit = {
 				NOT = {
@@ -611,7 +679,7 @@ pd_brandenburg_dhe.7 = {
 		hidden_effect = {
 			create_character = {
 				estate = estate_type:nobles_estate
-				first_name = name_Joachim
+				first_name = Joachim
 				age = 22
 				culture = root.culture
 				religion = root.religion
@@ -671,7 +739,7 @@ pd_brandenburg_dhe.8 = {
 		hidden_effect = {
 			create_character = {
 				estate = estate_type:nobles_estate
-				first_name = name_Joachim
+				first_name = Joachim
 				age = 33
 				culture = root.culture
 				religion = root.religion
@@ -731,7 +799,7 @@ pd_brandenburg_dhe.9 = {
 		hidden_effect = {
 			create_character = {
 				estate = estate_type:nobles_estate
-				first_name = name_Johann
+				first_name = Johann
 				last_name = Sigismund
 				age = 30
 				culture = root.culture
@@ -792,7 +860,7 @@ pd_brandenburg_dhe.10 = {
 		hidden_effect = {
 			create_character = {
 				estate = estate_type:nobles_estate
-				first_name = name_Friedrich
+				first_name = Friedrich
 				last_name = Wilhelm
 				age = 20
 				culture = root.culture
@@ -853,7 +921,7 @@ pd_brandenburg_dhe.11 = {
 		hidden_effect = {
 			create_character = {
 				estate = estate_type:nobles_estate
-				first_name = name_Friedrich
+				first_name = Friedrich
 				age = 44
 				culture = root.culture
 				religion = root.religion
