@@ -2,7 +2,7 @@
 # --- 1. SITUATION: PRUSSIAN DESTINY (SITUATION BİTİRME KONDİSYONUNA BAKMAK İÇİN ÇAĞRILIR) ---
 prussian_ambition_end_trigger = {
 	OR = {
-		# Knockout 1a: Brandenburg'un DOĞRUDAN zaferi (TEU hâlâ var ama vassal oldu YA DA bölgeden sürüldü ve BRA çekirdek toprakları fiilen aldı)
+		# Knockout 1a: Brandenburg'un DOĞRUDAN zaferi
 		custom_tooltip = {
 			text = prussian_ambition_knockout_teu_tt
 			OR = {
@@ -20,56 +20,51 @@ prussian_ambition_end_trigger = {
 							}
 						}
 					}
-				}
-				c:BRA = {
-					OR = {
-						# Ya Danzig Ya da Königsberg Brandenburg'un elinde olmalı!
-						owns = location:konigsberg
-						owns = location:gdansk
+					c:BRA = {
+						OR = {
+							owns = location:konigsberg
+							owns = location:gdansk
+						}
 					}
 				}
 			}
 		}
-	}
-	# Knockout 1b: TEU üçüncü bir ülke tarafından tamamen yok edildi
-	# (Tarih eşiği ŞART: on_monthly'deki fallback'e (1495/1520'den itibaren) toprakları
-	#  BRA'ya devretmesi için önce süre tanıyoruz; yoksa BRA topraksız kalır ve
-	#  situation erkenden kapanıp Prusya hiç formlanamayabilir)
-	custom_tooltip = {
-		text = prussian_ambition_teu_destroyed_by_other_tt
-		AND = {
-			NOT = {
-				country_exists = c:TEU
-			}
-			OR = {
-				AND = {
-					has_game_rule = PD_timeline_frontloaded
-					current_date > 1500.1.1
+		# Knockout 1b: TEU üçüncü bir ülke tarafından tamamen yok edildi
+		custom_tooltip = {
+			text = prussian_ambition_teu_destroyed_by_other_tt
+			AND = {
+				NOT = {
+					country_exists = c:TEU
 				}
-				AND = {
-					has_game_rule = PD_timeline_strict_historical
-					current_date > 1525.1.1
+				OR = {
+					AND = {
+						has_game_rule = PD_timeline_frontloaded
+						current_date > 1500.1.1
+					}
+					AND = {
+						has_game_rule = PD_timeline_strict_historical
+						current_date > 1525.1.1
+					}
 				}
 			}
 		}
-	}
-	# Knockout 2: Tötonların Zaferi
-	custom_tooltip = {
-		text = prussian_ambition_knockout_bra_tt
-		OR = {
-			c:BRA = {
-				is_subject_of = c:TEU
-			}
-			# Brandenburg tamamen silindiyse VEYA Prusya, Brandenburg ve Pomeranya'nın HİÇBİRİNDE toprağı kalmadıysa
-			NOT = {
-				country_exists = c:BRA
-			}
-			NOT = {
+		# Knockout 2: Tötonların Zaferi
+		custom_tooltip = {
+			text = prussian_ambition_knockout_bra_tt
+			OR = {
 				c:BRA = {
-					OR = {
-						has_presence_in = area:prussia_area
-						has_presence_in = area:brandenburg_area
-						has_presence_in = area:pomerania_area
+					is_subject_of = c:TEU
+				}
+				NOT = {
+					country_exists = c:BRA
+				}
+				NOT = {
+					c:BRA = {
+						OR = {
+							has_presence_in = area:prussia_area
+							has_presence_in = area:brandenburg_area
+							has_presence_in = area:pomerania_area
+						}
 					}
 				}
 			}
@@ -86,14 +81,11 @@ prussian_ambition_end_trigger = {
 				c:TEU = {
 					at_war = no
 				}
-				# Dinamik Tarih Kontrolü
 				OR = {
-					# Durum A: Hızlı Mod - 1500
 					AND = {
 						has_game_rule = PD_timeline_frontloaded
 						current_date > 1500.1.1
 					}
-					# Durum B: Tarihsel Mod - 1525
 					AND = {
 						has_game_rule = PD_timeline_strict_historical
 						current_date > 1525.1.1

@@ -188,6 +188,7 @@
  prussian_ambition_prussia_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('prussia_area')] [area|e]"
  prussian_ambition_brandenburg_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('brandenburg_area')] [area|e]"
  prussian_ambition_knockout_teu_tt: "[GetCountry('TEU').GetName] became a subject of [GetCountry('BRA').GetName], or is completely driven out of Prussia, Brandenburg, and Pomerania while [GetCountry('BRA').GetName] owns [ShowLocationName('gdansk')] or [ShowLocationName('konigsberg')]."
+ prussian_ambition_teu_destroyed_by_other_tt: "[GetCountry('TEU').GetName] has been completely destroyed by a third-party country, and the time limit has been reached (1500 for Frontloaded Rule / 1525 for Strict Historical Rule)."
  prussian_ambition_knockout_bra_tt: "[GetCountry('BRA').GetName] became a subject of [GetCountry('TEU').GetName], or is completely driven out of Prussia, Brandenburg, and Pomerania."
  prussian_ambition_time_limit_tt: "The time limit has been reached (1500 for Frontloaded Rule / 1525 for Strict Historical Rule) and both sides are at peace. (The country with the most Dominance Score will win)"
  PD_PRUSSIAN_TARGET_LOCATION_TT: "#Y STRATEGIC OBJECTIVE:#!\nThis location is a vital target for the Prussian Destiny. It must be secured and brought under our control."
