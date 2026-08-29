@@ -374,6 +374,77 @@
 					}
 				}
 			}
+			# 3. SENARYO (FALLBACK): TÖTON ŞÖVALYELERİ ÜÇÜNCÜ BİR ÜLKE TARAFINDAN TAMAMEN YOK EDİLDİ
+			# (TEU artık yok, kıyaslanacak skor kalmadı; Brandenburg hayattaysa Prusya mirasını
+			#  doğrudan ona ver ki 2. situation başlayabilsin)
+			else_if = {
+				limit = {
+					NOT = {
+						country_exists = c:TEU
+					}
+					country_exists = c:BRA
+					c:BRA = {
+						is_ai = yes
+						at_war = no
+					}
+				}
+				area:brandenburg_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+				area:pomerania_area = {
+					every_ownable_location_in_area = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+				province_definition:danzig_province = {
+					every_ownable_location_in_province_definition = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+				province_definition:lower_prussia_province = {
+					every_ownable_location_in_province_definition = {
+						limit = {
+							owner = {
+								is_ai = yes
+								NOT = {
+									this = c:BRA
+									is_subject_of = c:BRA
+								}
+							}
+						}
+						change_location_owner = c:BRA
+					}
+				}
+			}
 		}
 		##########
 		if = {
