@@ -152,6 +152,7 @@
 
 # Teuton için 1512 veya 1618 yılları arasında 2. situation başlamadan prusya formlama DHE eventi.
  pd_brandenburg_dhe.5.title: "The Integration of the March"
+ pd_brandenburg_dhe.5.entry: "(PD) - The Integration of the March"
  pd_brandenburg_dhe.5.desc: "The time has come to finalize our mastery over the northern realms. The Electorate of Brandenburg, long held as a subjugated fiefdom to the Order, is now being entirely dismantled and integrated into our monastic administration. The secular authority of the Elector in [ShowLocationName('berlin')] has been systematically replaced by the disciplined rule of our Komturs. By absorbing their administrative apparatus into our holy martial state, we have permanently erased the fractured borders of the past. The Mark and the Order are no longer separate entities; they are forged into a singular, undeniable power under the Black Cross."
  pd_brandenburg_dhe.5.a: "Berlin belongs to the Hochmeister."
 
@@ -164,6 +165,36 @@
  pd_brandenburg_dhe.6.a.tt2: "The industrial and administrative capacity of Berlin will be radically expanded:"
  pd_brandenburg_dhe.6.a.tt3: "State-funded [ShowBuildingTypeName('armory')] and [ShowBuildingTypeName('gun_smith')] [buildings|e] will be rapidly constructed in [ShowLocationName('berlin')]. A sweeping demographic standardization will assimilate the local [pops|e] into the Prussian [culture|e]. Furthermore, the first professional standing regiments of [ShowUnitDefinitionName('a_pikemen')] will be commissioned."
  pd_brandenburg_dhe.6.a.tt4: "The foundation of a modern, centralized state is laid."
+
+# --- dhe.7: Joachim I Nestor (1499-1535) ---
+ pd_brandenburg_dhe.7.title: "A New Elector Rises"
+ pd_brandenburg_dhe.7.entry: "(PD) - A New Elector Rises"
+ pd_brandenburg_dhe.7.desc: "The old order gives way. A new Elector, Joachim, takes the reins of Brandenburg-Prussia, determined to bring order to the nobility and strengthen the state's administration."
+ pd_brandenburg_dhe.7.a: "Long live the Elector."
+
+# --- dhe.8: Joachim II Hektor (1535-1571) — Protestanlığa geçiş ---
+ pd_brandenburg_dhe.8.title: "A New Faith, A New Elector"
+ pd_brandenburg_dhe.8.entry: "(PD) - A New Faith, A New Elector"
+ pd_brandenburg_dhe.8.desc: "Elector Joachim Hektor ascends to power. His reign will be remembered for a decisive break with Rome, as the Reformed faith takes firm root across Brandenburg-Prussia."
+ pd_brandenburg_dhe.8.a: "The Elector's word is law."
+
+# --- dhe.9: Johann Sigismund (1608-1619) — Ducal Prusya + Cleves mirası ---
+ pd_brandenburg_dhe.9.title: "The Union of Two Realms"
+ pd_brandenburg_dhe.9.entry: "(PD) - The Union of Two Realms"
+ pd_brandenburg_dhe.9.desc: "Johann Sigismund becomes Elector, uniting the scattered Hohenzollern inheritance under a single ruler for the first time. Brandenburg and Prussia now answer to the same crown."
+ pd_brandenburg_dhe.9.a: "One house, one destiny."
+
+# --- dhe.10: Friedrich Wilhelm "The Great Elector" (1640-1688) ---
+ pd_brandenburg_dhe.10.title: "The Great Elector"
+ pd_brandenburg_dhe.10.entry: "(PD) - The Great Elector"
+ pd_brandenburg_dhe.10.desc: "Friedrich Wilhelm takes the throne. In the ashes left by decades of war, he will forge a standing army and a centralized state — the foundation upon which Prussia's future power will be built."
+ pd_brandenburg_dhe.10.a: "A new discipline takes hold."
+
+# --- dhe.11: Friedrich I — Prusya'da Kral olan ilk isim (1701 sonrası, açık uçlu) ---
+ pd_brandenburg_dhe.11.title: "A Crown for Prussia"
+ pd_brandenburg_dhe.11.entry: "(PD) - A Crown for Prussia"
+ pd_brandenburg_dhe.11.desc: "Friedrich rises to power and will not be content as a mere Elector. Before long, he will place a crown upon his own head, and Brandenburg-Prussia will call itself a Kingdom."
+ pd_brandenburg_dhe.11.a: "Long live the King."
 
 
  # --- 1.SITUATION (DURUM) VE HEDEFLER ---

@@ -582,3 +582,303 @@ pd_brandenburg_dhe.6 = {
 		custom_tooltip = pd_brandenburg_dhe.6.a.tt4
 	}
 }
+
+# --- dhe.7: Joachim I Nestor (1499-1535) ---
+pd_brandenburg_dhe.7 = {
+	type = country_event
+	title = pd_brandenburg_dhe.7.title
+	desc = pd_brandenburg_dhe.7.desc
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = PRU
+		tag = NGC
+		from = 1499.1.1
+		to = 1535.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		OR = {
+			tag = PRU
+			tag = NGC
+		}
+		OR = {
+			country_exists = c:PRU
+			country_exists = c:NGC
+		}
+		at_war = no
+	}
+	immediate = {
+		hidden_effect = {
+			create_character = {
+				estate = estate_type:nobles_estate
+				first_name = "Joachim"
+				age = 22
+				culture = root.culture
+				religion = root.religion
+				dynasty = dynasty:hohenzollern_dynasty
+				adm = {
+					55
+					100
+				}
+				dip = {
+					60
+					100
+				}
+				mil = {
+					45
+					100
+				}
+				save_scope_as = pd_prussian_ruler
+				create_in_limbo = yes
+			}
+			set_new_ruler = scope:pd_prussian_ruler
+		}
+	}
+	option = {
+		name = pd_brandenburg_dhe.7.a
+		ai_chance = {
+			factor = 100
+		}
+		add_prestige = prestige_severe_bonus
+	}
+}
+
+# --- dhe.8: Joachim II Hektor (1535-1571) — Protestanlığa geçiş ---
+pd_brandenburg_dhe.8 = {
+	type = country_event
+	title = pd_brandenburg_dhe.8.title
+	desc = pd_brandenburg_dhe.8.desc
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = PRU
+		tag = NGC
+		from = 1535.1.1
+		to = 1571.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		OR = {
+			tag = PRU
+			tag = NGC
+		}
+		OR = {
+			country_exists = c:PRU
+			country_exists = c:NGC
+		}
+		at_war = no
+	}
+	immediate = {
+		hidden_effect = {
+			create_character = {
+				estate = estate_type:nobles_estate
+				first_name = "Joachim"
+				age = 33
+				culture = root.culture
+				religion = root.religion
+				dynasty = dynasty:hohenzollern_dynasty
+				adm = {
+					50
+					100
+				}
+				dip = {
+					65
+					100
+				}
+				mil = {
+					55
+					100
+				}
+				save_scope_as = pd_prussian_ruler
+				create_in_limbo = yes
+			}
+			set_new_ruler = scope:pd_prussian_ruler
+		}
+	}
+	option = {
+		name = pd_brandenburg_dhe.8.a
+		ai_chance = {
+			factor = 100
+		}
+		add_prestige = prestige_severe_bonus
+	}
+}
+
+# --- dhe.9: Johann Sigismund (1608-1619) — Ducal Prusya + Cleves mirası ---
+pd_brandenburg_dhe.9 = {
+	type = country_event
+	title = pd_brandenburg_dhe.9.title
+	desc = pd_brandenburg_dhe.9.desc
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = PRU
+		tag = NGC
+		from = 1608.1.1
+		to = 1619.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		OR = {
+			tag = PRU
+			tag = NGC
+		}
+		OR = {
+			country_exists = c:PRU
+			country_exists = c:NGC
+		}
+		at_war = no
+	}
+	immediate = {
+		hidden_effect = {
+			create_character = {
+				estate = estate_type:nobles_estate
+				first_name = "Johann Sigismund"
+				age = 30
+				culture = root.culture
+				religion = root.religion
+				dynasty = dynasty:hohenzollern_dynasty
+				adm = {
+					55
+					100
+				}
+				dip = {
+					60
+					100
+				}
+				mil = {
+					55
+					100
+				}
+				save_scope_as = pd_prussian_ruler
+				create_in_limbo = yes
+			}
+			set_new_ruler = scope:pd_prussian_ruler
+		}
+	}
+	option = {
+		name = pd_brandenburg_dhe.9.a
+		ai_chance = {
+			factor = 100
+		}
+		add_prestige = prestige_severe_bonus
+	}
+}
+
+# --- dhe.10: Friedrich Wilhelm "The Great Elector" (1640-1688) ---
+pd_brandenburg_dhe.10 = {
+	type = country_event
+	title = pd_brandenburg_dhe.10.title
+	desc = pd_brandenburg_dhe.10.desc
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = PRU
+		tag = NGC
+		from = 1640.1.1
+		to = 1688.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		OR = {
+			tag = PRU
+			tag = NGC
+		}
+		OR = {
+			country_exists = c:PRU
+			country_exists = c:NGC
+		}
+		at_war = no
+	}
+	immediate = {
+		hidden_effect = {
+			create_character = {
+				estate = estate_type:nobles_estate
+				first_name = "Friedrich Wilhelm"
+				age = 20
+				culture = root.culture
+				religion = root.religion
+				dynasty = dynasty:hohenzollern_dynasty
+				adm = {
+					75
+					100
+				}
+				dip = {
+					65
+					100
+				}
+				mil = {
+					80
+					100
+				}
+				save_scope_as = pd_prussian_ruler
+				create_in_limbo = yes
+			}
+			set_new_ruler = scope:pd_prussian_ruler
+		}
+	}
+	option = {
+		name = pd_brandenburg_dhe.10.a
+		ai_chance = {
+			factor = 100
+		}
+		add_prestige = prestige_severe_bonus
+	}
+}
+
+# --- dhe.11: Friedrich I — Prusya'da Kral olan ilk isim (1701 sonrası, açık uçlu) ---
+pd_brandenburg_dhe.11 = {
+	type = country_event
+	title = pd_brandenburg_dhe.11.title
+	desc = pd_brandenburg_dhe.11.desc
+	fire_only_once = yes
+	dynamic_historical_event = {
+		tag = PRU
+		tag = NGC
+		from = 1701.1.1
+		to = 1900.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		OR = {
+			tag = PRU
+			tag = NGC
+		}
+		OR = {
+			country_exists = c:PRU
+			country_exists = c:NGC
+		}
+		at_war = no
+	}
+	immediate = {
+		hidden_effect = {
+			create_character = {
+				estate = estate_type:nobles_estate
+				first_name = "Friedrich"
+				age = 44
+				culture = root.culture
+				religion = root.religion
+				dynasty = dynasty:hohenzollern_dynasty
+				adm = {
+					60
+					100
+				}
+				dip = {
+					70
+					100
+				}
+				mil = {
+					50
+					100
+				}
+				save_scope_as = pd_prussian_ruler
+				create_in_limbo = yes
+			}
+			set_new_ruler = scope:pd_prussian_ruler
+		}
+	}
+	option = {
+		name = pd_brandenburg_dhe.11.a
+		ai_chance = {
+			factor = 100
+		}
+		add_prestige = prestige_severe_bonus
+	}
+}
