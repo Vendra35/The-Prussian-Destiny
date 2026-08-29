@@ -207,15 +207,15 @@ pd_brandenburg_dhe.3 = {
 			}
 			change_religion = religion:lutheran
 		}
-		# --- DEVLETİN ANA KÜLTÜRÜNÜ PRUSYA YAP ---
+		# --- DEVLETİN ANA KÜLTÜRÜNÜ PRUSYA YAP VE YOKSA BRANDENBURG KÜLTÜRÜNÜ EKLE ---
+		change_culture = culture:prussian
 		if = {
 			limit = {
-				# Eğer ülke zaten Prusya kültüründe değilse bunu çalıştırır
 				NOT = {
-					has_primary_or_accepted_culture = culture:prussian
+					has_primary_or_accepted_culture = culture:brandenburgish
 				}
 			}
-			change_culture = culture:prussian
+			add_accepted_culture = culture:brandenburgish
 		}
 		if = {
 			limit = {
@@ -572,25 +572,28 @@ pd_brandenburg_dhe.6 = {
 		# --- 1. KASHUBIAN KÜLTÜRÜNÜ SİLME ---
 		if = {
 			limit = {
-				has_tolerated_culture = culture:kashubian
+				has_primary_or_accepted_or_tolerated_culture = culture:kashubian
 			}
 			remove_tolerated_culture = culture:kashubian
+			remove_accepted_culture = culture:kashubian
 		}
 		# --- 2. PRUTHENIAN KÜLTÜRÜNÜ SİLME ---
 		if = {
 			limit = {
-				has_tolerated_culture = culture:pruthenian
+				has_primary_or_accepted_or_tolerated_culture = culture:pruthenian
 			}
 			remove_tolerated_culture = culture:pruthenian
+			remove_accepted_culture = culture:pruthenian
 		}
-		# --- DEVLETİN ANA KÜLTÜRÜNÜ PRUSYA YAP ---
+		# --- DEVLETİN ANA KÜLTÜRÜNÜ PRUSYA YAP VE YOKSA BRANDENBURG KÜLTÜRÜNÜ EKLE ---
+		change_culture = culture:prussian
 		if = {
 			limit = {
 				NOT = {
-					has_primary_or_accepted_culture = culture:prussian
+					has_primary_or_accepted_culture = culture:brandenburgish
 				}
 			}
-			change_culture = culture:prussian
+			add_accepted_culture = culture:brandenburgish
 		}
 		if = {
 			limit = {
@@ -639,9 +642,9 @@ pd_brandenburg_dhe.6 = {
 							culture = culture:prussian
 						}
 					}
-					# Yakaladığın o popülasyonun %75'ını anında Prusyalı yap
+					# Yakaladığın o popülasyonun %90'ını anında Prusyalı yap
 					split_pop = {
-						fraction = 0.75
+						fraction = 0.9
 						culture = culture:prussian
 					}
 				}
