@@ -1,90 +1,661 @@
-﻿situation_panel = {
+# Situation panel for the_blood_and_iron.
+#
+# Every number on this panel is read from the situation itself rather than
+# restated by hand: PD_franco_prussian_tension rises +1 a month and fires the
+# four crises at 25 / 50 / 75 / 100, then keeps climbing to the rematch clocks
+# at 250 and 400 (the_blood_and_iron.txt:124-260). PD_bi_german_power holds
+# whichever of NGC / PRU is the German side, because a panel cannot branch on
+# which tag exists on its own.
+#
+# Patterns: vanilla italian_wars.gui (tension strip and threshold medallions),
+# vanilla hundred_years_war.gui:173-250 (the two camps side cards), vanilla
+# rise_of_the_ottomans.gui:14 (reading a country out of a situation variable).
 
-    # ÜST RESİM
-    blockoverride "situation_panel_image" {
-        hbox = {
-            layoutpolicy_horizontal = expanding
-            size = { 0 220 }
-            background = {
-                texture = "gfx/interface/illustrations/situations/the_blood_and_iron_header.dds"
-                spriteType = stretched
-            }
-        }
-    }
+types PrussianDestinyBloodAndIronTypes {
 
-    # ANA İÇERİK (Kusursuz Aç/Kapa Mantığı)
-    blockoverride "situation_panel_main_content" {
-        vbox = {
-            layoutpolicy_horizontal = expanding
-            layoutpolicy_vertical = expanding
-            # BOŞLUĞU SIFIRLAYAN AYARLAR:
-            margin_left = 15
-            margin_right = 15
-            margin_bottom = 10
-            margin_top = -10 
-            spacing = 8 
+	# Threshold medallion that sits on the tension bar.
+	# Shape copied from vanilla italian_wars.gui:2-22 (tension_threshold_icon)
+	# and renamed, so this file never depends on another situation's types
+	# still being registered.
+	type pd_bi_threshold_icon = widget {
+		ignore_layout = yes
+		block "pd_bi_threshold_icon_position" { position = { 385 4 } }
+		size = { 34 38 }
 
-            # 1. KART: DURUM AÇIKLAMASI
-            situation_card_expandable = {
-                blockoverride "header_button_onclick" {
-                    onclick = "[LateralView.Vars.Toggle( 'the_blood_and_iron_desc_toggled' )]"
-                }
-                blockoverride "header_text" {
-                    text = "the_blood_and_iron"
-                }
-                blockoverride "header_icon" {
-                    texture = "gfx/interface/icons/traits/_default.dds"
-                }
-                blockoverride "bottom_content" {
-                    text_multi = {
-                        margin = { 15 10 }
-                        layoutpolicy_horizontal = expanding
-                        max_width = 460
-                        autoresize = yes
-                        text = "the_blood_and_iron_desc"
-                        using = fontsize_medium
-                    }
-                }
-                blockoverride "bottom_content_onclick" {
-                    visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_desc_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_yes" {
-                    visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_desc_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_not" {
-                    visible = "[Not(LateralView.Vars.Exists( 'the_blood_and_iron_desc_toggled' ))]"
-                }
-            }
+		icon = {
+			parentanchor = center
+			size = { 34 34 }
+			block "pd_bi_threshold_texture" {
+				texture = "gfx/interface/progressbars/yellow_circle_bg.dds"
+			}
+			text_single = {
+				margin_left = 1
+				maximumsize = { 26 18 }
+				autoresize = yes
+				parentanchor = center
+				fontsize = 13
+				block "pd_bi_threshold_text" {}
+			}
+		}
+	}
 
-            # 2. KART: HEDEFLER LİSTESİ (Savaşın Bitiş Şartları)
-            situation_card_expandable = {
-                blockoverride "header_button_onclick" {
-                    onclick = "[LateralView.Vars.Toggle( 'the_blood_and_iron_req_toggled' )]"
-                }
-                blockoverride "header_text" {
-                    text = "END_REQUIREMENTS"
-                }
-                blockoverride "header_icon" {
-                    texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
-                }
-                blockoverride "bottom_content" {
-                    TooltipRequirementsList = {
-                        textcontext = "[SituationView.GetActiveSituation.GetSituation.GetEndConditions]"
-                        margin = { 15 10 } 
-                    }
-                }
-                blockoverride "bottom_content_onclick" {
-                    visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_req_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_yes" {
-                    visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_req_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_not" {
-                    visible = "[Not(LateralView.Vars.Exists( 'the_blood_and_iron_req_toggled' ))]"
-                }
-            }
+	# One rung of the road-to-war ladder: a state dot, the crisis it names, and
+	# the tension it fires at. Both dots carry a default, so a row that forgets
+	# an override still renders as "not yet reached" rather than as both.
+	type pd_bi_road_row = hbox {
+		layoutpolicy_horizontal = expanding
+		spacing = 8
+		block "pd_bi_road_tooltip" {}
 
-            expand = {} 
-        }
-    }
+		icon = {
+			size = { 16 16 }
+			texture = "gfx/interface/progressbars/orange_circle_bg.dds"
+			block "pd_bi_road_reached" { visible = no }
+		}
+		icon = {
+			size = { 16 16 }
+			texture = "gfx/interface/progressbars/empty_circle_bg.dds"
+			block "pd_bi_road_pending" { visible = yes }
+		}
+		text_single = {
+			fontsize = 15
+			block "pd_bi_road_name" { raw_text = "Crisis" }
+		}
+		expand = {}
+		text_single = {
+			fontsize = 14
+			default_format = "#subtle_name"
+			block "pd_bi_road_value" { raw_text = "0" }
+		}
+	}
+}
+
+situation_panel = {
+
+	##################################### TOP HEADER #####################################
+	# The tension strip. The bar caps at 100 because that is where the Ems
+	# Dispatch lands; the number beside it is deliberately uncapped, because
+	# after Ems the same counter keeps running to the rematches at 250 and 400.
+
+	blockoverride "situation_top_subheader_content" {
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			background = {
+				texture = "gfx/interface/progressbars/tension_header_bg.dds"
+			}
+
+			hbox = {
+				size = { 60 28 }
+				margin = { 6 5 }
+				icon = {
+					size = { 24 24 }
+					texture = "gfx/interface/icons/situations/tension.dds"
+				}
+				text_single = {
+					autoresize = yes
+					minimumsize = { 32 -1 }
+					maximumsize = { 32 -1 }
+					fontsize = 13
+					raw_text = "[FixedPointToInt(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue)]%"
+				}
+				tooltipwidget = {
+					ContextualTooltipType = {
+						blockoverride "title_icon_texture" {
+							texture = "gfx/interface/icons/situations/tension.dds"
+						}
+						blockoverride "title_text" {
+							text = "PD_BI_TENSION_LABEL"
+						}
+						blockoverride "tooltip_content" {
+							TooltipTextBlock = {
+								blockoverride "text" {
+									text = "PD_bi_tension_explain_tt"
+								}
+							}
+						}
+					}
+				}
+			}
+
+			hbox = {
+				using = bg_cabinet_card_frame
+				margin = { 4 4 }
+				using = situation_disaster_progressbar_with_thresholds
+				blockoverride "progressbar_with_thresholds_size" {
+					size = { 450 10 }
+				}
+				blockoverride "progress_bar_min_max" {
+					min = 0
+					max = 25
+				}
+				blockoverride "progress_bar_progresstexture_low" { progresstexture = "gfx/interface/progressbars/progress_bar_yellow.dds" }
+				blockoverride "progress_bar_value_low" {
+					value = "[Min_float(FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue), '(float)25')]"
+				}
+
+				blockoverride "progress_bar_size_mid" {
+					position = { 25% 0 }
+					size = { 30% 100% }
+				}
+				blockoverride "progress_bar_progresstexture_mid" { progresstexture = "gfx/interface/progressbars/progress_bar_yellange.dds" }
+				blockoverride "progress_bar_value_mid" {
+					value = "[Max_float(Subtract_float(Min_float(FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue), '(float)50'), '(float)25'), '(float)0')]"
+				}
+
+				blockoverride "progress_bar_size_high" {
+					position = { 50% 0 }
+					size = { 30% 100% }
+				}
+				blockoverride "progress_bar_progresstexture_high" { progresstexture = "gfx/interface/progressbars/progress_bar_orange.dds" }
+				blockoverride "progress_bar_value_high" {
+					value = "[Max_float(Subtract_float(Min_float(FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue), '(float)75'), '(float)50'), '(float)0')]"
+				}
+
+				blockoverride "progress_threshold_bar_extra" {
+					widget = {
+						parentanchor = left|top
+						position = { 75% 0 }
+						size = { 25% 100% }
+
+						progressbar = {
+							size = { 100% 100% }
+							noprogresstexture = "gfx/interface/icons/unit_view/moral_bar_transparent.dds"
+							progresstexture = "gfx/interface/progressbars/progress_bar_red_alt.dds"
+							texture_density = 2
+							spriteType = Corneredstretched
+							spriteborder = { 12 0 }
+							min = 0
+							max = 25
+							value = "[Max_float(Subtract_float(FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue), '(float)75'), '(float)0')]"
+						}
+					}
+				}
+			}
+			expand = {}
+		}
+
+		pd_bi_threshold_icon = {
+			blockoverride "pd_bi_threshold_icon_position" { position = { 162 4 } }
+			enabled = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)25')]"
+			blockoverride "pd_bi_threshold_text" { text = "PD_bi_first_tension_threshold" }
+			tooltipwidget = {
+				SimpleContextualStringPairTooltipType = {
+					blockoverride "title_icon" {
+						icon = {
+							using = tooltip_title_icon_size
+							texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+						}
+					}
+					lowpriotextcontext = PD_bi_tension_25_tt
+				}
+			}
+		}
+		pd_bi_threshold_icon = {
+			blockoverride "pd_bi_threshold_icon_position" { position = { 276 4 } }
+			enabled = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)50')]"
+			blockoverride "pd_bi_threshold_texture" { texture = "gfx/interface/progressbars/orange_circle_bg.dds" }
+			blockoverride "pd_bi_threshold_text" { text = "PD_bi_second_tension_threshold" }
+			tooltipwidget = {
+				SimpleContextualStringPairTooltipType = {
+					blockoverride "title_icon" {
+						icon = {
+							using = tooltip_title_icon_size
+							texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+						}
+					}
+					lowpriotextcontext = PD_bi_tension_50_tt
+				}
+			}
+		}
+		pd_bi_threshold_icon = {
+			blockoverride "pd_bi_threshold_icon_position" { position = { 388 4 } }
+			enabled = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)75')]"
+			blockoverride "pd_bi_threshold_texture" { texture = "gfx/interface/progressbars/red_circle_bg.dds" }
+			blockoverride "pd_bi_threshold_text" { text = "PD_bi_third_tension_threshold" }
+			tooltipwidget = {
+				SimpleContextualStringPairTooltipType = {
+					blockoverride "title_icon" {
+						icon = {
+							using = tooltip_title_icon_size
+							texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+						}
+					}
+					lowpriotextcontext = PD_bi_tension_75_tt
+				}
+			}
+		}
+		pd_bi_threshold_icon = {
+			blockoverride "pd_bi_threshold_icon_position" { position = { 502 4 } }
+			enabled = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)100')]"
+			blockoverride "pd_bi_threshold_texture" { texture = "gfx/interface/progressbars/empty_circle_bg.dds" }
+			blockoverride "pd_bi_threshold_text" { text = "PD_bi_fourth_tension_threshold" }
+			tooltipwidget = {
+				SimpleContextualStringPairTooltipType = {
+					blockoverride "title_icon" {
+						icon = {
+							using = tooltip_title_icon_size
+							texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+						}
+					}
+					lowpriotextcontext = PD_bi_tension_100_tt
+				}
+			}
+		}
+	}
+
+	##################################### MAIN IMAGE #####################################
+	# The mod's own header art, with both thrones standing on it.
+
+	blockoverride "situation_panel_image" {
+		using = two_countries_header_template
+
+		# This mod keeps its art under illustrations/situationS/<name>_header.dds,
+		# which is not where GetSituationIllustration looks (vanilla
+		# in_game/gui/panels/situation/common.gui:113 documents
+		# illustrations/situation/), so the texture is named outright.
+		block "two_countries_header_image" {
+			background = {
+				texture = "gfx/interface/illustrations/situations/the_blood_and_iron_header.dds"
+				spriteType = stretched
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle.dds"
+					texture_density = 2
+					spriteType = stretched
+					spriteborder = { 250 250 }
+					blend_mode = alphamultiply
+					alpha = 0.4
+				}
+			}
+		}
+
+		# The German side is the Confederation once it stands and Prussia
+		# before it. The situation writes the answer to PD_bi_german_power
+		# every month, because a panel cannot branch on which tag exists.
+		blockoverride "FirstCountryVisible" {
+			visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bi_german_power').GetCountry.IsValid]"
+		}
+		blockoverride "FirstCountryContext" {
+			datacontext = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bi_german_power').GetCountry]"
+		}
+
+		blockoverride "SecondCountryVisible" {
+			visible = "[GetCountry('FRA').IsValid]"
+		}
+		blockoverride "SecondCountryContext" {
+			datacontext = "[GetCountry('FRA')]"
+		}
+
+		blockoverride "first_character_portrait_anchor" {
+			parentanchor = bottom|left
+		}
+		blockoverride "second_character_portrait_anchor" {
+			parentanchor = bottom|right
+		}
+		blockoverride "character_religion_visibility" {
+			visible = no
+		}
+		blockoverride "character_name_maximumsize" {
+			maximumsize = { 270 -1 }
+		}
+	}
+
+	##################################### SUBHEADER #####################################
+
+	blockoverride "situation_subheader_content" {}
+
+	##################################### MAIN CONTENT #####################################
+
+	blockoverride "situation_panel_main_content" {
+
+		# CARD 1: what the situation is.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_blood_and_iron_desc_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "the_blood_and_iron"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "the_blood_and_iron_desc"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_desc_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_desc_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_blood_and_iron_desc_toggled' ))]"
+			}
+		}
+
+		# CARD 2: what actually happened, 1866-1871.
+		# History lives here rather than in the situation description because
+		# the engine shows that description in places with far less room, and
+		# because vanilla keeps its situation descriptions purely in-world -
+		# italian_wars_desc, hundred_years_war_desc, rise_of_the_ottomans_desc
+		# and guelphs_and_ghibellines_desc all carry narrative only, with no
+		# mechanics and no history heading.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_blood_and_iron_history_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_bi_history_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/events/history.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_bi_history_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_blood_and_iron_history_toggled' ))]"
+			}
+		}
+
+		# CARD 3: the road to war. One rung per crisis the tension fires.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_blood_and_iron_road_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_bi_road_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/tension.dds"
+			}
+			blockoverride "header_content_rest" {
+				text_single = {
+					fontsize = 14
+					default_format = "#subtle_name"
+					raw_text = "[FixedPointToInt(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue)]%"
+					tooltip = "PD_bi_tension_explain_tt"
+				}
+			}
+			blockoverride "bottom_content" {
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					margin = { 15 10 }
+					spacing = 8
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 13
+						text = "PD_bi_road_hint"
+						default_format = "#subtle_name"
+						tooltip = "PD_bi_tension_explain_tt"
+					}
+
+					pd_bi_road_row = {
+						blockoverride "pd_bi_road_tooltip" { tooltip = "PD_bi_tension_25_tt" }
+						blockoverride "pd_bi_road_reached" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)25')]"
+						}
+						blockoverride "pd_bi_road_pending" {
+							visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)25'))]"
+						}
+						blockoverride "pd_bi_road_name" { text = "PD_bi_road_25" }
+						blockoverride "pd_bi_road_value" { text = "PD_bi_first_tension_threshold" }
+					}
+
+					pd_bi_road_row = {
+						blockoverride "pd_bi_road_tooltip" { tooltip = "PD_bi_tension_50_tt" }
+						blockoverride "pd_bi_road_reached" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)50')]"
+						}
+						blockoverride "pd_bi_road_pending" {
+							visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)50'))]"
+						}
+						blockoverride "pd_bi_road_name" { text = "PD_bi_road_50" }
+						blockoverride "pd_bi_road_value" { text = "PD_bi_second_tension_threshold" }
+					}
+
+					pd_bi_road_row = {
+						blockoverride "pd_bi_road_tooltip" { tooltip = "PD_bi_tension_75_tt" }
+						blockoverride "pd_bi_road_reached" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)75')]"
+						}
+						blockoverride "pd_bi_road_pending" {
+							visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)75'))]"
+						}
+						blockoverride "pd_bi_road_name" { text = "PD_bi_road_75" }
+						blockoverride "pd_bi_road_value" { text = "PD_bi_third_tension_threshold" }
+					}
+
+					pd_bi_road_row = {
+						blockoverride "pd_bi_road_tooltip" { tooltip = "PD_bi_tension_100_tt" }
+						blockoverride "pd_bi_road_reached" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)100')]"
+						}
+						blockoverride "pd_bi_road_pending" {
+							visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)100'))]"
+						}
+						blockoverride "pd_bi_road_name" { text = "PD_bi_road_100" }
+						blockoverride "pd_bi_road_value" { text = "PD_bi_fourth_tension_threshold" }
+					}
+
+					# The rematch clocks. Hidden until Ems has landed, because
+					# before that they are noise, and after it they are the
+					# only thing still counting.
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 15
+						visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)100')]"
+						text = "PD_bi_sec_rematch"
+						default_format = "#T"
+					}
+
+					pd_bi_road_row = {
+						visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)100')]"
+						blockoverride "pd_bi_road_tooltip" { tooltip = "PD_bi_rematch_tt" }
+						blockoverride "pd_bi_road_reached" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)250')]"
+						}
+						blockoverride "pd_bi_road_pending" {
+							visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)250'))]"
+						}
+						blockoverride "pd_bi_road_name" { text = "PD_bi_road_250" }
+						blockoverride "pd_bi_road_value" { raw_text = "250%" }
+					}
+
+					pd_bi_road_row = {
+						visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)100')]"
+						blockoverride "pd_bi_road_tooltip" { tooltip = "PD_bi_rematch_tt" }
+						blockoverride "pd_bi_road_reached" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)400')]"
+						}
+						blockoverride "pd_bi_road_pending" {
+							visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_franco_prussian_tension').GetValue, '(CFixedPoint)400'))]"
+						}
+						blockoverride "pd_bi_road_name" { text = "PD_bi_road_400" }
+						blockoverride "pd_bi_road_value" { raw_text = "400%" }
+					}
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_road_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_road_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_blood_and_iron_road_toggled' ))]"
+			}
+		}
+
+		# CARD 4: how the situation ends.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_blood_and_iron_req_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "END_REQUIREMENTS"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
+			}
+			blockoverride "bottom_content" {
+				TooltipRequirementsList = {
+					textcontext = "[SituationView.GetActiveSituation.GetSituation.GetEndConditions]"
+					margin = { 15 10 }
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_req_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_req_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_blood_and_iron_req_toggled' ))]"
+			}
+		}
+
+		# CARD 5: what a player can actually do, from all three seats.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_blood_and_iron_levers_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_bi_levers_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_bi_levers_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_blood_and_iron_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_blood_and_iron_levers_toggled' ))]"
+			}
+		}
+	}
+
+	##################################### THE TWO CAMPS #####################################
+	# Who would actually march. Both lists come from the engine's own will-join
+	# calculation, so they stay honest as alliances shift.
+
+	blockoverride "situation_panel_main_content_bottom" {
+		situation_side_cards = {
+
+			# The German side.
+			blockoverride "left_header_content" {
+				icon = {
+					size = { 30 30 }
+					blockoverride "left_header_icon" {}
+					texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+					texture_density = 2
+				}
+				text_single = {
+					layoutpolicy_horizontal = expanding
+					align = center|nobaseline
+					text = "PD_bi_camp_german"
+					blockoverride "left_header_text" {}
+				}
+				expand = {}
+			}
+			blockoverride "left_bottom_content" {
+				scrollarea = {
+					layoutpolicy_horizontal = expanding
+					size = { -1 100 }
+					scrollbarpolicy_horizontal = always_off
+					scrollbar_vertical = {
+						using = Scrollbar_Vertical
+					}
+
+					scrollwidget = {
+						dynamicgridbox = {
+							datacontext = "[GetWillJoinCountryList(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bi_german_power').GetCountry.Self, GetCountry('FRA').Self)]"
+							visible = "[DataModelHasItems(WillJoinCountryList.GetJoinDefensive)]"
+							position = { 0 10 }
+							flipdirection = yes
+							datamodel_wrap = 6
+							maxhorizontalslots = 6
+							datamodel = "[WillJoinCountryList.GetJoinDefensive]"
+							item = {
+								country_flag_small = {}
+							}
+						}
+					}
+				}
+			}
+
+			# The French side.
+			blockoverride "right_header_content" {
+				icon = {
+					size = { 30 30 }
+					blockoverride "right_header_icon" {}
+					texture = "gfx/interface/icons/situations/the_blood_and_iron.dds"
+					texture_density = 2
+				}
+				text_single = {
+					layoutpolicy_horizontal = expanding
+					align = center|nobaseline
+					text = "PD_bi_camp_french"
+					blockoverride "right_header_text" {}
+				}
+				expand = {}
+			}
+			blockoverride "right_bottom_content" {
+				scrollarea = {
+					layoutpolicy_horizontal = expanding
+					size = { -1 100 }
+					scrollbarpolicy_horizontal = always_off
+					scrollbar_vertical = {
+						using = Scrollbar_Vertical
+					}
+
+					scrollwidget = {
+						dynamicgridbox = {
+							datacontext = "[GetWillJoinCountryList(GetCountry('FRA').Self, SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bi_german_power').GetCountry.Self)]"
+							visible = "[DataModelHasItems(WillJoinCountryList.GetJoinDefensive)]"
+							position = { 0 10 }
+							flipdirection = yes
+							datamodel_wrap = 6
+							maxhorizontalslots = 6
+							datamodel = "[WillJoinCountryList.GetJoinDefensive]"
+							item = {
+								country_flag_small = {}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

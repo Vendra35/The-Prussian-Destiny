@@ -49,22 +49,41 @@
 	}
 	visible = {
 		OR = {
+			# One guard per tag, and each guard's limit covers exactly the tag
+			# its body names. The old single OR-limit was satisfied by c:NGC
+			# alone, and the body then compared against c:PRU as well - so once
+			# Prussia became the Confederation every evaluation threw
+			# "Invalid right side during comparison 'c'" (jomini_script_system.cpp:252).
+			# The optional operator does not help here: it guards the LEFT side,
+			# and the invalid scope is on the right. Shape matches this mod's own
+			# brandenburg_rise.txt:10-20 and vanilla
+			# rise_of_the_ottomans.txt:21-30; "this ?= c:TAG" inside such a guard
+			# is vanilla scripted_triggers/religion_triggers.txt:299-304.
 			trigger_if = {
 				limit = {
-					OR = {
-						country_exists = c:PRU
-						country_exists = c:NGC
-					}
+					country_exists = c:PRU
 				}
 				OR = {
-					this = c:PRU
-					this = c:NGC
-					this = c:FRA
+					this ?= c:PRU
 					is_neighbor_of = c:PRU
-					is_neighbor_of = c:NGC
 					is_rival_of = c:PRU
+				}
+			}
+			trigger_if = {
+				limit = {
+					country_exists = c:NGC
+				}
+				OR = {
+					this ?= c:NGC
+					is_neighbor_of = c:NGC
 					is_rival_of = c:NGC
 				}
+			}
+			trigger_if = {
+				limit = {
+					country_exists = c:FRA
+				}
+				this ?= c:FRA
 			}
 			has_presence_in = continent:europe
 		}
@@ -78,6 +97,30 @@
 		set_variable = {
 			name = PD_franco_prussian_tension
 			value = 0
+		}
+		# The German side of the war: NGC while the Confederation stands, PRU
+		# before it. Stored here because the situation panel cannot branch on
+		# which tag exists; it reads this back as
+		# GetVariable('PD_bi_german_power').GetCountry
+		# (vanilla pattern, rise_of_the_ottomans.gui:14). Left unset when
+		# neither exists, and the panel guards on IsValid.
+		if = {
+			limit = {
+				country_exists = c:NGC
+			}
+			set_variable = {
+				name = PD_bi_german_power
+				value = c:NGC
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:PRU
+			}
+			set_variable = {
+				name = PD_bi_german_power
+				value = c:PRU
+			}
 		}
 		# --- OPTİMİZE EDİLMİŞ EVENT TETİKLEME (on_start) ---
 		if = {
@@ -126,6 +169,27 @@
 		change_variable = {
 			name = PD_franco_prussian_tension
 			add = 1
+		}
+		# Keep the panel's German side correct: the Confederation can form or
+		# fall while the situation runs, and a stale variable would leave the
+		# header showing a throne that no longer exists.
+		if = {
+			limit = {
+				country_exists = c:NGC
+			}
+			set_variable = {
+				name = PD_bi_german_power
+				value = c:NGC
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = c:PRU
+			}
+			set_variable = {
+				name = PD_bi_german_power
+				value = c:PRU
+			}
 		}
 		# Tansiyon 25: The Luxembourg Crisis
 		if = {
@@ -309,6 +373,7 @@
 			}
 		}
 		remove_variable = PD_franco_prussian_tension
+		remove_variable = PD_bi_german_power
 		remove_global_variable = blood_and_iron_active
 		remove_global_variable = pd_tension_25_fired
 		remove_global_variable = pd_tension_50_fired
@@ -325,9 +390,13 @@
 					this.area = area:lorraine_area
 					this.area = area:franche_comte_area
 				}
-				NOR = {
-					owner = c:PRU
-					owner = c:NGC
+				NOT = {
+					owner ?= {
+						OR = {
+							tag = PRU
+							tag = NGC
+						}
+					}
 				}
 			}
 			custom_tooltip = PD_blood_and_iron_map_tt
@@ -337,10 +406,14 @@
 	map_color = {
 		if = {
 			limit = {
-				OR = {
-					owner ?= c:PRU
-					owner ?= c:NGC
-					owner ?= c:FRA
+				# tag = X reads a literal tag name instead of resolving c:X, so a
+				# belligerent that no longer exists is simply false here.
+				owner ?= {
+					OR = {
+						tag = PRU
+						tag = NGC
+						tag = FRA
+					}
 				}
 			}
 			value = this.owner.country_color
@@ -352,48 +425,31 @@
 	secondary_map_color = {
 		if = {
 			limit = {
-				owner ?= {
-					OR = {
-						is_subject_of = c:PRU
-						is_subject_of = c:NGC
-					}
+				OR = {
+					PD_owner_is_subject_of = { TAG = PRU }
+					PD_owner_is_subject_of = { TAG = NGC }
 				}
 			}
 			value = dark_grey
 		}
 		else_if = {
 			limit = {
-				owner ?= {
-					OR = {
-						has_scripted_relation = {
-							target = c:PRU
-							type = relation_type:alliance
-						}
-						has_scripted_relation = {
-							target = c:NGC
-							type = relation_type:alliance
-						}
-					}
+				OR = {
+					PD_owner_allied_to = { TAG = PRU }
+					PD_owner_allied_to = { TAG = NGC }
 				}
 			}
 			value = dark_grey
 		}
 		else_if = {
 			limit = {
-				owner ?= {
-					is_subject_of = c:FRA
-				}
+				PD_owner_is_subject_of = { TAG = FRA }
 			}
 			value = blue
 		}
 		else_if = {
 			limit = {
-				owner ?= {
-					has_scripted_relation = {
-						target = c:FRA
-						type = relation_type:alliance
-					}
-				}
+				PD_owner_allied_to = { TAG = FRA }
 			}
 			value = blue
 		}
@@ -404,9 +460,13 @@
 					this.area = area:lorraine_area
 					this.area = area:franche_comte_area
 				}
-				NOR = {
-					owner = c:PRU
-					owner = c:NGC
+				NOT = {
+					owner ?= {
+						OR = {
+							tag = PRU
+							tag = NGC
+						}
+					}
 				}
 			}
 			value = red

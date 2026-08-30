@@ -924,13 +924,20 @@
 	map_color = {
 		if = {
 			limit = {
-				owner ?= c:BRA
+				# tag = X reads a literal name instead of resolving c:X, so a tag
+				# that has left the map is simply false here rather than throwing
+				# once per location per redraw.
+				owner ?= {
+					tag = BRA
+				}
 			}
 			value = this.owner.country_color
 		}
 		else_if = {
 			limit = {
-				owner ?= c:TEU
+				owner ?= {
+					tag = TEU
+				}
 			}
 			value = this.owner.country_color
 		}
@@ -941,17 +948,13 @@
 	secondary_map_color = {
 		if = {
 			limit = {
-				owner ?= {
-					is_subject_of = c:BRA
-				}
+				PD_owner_is_subject_of = { TAG = BRA }
 			}
 			value = brown
 		}
 		else_if = {
 			limit = {
-				owner ?= {
-					is_subject_of = c:TEU
-				}
+				PD_owner_is_subject_of = { TAG = TEU }
 			}
 			value = dark_grey
 		}
@@ -964,10 +967,14 @@
 					#this.province = province:poznan_province
 				}
 				NOT = {
-					owner = c:BRA
+					owner ?= {
+						tag = BRA
+					}
 				}
 				NOT = {
-					owner = c:TEU
+					owner ?= {
+						tag = TEU
+					}
 				}
 			}
 			value = yellow

@@ -1,10 +1,10 @@
 ﻿the_prussian_ascension = {
 	monthly_spawn_chance = 100
 	can_start = {
-		# Phase 2'yi baþlatacak global deðiþken (Event ile bunu aktifleþtireceksin)
+		# Phase 2'yi başlatacak global değişken (Event ile bunu aktifleştireceksin)
 		has_global_variable = prussian_ascension_active
 		country_exists = c:PRU
-		# Prusya zaten her yeri almýþsa bu situation baþlamasýn
+		# Prusya zaten her yeri almışsa bu situation başlamasın
 		c:PRU = {
 			OR = {
 				area:silesia_area = {
@@ -104,7 +104,7 @@
 					is_subject_or_below_of = c:PRU
 				}
 			}
-			# Almanya ve etrafý bu durumu görsün
+			# Almanya ve etrafı bu durumu görsün
 			has_presence_in = region:north_german_region
 			has_presence_in = region:south_german_region
 			has_presence_in = region:france_region
@@ -112,17 +112,17 @@
 			has_presence_in = region:italy_region
 		}
 	}
-	# --- SÝTUATÝON BÝTÝRME SCRÝPTED TRÝGGERI ---
+	# --- SİTUATİON BİTİRME SCRİPTED TRİGGERI ---
 	can_end = {
 		prussian_ascension_end_trigger = yes
 	}
 	on_start = {
-		# Aþama kontrolü: 1 = Silezya, 2 = Batý=Saxony/Mecklenburg/Holstein 3 = Büyük Ultimatom Boss Fight
+		# Aşama kontrolü: 1 = Silezya, 2 = Batı=Saxony/Mecklenburg/Holstein 3 = Büyük Ultimatom Boss Fight
 		set_variable = {
 			name = PD_phase2_current_step
 			value = 1
 		}
-		# Deðiþkenleri Phase 2 için sýfýrdan kuruyoruz
+		# Değişkenleri Phase 2 için sıfırdan kuruyoruz
 		set_variable = {
 			name = PD_phase2_conquest_cooldown
 			value = 115
@@ -136,7 +136,7 @@
 			value = c:PRU
 		}
 		c:PRU = {
-			# NGF Baþlangýç Eventi (Ýttifaklarý kýrma vs. için)
+			# NGF Başlangıç Eventi (İttifakları kırma vs. için)
 			trigger_event_non_silently = pd_brandenburg.200
 			if = {
 				limit = {
@@ -171,10 +171,10 @@
 					}
 				}
 			}
-			# Spectator Ülkelere NGF Situatoný(tüm hali) Baþladý Eventý Yolluyoruz Haber Veriyoruz.
+			# Spectator Ülkelere NGF Situatonı(tüm hali) Başladı Eventı Yolluyoruz Haber Veriyoruz.
 			trigger_event_non_silently = pd_brandenburg.201
 		}
-		# Kurbanlara Haber Verme Eventleri(Acaba prusya önce gözünü nereye dikecek nerelere geniþleyecek?)
+		# Kurbanlara Haber Verme Eventleri(Acaba prusya önce gözünü nereye dikecek nerelere genişleyecek?)
 		every_country = {
 			limit = {
 				this != c:PRU
@@ -374,11 +374,11 @@
 				}
 			}
 		}
-		# --- AÞAMA KONTROLÜ VE DÝPLOMASÝ ---
+		# --- AŞAMA KONTROLÜ VE DİPLOMASİ ---
 		if = {
 			limit = {
 				var:PD_phase2_current_step = 1
-				# Silezya tamamen Prusya'nýn veya vassallarýnýn eline geçti mi?
+				# Silezya tamamen Prusya'nın veya vassallarının eline geçti mi?
 				NOT = {
 					area:silesia_area = {
 						any_ownable_location_in_area = {
@@ -417,7 +417,7 @@
 						}
 					}
 				}
-				# Spectator Ülkelere NGF Phase 2 Baþladý Eventý Yolluyoruz Haber Veriyoruz.
+				# Spectator Ülkelere NGF Phase 2 Başladı Eventı Yolluyoruz Haber Veriyoruz.
 				trigger_event_non_silently = pd_brandenburg.208
 			}
 			every_country = {
@@ -435,25 +435,25 @@
 						}
 					}
 				}
-				# Kurban Ülkelere NGF Phase 2 Baþladý Silezya annexlendi sýrada kim var? Eventý Yolluyoruz Haber Veriyoruz.
+				# Kurban Ülkelere NGF Phase 2 Başladı Silezya annexlendi sırada kim var? Eventı Yolluyoruz Haber Veriyoruz.
 				trigger_event_non_silently = pd_brandenburg.209
 			}
-			# Silezya bittiyse Aþama 2'ye (Batýya - Saxony) geçiyoruz!
+			# Silezya bittiyse Aşama 2'ye (Batıya - Saxony) geçiyoruz!
 			set_variable = {
 				name = PD_phase2_current_step
 				value = 2
 			}
 		}
-		# --- AÞAMA 2: ZOLLVEREIN (GÜMRÜK BÝRLÝÐÝ) DÝPLOMASÝSÝ VE Saxony-holstein-mecklenburg BÖLGESÝ---
+		# --- AŞAMA 2: ZOLLVEREIN (GÜMRÜK BİRLİĞİ) DİPLOMASİSİ VE Saxony-holstein-mecklenburg BÖLGESİ---
 		if = {
 			limit = {
 				var:PD_phase2_current_step = 2
 			}
-			# Batýdaki küçük sýnýr devletlerine "Bize Katýlýn" eventi atýyoruz
+			# Batıdaki küçük sınır devletlerine "Bize Katılın" eventi atıyoruz
 			every_country = {
 				limit = {
 					num_locations <= 2					# Sadece 2 topraktan küçük olanlara gider
-					# FLAG YERÝNE SENÝN ÇALIÞAN VARIABLE SÝSTEMÝNÝ KULLANIYORUZ:
+					# FLAG YERİNE SENİN ÇALIŞAN VARIABLE SİSTEMİNİ KULLANIYORUZ:
 					NOT = {
 						has_variable = PD_zollverein_asked
 					}
@@ -475,22 +475,22 @@
 						}
 					}
 				}
-				# SORDUÐUMUZU KAYDEDÝYORUZ KÝ SPAM YAPMASIN:
+				# SORDUĞUMUZU KAYDEDİYORUZ Kİ SPAM YAPMASIN:
 				set_variable = {
 					name = PD_zollverein_asked
 					value = 1
 				}
-				# Bu event kurban ülkeye gider: "Prusya korumasý altýna gir (Vassal ol) ya da yok ol!"
+				# Bu event kurban ülkeye gider: "Prusya koruması altına gir (Vassal ol) ya da yok ol!"
 				trigger_event_non_silently = pd_brandenburg.210
 			}
 		}
 		# #######################################################################
-		# --- AÞAMA 2'DEN 3'E GEÇÝÞ (BATI BÖLGELERÝ TAMAM MI?) ---
+		# --- AŞAMA 2'DEN 3'E GEÇİŞ (BATI BÖLGELERİ TAMAM MI?) ---
 		# #######################################################################
 		if = {
 			limit = {
 				var:PD_phase2_current_step = 2
-				# Saksonya, Mecklenburg, Holstein, Westphalia VE ANA BÖLGELER(BRA, POME, PRUSSIA) tamamen Prusya veya vassallarýnýn eline geçti mi?
+				# Saksonya, Mecklenburg, Holstein, Westphalia VE ANA BÖLGELER(BRA, POME, PRUSSIA) tamamen Prusya veya vassallarının eline geçti mi?
 				NOT = {
 					area:upper_saxony_area = {
 						any_ownable_location_in_area = {
@@ -613,12 +613,12 @@
 					}
 				}
 			}
-			# Her þey tamamsa Aþama 3: BÜYÜK ÜLTÝMATOM BAÞLAR!
+			# Her şey tamamsa Aşama 3: BÜYÜK ÜLTİMATOM BAŞLAR!
 			set_variable = {
 				name = PD_phase2_current_step
 				value = 3
 			}
-			# Avrupa'ya haber ver: "Sýradaki hedef Ýmparator!" (Event 216)
+			# Avrupa'ya haber ver: "Sıradaki hedef İmparator!" (Event 216)
 			every_country = {
 				limit = {
 					has_presence_in = continent:europe
@@ -628,22 +628,22 @@
 			}
 		}
 		# #######################################################################
-		# --- AÞAMA 3: ÝMPARATORLUK ÜLTÝMATOMU (BOSS FIGHT BAÞLIYOR) ---
+		# --- AŞAMA 3: İMPARATORLUK ÜLTİMATOMU (BOSS FIGHT BAŞLIYOR) ---
 		# #######################################################################
-		# --- YENÝ: BOSS FIGHT RESET SÝGORTASI (Ateþkes Bittiðinde Tekrar Saldýrmak Ýçin) ---
+		# --- YENİ: BOSS FIGHT RESET SİGORTASI (Ateşkes Bittiğinde Tekrar Saldırmak İçin) ---
 		if = {
 			limit = {
 				var:PD_phase2_current_step = 3
-				has_variable = PD_austria_ultimatum_sent				# Ültimatom daha önce atýlmýþ
+				has_variable = PD_austria_ultimatum_sent				# Ültimatom daha önce atılmış
 				NOT = {
 					has_variable = PD_hegemony_victory
 				}
-				# Ama zafer KAZANILAMAMIÞ!
+				# Ama zafer KAZANILAMAMIŞ!
 				c:PRU = {
-					at_war = no					# Prusya barýþta
-					# Hedefteki Boss ile ateþkesi (Truce) bitmiþ mi?
+					at_war = no					# Prusya barışta
+					# Hedefteki Boss ile ateşkesi (Truce) bitmiş mi?
 					OR = {
-						# 1. Ýmparator varsa ve onunla ateþkes YOKSA
+						# 1. İmparator varsa ve onunla ateşkes YOKSA
 						AND = {
 							exists = international_organization:hre
 							exists = international_organization:hre.leader_country
@@ -651,7 +651,7 @@
 								has_truce_with = international_organization:hre.leader_country
 							}
 						}
-						# 2. HRE birleþip tag olduysa ve onunla ateþkes YOKSA
+						# 2. HRE birleşip tag olduysa ve onunla ateşkes YOKSA
 						AND = {
 							exists = c:HRE
 							NOT = {
@@ -661,18 +661,18 @@
 					}
 				}
 			}
-			# Þartlar saðlandý! Kilidi kaldýrýyoruz ki aþaðýdaki kod ültimatomu TEKRAR fýrlatsýn!
+			# Şartlar sağlandı! Kilidi kaldırıyoruz ki aşağıdaki kod ültimatomu TEKRAR fırlatsın!
 			remove_variable = PD_austria_ultimatum_sent
 		}
-		# --- ORÝJÝNAL ÜLTÝMATOM KODUN (Buradan aþaðýsý senin kodun) ---
+		# --- ORİJİNAL ÜLTİMATOM KODUN (Buradan aşağısı senin kodun) ---
 		if = {
 			limit = {
 				var:PD_phase2_current_step = 3
-				# Daha önce ültimatom atýlmadýysa at (Spam kilidi)
+				# Daha önce ültimatom atılmadıysa at (Spam kilidi)
 				NOT = {
 					has_variable = PD_austria_ultimatum_sent
 				}
-				# Savaþ spamýný önlemek için Prusya barýþta olsun
+				# Savaş spamını önlemek için Prusya barışta olsun
 				c:PRU = {
 					at_war = no
 				}
@@ -681,7 +681,7 @@
 				name = PD_austria_ultimatum_sent
 				value = 1
 			}
-			# 1. ÝHTÝMAL: HRE Organizasyonu hala yaþýyorsa, Ýmparatora yolla!
+			# 1. İHTİMAL: HRE Organizasyonu hala yaşıyorsa, İmparatora yolla!
 			if = {
 				limit = {
 					exists = international_organization:hre
@@ -691,7 +691,7 @@
 					trigger_event_non_silently = pd_brandenburg.214
 				}
 			}
-			# 2. ÝHTÝMAL: HRE birleþip tek ülke (Tag) olduysa, Ültimatomu direkt (HRE)ye yolla!
+			# 2. İHTİMAL: HRE birleşip tek ülke (Tag) olduysa, Ültimatomu direkt (HRE)ye yolla!
 			else_if = {
 				limit = {
 					exists = c:HRE
@@ -701,7 +701,7 @@
 				}
 			}
 		}
-		# 1. HEDEF SEÇME BLOÐU
+		# 1. HEDEF SEÇME BLOĞU
 		if = {
 			limit = {
 				var:PD_phase2_conquest_target = 0
@@ -719,11 +719,11 @@
 						NOT = {
 							is_subject_of = prev
 						}
-						# GÜVENLÝK SÝGORTASI: Hedefin TÜM defansif ittifak ağı gücü, BRA'nın çıplak gücünden KÜÇÜK olmalı.
+						# GÜVENLİK SİGORTASI: Hedefin TÜM defansif ittifak ağı gücü, BRA'nın çıplak gücünden KÜÇÜK olmalı.
 						defensive_alliance_strength < c:PRU.offensive_alliance_strength
-						# AÞAMALI HEDEF SEÇÝMÝ (Phase 2 Targets) - DÜZELTÝLMÝÞ KISIM
+						# AŞAMALI HEDEF SEÇİMİ (Phase 2 Targets) - DÜZELTİLMİŞ KISIM
 						OR = {
-							# Eðer Aşama 1'deysek SADECE Silezya'yı gör
+							# Eğer Aşama 1'deysek SADECE Silezya'yı gör
 							AND = {
 								situation:the_prussian_ascension = {
 									var:PD_phase2_current_step = 1
@@ -740,7 +740,7 @@
 									}
 								}
 							}
-							# Eðer Aþama 2'deysek Saxony, Mecklenburg, Holstein ve Westphalia'yý gör
+							# Eğer Aşama 2'deysek Saxony, Mecklenburg, Holstein ve Westphalia'yı gör
 							AND = {
 								situation:the_prussian_ascension = {
 									var:PD_phase2_current_step = 2
@@ -811,7 +811,7 @@
 				}
 			}
 		}
-		# 2. SAVAÞ AÇMA BLOÐU
+		# 2. SAVAŞ AÇMA BLOĞU
 		if = {
 			limit = {
 				var:PD_phase2_conquest_target = 1
@@ -858,7 +858,7 @@
 							}
 						}
 					}
-					# SAVAÞ ÝLANI EVENTÝ (Hedefe dalýyoruz)
+					# SAVAŞ İLANI EVENTİ (Hedefe dalıyoruz)
 					trigger_event_silently = pd_brandenburg.203
 				}
 			}
@@ -888,26 +888,26 @@
 			remove_country_modifier = PD_brandenburg_military_supremacy_historical
 			remove_country_modifier = PD_brandenburg_zollverein_ambition
 			remove_country_modifier = PD_imperial_outcast_situation_2
-			# Baþarýlý olma þartý (Silezya, vb. almýþ mý VE Avusturya Savaþýndan zaferle çýkmýþ mý?)
+			# Başarılı olma şartı (Silezya, vb. almış mı VE Avusturya Savaşından zaferle çıkmış mı?)
 			if = {
 				limit = {
-					# YENÝ EKLENEN SAVAÞ/ZAFER KONTROLLERÝ:
-					# --- 1. HATA BURADAYDI, ÇÖZÜLDÜ: Deðiþkeni Situation'a soruyoruz! ---
+					# YENİ EKLENEN SAVAŞ/ZAFER KONTROLLERİ:
+					# --- 1. HATA BURADAYDI, ÇÖZÜLDÜ: Değişkeni Situation'a soruyoruz! ---
 					situation:the_prussian_ascension = {
 						var:PD_phase2_current_step = 3
 					}
 					at_war = no
-					# ÇÖZÜM BURADA: Ya deðiþkeni aldýk ya da HRE lideri kalmadý (Hükmen Galibiyet)!
+					# ÇÖZÜM BURADA: Ya değişkeni aldık ya da HRE lideri kalmadı (Hükmen Galibiyet)!
 					OR = {
 						has_variable = PD_hegemony_victory
 						AND = {
-							# HRE Organizasyonu DAÐILMIÞ olmalý...
+							# HRE Organizasyonu DAĞILMIŞ olmalı...
 							NOT = {
 								exists = international_organization:hre
 								exists = international_organization:hre.leader_country
 							}
-							# ...VE tek bir Mega-Devlete (Tag) DÖNÜÞMEMÝÞ olmalý!
-							# (Yoksa Prusya kaybettiði halde havadan zafer kazanýr)
+							# ...VE tek bir Mega-Devlete (Tag) DÖNÜŞMEMİŞ olmalı!
+							# (Yoksa Prusya kaybettiği halde havadan zafer kazanır)
 							NOT = {
 								exists = c:HRE
 							}
@@ -916,8 +916,8 @@
 					NOT = {
 						has_variable = PD_submitted_to_emperor
 					}
-					# Eðer ültimatomda korkup geri adým attýysa BAÞARISIZ sayýlýr.
-					# BÖLGE KONTROLLERÝ (Ayný Kalýyor):
+					# Eğer ültimatomda korkup geri adım attıysa BAŞARISIZ sayılır.
+					# BÖLGE KONTROLLERİ (Aynı Kalıyor):
 					AND = {
 						NOT = {
 							area:silesia_area = {
@@ -1066,11 +1066,11 @@
 					}
 				}
 				# #######################################################################
-				# --- BÜYÜK ZAFER: KUZEY ALMAN FEDERASYONU (NGF) DOÐUYOR ---
+				# --- BÜYÜK ZAFER: KUZEY ALMAN FEDERASYONU (NGF) DOĞUYOR ---
 				# #######################################################################
-				# 1. Zollverein ile baðladýðýmýz tüm küçük devletleri tek çatý altýnda topluyoruz (Anschluss)
-				# --- ÝLHAK (ANNEX) ÝÞLEMÝ DÜZELTÝLDÝ ---
-				# ÇÖZÜM BURADA: HRE hala ayaktaysa (Barýþla yýkýlmamýþsa veya hükmen kazanýlmýþsa), acýmadan burada YIK!
+				# 1. Zollverein ile bağladığımız tüm küçük devletleri tek çatı altında topluyoruz (Anschluss)
+				# --- İLHAK (ANNEX) İŞLEMİ DÜZELTİLDİ ---
+				# ÇÖZÜM BURADA: HRE hala ayaktaysa (Barışla yıkılmamışsa veya hükmen kazanılmışsa), acımadan burada YIK!
 				if = {
 					limit = {
 						exists = international_organization:hre
@@ -1085,16 +1085,16 @@
 							has_presence_in = region:north_german_region
 						}
 					}
-					# Prusya'ya dönüp diyoruz ki: "Þu an baktýðýmýz vasalý (this) ilhak et."
+					# Prusya'ya dönüp diyoruz ki: "Şu an baktığımız vasalı (this) ilhak et."
 					c:PRU = {
 						annex_country = {
-							country = prev							# 'prev', yani bir önceki scope olan vasalý (every_subject) kasteder
+							country = prev							# 'prev', yani bir önceki scope olan vasalı (every_subject) kasteder
 							reason = Diplomatic
 							transfer = yes
 						}
 					}
 				}
-				# Baþardýysa Kendine ve Spectator Ülkelere Event yolluyor haber veriyoruz.
+				# Başardıysa Kendine ve Spectator Ülkelere Event yolluyor haber veriyoruz.
 				every_country = {
 					limit = {
 						this != c:PRU
@@ -1115,8 +1115,8 @@
 				}
 			}
 			else = {
-				# BAÞARISIZ BÝTÝÞ CEZALARI
-				# Baþarýsýzsa Kendine ve Spectator Ülkelere Event yolluyor haber veriyoruz.
+				# BAŞARISIZ BİTİŞ CEZALARI
+				# Başarısızsa Kendine ve Spectator Ülkelere Event yolluyor haber veriyoruz.
 				every_country = {
 					limit = {
 						this != c:PRU
@@ -1138,7 +1138,7 @@
 			}
 		}
 		# Temizlik
-		# 2. KURBANLARIN KORKU MODIFIERINI TEMÝZLEME
+		# 2. KURBANLARIN KORKU MODIFIERINI TEMİZLEME
 		every_country = {
 			limit = {
 				has_country_modifier = PD_brandenburg_imperial_anxiety
@@ -1158,14 +1158,19 @@
 	tooltip = {
 		#custom_tooltip = PD_PRUSSIAN_TARGET_LOCATION_TT_2
 	}
-	# --- HARÝTA MODU (ÇÝZGÝLER) ---
+	# --- HARİTA MODU (ÇİZGİLER) ---
 	map_color = {
 		if = {
 			limit = {
 				OR = {
-					# 1. Þart: Toprak Prusya'nýn mý?
-					owner ?= c:PRU
-					# 2. Þart: HRE hala yaþýyorsa VE Toprak HRE Liderinin mi?
+					# 1. Şart: Toprak Prusya'nın mı?
+					# tag = X reads a literal name instead of resolving c:X, so a
+					# tag that has left the map is simply false here rather than
+					# throwing once per location per redraw.
+					owner ?= {
+						tag = PRU
+					}
+					# 2. Şart: HRE hala yaşıyorsa VE Toprak HRE Liderinin mi?
 					AND = {
 						exists = international_organization:hre
 						exists = international_organization:hre.leader_country
@@ -1173,7 +1178,7 @@
 					}
 				}
 			}
-			# Eðer yukarýdakilerden biriyse, o ülkenin kendi rengini haritaya bas
+			# Eğer yukarıdakilerden biriyse, o ülkenin kendi rengini haritaya bas
 			value = this.owner.country_color
 		}
 		else = {
@@ -1183,9 +1188,7 @@
 	secondary_map_color = {
 		if = {
 			limit = {
-				owner ?= {
-					is_subject_of = c:PRU
-				}
+				PD_owner_is_subject_of = { TAG = PRU }
 			}
 			value = blue
 		}
@@ -1205,10 +1208,12 @@
 					this.area = area:prussia_area
 				}
 				NOT = {
-					owner = c:PRU
+					owner ?= {
+						tag = PRU
+					}
 				}
 			}
-			value = yellow			# Hedefleri sarý göster
+			value = yellow			# Hedefleri sarı göster
 		}
 	}
 }

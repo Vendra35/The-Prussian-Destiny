@@ -1,186 +1,459 @@
-﻿situation_panel = {
+# Situation panel for the_prussian_ambition (brandenburg_rise.txt).
+#
+# This situation is one comparison: PD_bra_score against PD_teu_score, both
+# recomputed every month as army strength + monthly trade and tax + a fifth of
+# prestige (brandenburg_rise.txt:186-239). Whichever is ahead is the side
+# allowed to act, and a tie counts as Brandenburg's (:262 uses >=, :336 uses >).
+# So the header is a balance, not a meter: it shows the share, and the side it
+# leans toward is the side that may move.
+#
+# The AI reading in the levers card comes from docs/AMBITION-NOTES.md.
+#
+# Patterns: the_blood_and_iron.gui and the_prussian_ascension.gui in this mod;
+# vanilla diseases_lateralview.gui:103 for a progressbar whose max is computed.
 
-    ##################################### TOP HEADER (DUAL PORTRAIT) #####################################
-    blockoverride "situation_panel_image" {
-        using = two_countries_header_template
-    
-        blockoverride "FirstCountryContext" {
-            datacontext = "[GetCountry('BRA')]"
-        }
+types PrussianAmbitionTypes {
 
-        blockoverride "SecondCountryContext" {
-            datacontext = "[GetCountry('TEU')]"
-        }
+	# One side of the contest: flag, house, name, score, and whether it is the
+	# side currently allowed to move.
+	type pd_am_side_row = hbox {
+		layoutpolicy_horizontal = expanding
+		spacing = 8
 
-        blockoverride "first_character_portrait_anchor" {
-            parentanchor = bottom|left
-        }
+		block "pd_am_side_flag" {}
+		block "pd_am_side_shield" {}
+		text_single = {
+			fontsize = 15
+			block "pd_am_side_name" { raw_text = "Side" }
+		}
+		expand = {}
+		text_single = {
+			fontsize = 14
+			block "pd_am_side_leading" { visible = no }
+			text = "PD_am_word_leading"
+			default_format = "#G"
+		}
+		text_single = {
+			fontsize = 14
+			block "pd_am_side_behind" { visible = no }
+			text = "PD_am_word_behind"
+			default_format = "#subtle_name"
+		}
+		text_single = {
+			using = Font_Size_Big
+			block "pd_am_side_score" { raw_text = "0" }
+			tooltip = "PD_am_balance_tt"
+		}
+	}
+}
 
-        blockoverride "second_character_portrait_anchor" {
-            parentanchor = bottom|right
-        }
+situation_panel = {
 
-        blockoverride "character_religion_visibility" {
-            visible = no
-        }
+	##################################### TOP HEADER #####################################
+	# The balance. The bar's maximum is the two scores added together, so the
+	# fill is Brandenburg's share of the contest rather than an absolute number.
 
-        blockoverride "character_name_maximumsize" {
-            maximumsize = { 270 -1 }
-        }
-    }
+	blockoverride "situation_top_subheader_content" {
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			background = {
+				texture = "gfx/interface/progressbars/tension_header_bg.dds"
+			}
 
-    ##################################### MAIN CONTENT #####################################
-    blockoverride "situation_panel_main_content" {
-        vbox = {
-            layoutpolicy_horizontal = expanding
-            layoutpolicy_vertical = expanding
-            margin_left = 15
-            margin_right = 15
-            margin_bottom = 10
-            margin_top = -10
-            spacing = 8
+			hbox = {
+				size = { 96 28 }
+				margin = { 6 5 }
+				spacing = 4
+				country_flag_small = {
+					datacontext = "[GetCountry('BRA')]"
+					visible = "[GetCountry('BRA').IsValid]"
+				}
+				text_single = {
+					autoresize = yes
+					minimumsize = { 46 -1 }
+					maximumsize = { 46 -1 }
+					fontsize = 13
+					raw_text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue|0]"
+				}
+				tooltip = "PD_am_balance_tt"
+			}
 
-            # 1. KART: DURUM AÇIKLAMASI
-            situation_card_expandable = {
-                blockoverride "header_button_onclick" {
-                    onclick = "[LateralView.Vars.Toggle( 'prussia_desc_toggled' )]"
-                }
-                blockoverride "header_text" {
-                    text = "the_prussian_ambition"
-                }
-                blockoverride "header_icon" {
-                    texture = "gfx/interface/icons/traits/_default.dds"
-                }
-                blockoverride "bottom_content" {
-                    text_multi = {
-                        margin = { 15 10 }
-                        layoutpolicy_horizontal = expanding
-                        max_width = 460
-                        autoresize = yes
-                        text = "the_prussian_ambition_desc"
-                        using = fontsize_medium
-                    }
-                }
-                blockoverride "bottom_content_onclick" {
-                    visible = "[LateralView.Vars.Exists( 'prussia_desc_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_yes" {
-                    visible = "[LateralView.Vars.Exists( 'prussia_desc_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_not" {
-                    visible = "[Not(LateralView.Vars.Exists( 'prussia_desc_toggled' ))]"
-                }
-            }
+			hbox = {
+				using = bg_cabinet_card_frame
+				margin = { 4 4 }
+				progressbar = {
+					size = { 340 10 }
+					using = morale_progressbar_bar
+					min = 0
+					max = "[Add_float(FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue), FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue))]"
+					value = "[FixedPointToFloat(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue)]"
+					tooltip = "PD_am_balance_tt"
+				}
+			}
 
-            # 2. KART: HEDEFLER LÝSTESÝ
-            situation_card_expandable = {
-                blockoverride "header_button_onclick" {
-                    onclick = "[LateralView.Vars.Toggle( 'prussia_req_toggled' )]"
-                }
-                blockoverride "header_text" {
-                    text = "END_REQUIREMENTS"
-                }
-                blockoverride "header_icon" {
-                    texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
-                }
-                blockoverride "bottom_content" {
-                    TooltipRequirementsList = {
-                        textcontext = "[SituationView.GetActiveSituation.GetSituation.GetEndConditions]"
-                        margin = { 15 10 }
-                    }
-                }
-                blockoverride "bottom_content_onclick" {
-                    visible = "[LateralView.Vars.Exists( 'prussia_req_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_yes" {
-                    visible = "[LateralView.Vars.Exists( 'prussia_req_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_not" {
-                    visible = "[Not(LateralView.Vars.Exists( 'prussia_req_toggled' ))]"
-                }
-            }
+			hbox = {
+				size = { 96 28 }
+				margin = { 6 5 }
+				spacing = 4
+				text_single = {
+					autoresize = yes
+					minimumsize = { 46 -1 }
+					maximumsize = { 46 -1 }
+					align = right|nobaseline
+					fontsize = 13
+					raw_text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue|0]"
+				}
+				country_flag_small = {
+					datacontext = "[GetCountry('TEU')]"
+					visible = "[GetCountry('TEU').IsValid]"
+				}
+				tooltip = "PD_am_balance_tt"
+			}
+			expand = {}
+		}
+	}
 
-            # 3. KART: LÝDER BÝLGÝ VE KARÞILAÞTIRMA KARTI (Fancy Two Line Card)
-            situation_fancy_two_line_card = {
-                block "card_datacontext" { }
-                
-                # Left Side - Brandenburg
-                blockoverride "left_flag_properties" {
-                    datacontext = "[GetCountry('BRA')]"
-                    visible = "[Country.IsValid]"
-                }
-                blockoverride "left_bottom_flag" { }
-                blockoverride "left_top_text" {
-                    layoutpolicy_horizontal = expanding
-                    layoutpolicy_vertical = expanding
-                    visible = "[GetCountry('BRA').IsValid]"
-                    text = "[GetCountry('BRA').GetName]"
-                }
-                blockoverride "left_bottom_text" {
-                    # Liderlik skoru / durumu (Loc'den eklenecek)
-                    text = "BRA_SCORE_TT"
-                    tooltipwidget = {
-					ContextualTooltipType = {
-						blockoverride "title_icon" {
+	##################################### MAIN IMAGE #####################################
+
+	blockoverride "situation_panel_image" {
+		using = two_countries_header_template
+
+		# This mod keeps its art under illustrations/situationS/<name>_header.dds,
+		# which is not where GetSituationIllustration looks (vanilla
+		# in_game/gui/panels/situation/common.gui:113 documents
+		# illustrations/situation/), so the texture is named outright.
+		block "two_countries_header_image" {
+			background = {
+				texture = "gfx/interface/illustrations/situations/prussian_ambition_header.dds"
+				spriteType = stretched
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle.dds"
+					texture_density = 2
+					spriteType = stretched
+					spriteborder = { 250 250 }
+					blend_mode = alphamultiply
+					alpha = 0.4
+				}
+			}
+		}
+
+		blockoverride "FirstCountryVisible" {
+			visible = "[GetCountry('BRA').IsValid]"
+		}
+		blockoverride "FirstCountryContext" {
+			datacontext = "[GetCountry('BRA')]"
+		}
+		blockoverride "SecondCountryVisible" {
+			visible = "[GetCountry('TEU').IsValid]"
+		}
+		blockoverride "SecondCountryContext" {
+			datacontext = "[GetCountry('TEU')]"
+		}
+
+		blockoverride "first_character_portrait_anchor" {
+			parentanchor = bottom|left
+		}
+		blockoverride "second_character_portrait_anchor" {
+			parentanchor = bottom|right
+		}
+		blockoverride "character_religion_visibility" {
+			visible = no
+		}
+		blockoverride "character_name_maximumsize" {
+			maximumsize = { 270 -1 }
+		}
+	}
+
+	##################################### SUBHEADER #####################################
+
+	blockoverride "situation_subheader_content" {}
+
+	##################################### MAIN CONTENT #####################################
+
+	blockoverride "situation_panel_main_content" {
+
+		# CARD 1: what the situation is.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'prussia_desc_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "the_prussian_ambition"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_prussian_ambition.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "the_prussian_ambition_desc"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'prussia_desc_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'prussia_desc_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'prussia_desc_toggled' ))]"
+			}
+		}
+
+		# CARD 2: Tannenberg, Thorn, and the conversion that settled it.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'prussia_history_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_am_history_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/events/history.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_am_history_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'prussia_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'prussia_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'prussia_history_toggled' ))]"
+			}
+		}
+
+		# CARD 3: the live scoreboard and what each side is working on.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'prussia_standings_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_am_standings_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_prussian_ambition.dds"
+			}
+			blockoverride "bottom_content" {
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					margin = { 15 10 }
+					spacing = 8
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 13
+						text = "PD_am_standings_hint"
+						default_format = "#subtle_name"
+						tooltip = "PD_am_balance_tt"
+					}
+
+					pd_am_side_row = {
+						visible = "[GetCountry('BRA').IsValid]"
+						blockoverride "pd_am_side_flag" {
 							country_flag_small = {
 								datacontext = "[GetCountry('BRA')]"
 							}
 						}
-						blockoverride "title_text" {
-							text = "PD_BRA_MILITARY_STRENGTH_BRA_TT_TITLE"
+						blockoverride "pd_am_side_shield" {
+							dynasty_shield_mid = {
+								visible = "[GetCountry('BRA').GetGovernment.GetRuler.HasDynasty]"
+								datacontext = "[GetCountry('BRA').GetGovernment.GetRuler.GetDynasty]"
+							}
 						}
-						blockoverride "tooltip_content" {
-							TooltipStringPairList = {
-								blockoverride "block_title" {
-									visible = no
-								}
-                                textcontext = "PD_BRA_SCORE_TT"
-							}							
-						}						
+						blockoverride "pd_am_side_name" {
+							text = "[GetCountry('BRA').GetName]"
+						}
+						# A tie counts as Brandenburg's, so this is >=.
+						blockoverride "pd_am_side_leading" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue, SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue)]"
+						}
+						blockoverride "pd_am_side_behind" {
+							visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue, SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue))]"
+						}
+						blockoverride "pd_am_side_score" {
+							raw_text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue|0]"
+						}
 					}
-				}
-                }
-                
-                # Right Side - Teutonic Order
-                blockoverride "right_flag_properties" {
-                    datacontext = "[GetCountry('TEU')]"
-                    visible = "[Country.IsValid]"
-                }
-                blockoverride "right_bottom_flag" { }
-                blockoverride "right_top_text" {
-                    layoutpolicy_horizontal = expanding
-                    layoutpolicy_vertical = expanding
-                    visible = "[GetCountry('TEU').IsValid]"
-                    text = "[GetCountry('TEU').GetName]"
-                }
-                blockoverride "right_bottom_text" { 
-                    # Liderlik skoru / durumu (Loc'den eklenecek)
-                    text = "TEU_SCORE_TT"
-                    tooltipwidget = {
-					ContextualTooltipType = {
-						blockoverride "title_icon" {
+
+					pd_am_side_row = {
+						visible = "[GetCountry('TEU').IsValid]"
+						blockoverride "pd_am_side_flag" {
 							country_flag_small = {
 								datacontext = "[GetCountry('TEU')]"
 							}
 						}
-						blockoverride "title_text" {
-							text = "PD_TEU_MILITARY_STRENGTH_TEU_TT_TITLE"
+						blockoverride "pd_am_side_shield" {
+							dynasty_shield_mid = {
+								visible = "[GetCountry('TEU').GetGovernment.GetRuler.HasDynasty]"
+								datacontext = "[GetCountry('TEU').GetGovernment.GetRuler.GetDynasty]"
+							}
 						}
-						blockoverride "tooltip_content" {
-							TooltipStringPairList = {
-								blockoverride "block_title" {
-									visible = no
-								}
-								textcontext = "PD_TEU_SCORE_TT"
-							}							
-						}						
+						blockoverride "pd_am_side_name" {
+							text = "[GetCountry('TEU').GetName]"
+						}
+						# The Order has to be strictly ahead.
+						blockoverride "pd_am_side_leading" {
+							visible = "[GreaterThan_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue, SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue)]"
+						}
+						blockoverride "pd_am_side_behind" {
+							visible = "[Not(GreaterThan_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue, SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue))]"
+						}
+						blockoverride "pd_am_side_score" {
+							raw_text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue|0]"
+						}
+					}
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 15
+						text = "PD_am_sec_targets"
+						default_format = "#T"
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 8
+						visible = "[GetCountry('BRA').IsValid]"
+						country_flag_small = {
+							datacontext = "[GetCountry('BRA')]"
+						}
+						text_single = {
+							fontsize = 14
+							text = "[GetCountry('BRA').GetName]"
+						}
+						expand = {}
+						country_flag_small = {
+							visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_conquest_target').GetValue, '(CFixedPoint)1'), SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_conquest_target_country').GetCountry.IsValid )]"
+							datacontext = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_conquest_target_country').GetCountry]"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_conquest_target').GetValue, '(CFixedPoint)1'), SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_conquest_target_country').GetCountry.IsValid )]"
+							text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_conquest_target_country').GetCountry.GetName]"
+							tooltip = "PD_am_target_tt"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[Not(EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_conquest_target').GetValue, '(CFixedPoint)1'))]"
+							text = "PD_am_target_none"
+							default_format = "#subtle_name"
+							tooltip = "PD_am_target_tt"
+						}
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 8
+						visible = "[GetCountry('TEU').IsValid]"
+						country_flag_small = {
+							datacontext = "[GetCountry('TEU')]"
+						}
+						text_single = {
+							fontsize = 14
+							text = "[GetCountry('TEU').GetName]"
+						}
+						expand = {}
+						country_flag_small = {
+							visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_conquest_target').GetValue, '(CFixedPoint)1'), SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_conquest_target_country').GetCountry.IsValid )]"
+							datacontext = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_conquest_target_country').GetCountry]"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_conquest_target').GetValue, '(CFixedPoint)1'), SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_conquest_target_country').GetCountry.IsValid )]"
+							text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_conquest_target_country').GetCountry.GetName]"
+							tooltip = "PD_am_target_tt"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[Not(EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_conquest_target').GetValue, '(CFixedPoint)1'))]"
+							text = "PD_am_target_none"
+							default_format = "#subtle_name"
+							tooltip = "PD_am_target_tt"
+						}
 					}
 				}
-                }
-            }
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'prussia_standings_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'prussia_standings_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'prussia_standings_toggled' ))]"
+			}
+		}
 
-            # Alttaki boþluðu sýfýrlayan kod
-            expand = {} 
-        }
-    }
+		# CARD 4: how the situation ends.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'prussia_req_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "END_REQUIREMENTS"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
+			}
+			blockoverride "bottom_content" {
+				TooltipRequirementsList = {
+					textcontext = "[SituationView.GetActiveSituation.GetSituation.GetEndConditions]"
+					margin = { 15 10 }
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'prussia_req_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'prussia_req_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'prussia_req_toggled' ))]"
+			}
+		}
+
+		# CARD 5: what a player can do, from each seat, and what the AI decides.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'prussia_levers_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_am_levers_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_prussian_ambition.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_am_levers_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'prussia_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'prussia_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'prussia_levers_toggled' ))]"
+			}
+		}
+	}
 }

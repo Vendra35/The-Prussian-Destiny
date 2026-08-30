@@ -199,7 +199,7 @@
 
  # --- 1.SITUATION (DURUM) VE HEDEFLER ---
  the_prussian_ambition: "The Prussian Destiny"
- the_prussian_ambition_desc: "The struggle for dominance over [ShowAreaName('brandenburg_area')], [ShowAreaName('pomerania_area')] and [ShowAreaName('prussia_area')] has begun.\n\nBoth the Hohenzollerns of [GetCountry('BRA').GetName] and the Hochmeisters of the Teutonic Order are competing for absolute control. The victor will emerge as the undisputed Baltic power, laying the foundation for the future of Prussia, while the loser will be reduced to a mere fiefdom.\n\n#Y ----------------------------------------#!\n\n#G HISTORICAL CONTEXT & AI BEHAVIOR:#!\nHistorically, the 15th and 16th centuries saw a bitter diplomatic and military tug-of-war between the ambitious Electorate of Brandenburg and the crusading Teutonic Order. This critical period defined who would master the vital Baltic coastlines and the Prussian heartland. #Y Note:#! This initial struggle will reach its climax based on your chosen Timeline Pacing Game Rule (#G c. 1500#! for Frontloaded or #G c. 1525#! for Strict Historical), determining which house shall forge the Prussian destiny.\n\n#Y What to Expect:#! Both AI nations will actively compete for regional dominance through a weighted scoring system. Expect a calculated, opportunistic struggle rather than chaotic expansion. They will bide their time, secure their borders, and attempt to subjugate one another through diplomatic superiority or precise military action before the situation time limit. You are witnessing the fierce power struggle that will birth the most disciplined military state in Europe."
+ the_prussian_ambition_desc: "The struggle for dominance over [ShowAreaName('brandenburg_area')], [ShowAreaName('pomerania_area')] and [ShowAreaName('prussia_area')] has begun.\n\nBoth the Hohenzollerns of [GetCountry('BRA').GetName] and the Hochmeisters of the Teutonic Order are competing for absolute control. The victor will emerge as the undisputed Baltic power and lay the foundation of Prussia; the loser will be reduced to a mere fiefdom."
 
 #  # --- SITUATION 1: PRUSSIAN DESTINY ENDING REASONS FOR EU5 1.3---
 #  prussian_ambition_end_desc: "The Prussian Destiny will be fulfilled if:"
@@ -209,11 +209,11 @@
  # --- GUI ---
  BRA_SCORE_TT: "Score: [SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue|2]"
  PD_BRA_MILITARY_STRENGTH_BRA_TT_TITLE: "[GetCountry('BRA').GetAdjectiveWithNoTooltip] Military Strength"
- PD_BRA_SCORE_TT: "Score: Calculated with a weighted formula based on military strength, income, and prestige."
+ PD_BRA_SCORE_TT: "Army strength, plus monthly trade and tax income, plus one fifth of prestige. Recomputed every month; nothing else feeds it.\n\nThe side that is ahead is the side allowed to act, and a tie counts as [GetCountry('BRA').GetName]'s."
 
  TEU_SCORE_TT: "Score: [SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue|2]"
  PD_TEU_MILITARY_STRENGTH_TEU_TT_TITLE: "[GetCountry('TEU').GetAdjectiveWithNoTooltip] Military Strength"
- PD_TEU_SCORE_TT: "Score: Calculated with a weighted formula based on military strength, income, and prestige."
+ PD_TEU_SCORE_TT: "Army strength, plus monthly trade and tax income, plus one fifth of prestige. Recomputed every month; nothing else feeds it.\n\nThe side that is ahead is the side allowed to act, and a tie counts as [GetCountry('BRA').GetName]'s."
 
  prussian_ambition_pomerania_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('pomerania_area')] [area|e]"
  prussian_ambition_prussia_tt: "Prussia or its subjects own all [locations|e] in the [ShowAreaName('prussia_area')] [area|e]"
@@ -393,7 +393,7 @@
 
  # --- SITUATION (DURUM) VE HEDEFLER (PHASE 2) ---
  the_prussian_ascension: "The Prussian Ascension"
- the_prussian_ascension_desc: "With our eastern borders secured, [GetCountry('PRU').GetName] must now challenge the old Imperial order and establish total hegemony over [ShowRegionName('north_german_region')]. \n\nFirst, the wealthy [ShowAreaName('silesia_area')] must be ripped from its current masters. Then, we shall march west into the Saxon and Westphalian lands, uniting the northern states through our 'Zollverein' (Customs Union) or crushing those who resist.\n\n#Y ----------------------------------------#!\n\n#G HISTORICAL CONTEXT & AI BEHAVIOR:#!\nIn 1740, Frederick the Great shocked Europe by invading Silesia, igniting a bitter rivalry with Austria. Later, Prussia deployed the 'Zollverein' to economically bind the minor German states to Berlin, making political unification under Prussian dominance inevitable. #Y Note:#! In this campaign, this ambition will awaken based on your chosen Timeline Pacing Game Rule (#G c. 1522#! for Frontloaded or #G c. 1648#! for Strict Historical).\n\n#Y What to Expect:#! The AI will prioritize a daring military strike into Silesia once its 'awakening' date is reached. Upon success, it will dynamically shift its focus west. It will first attempt to peacefully vassalize small neighbors via the Zollverein diplomacy. If they refuse, or if they are too large, the Prussian military apparatus will roll over them. This is the exact historical path that paved the way for the North German Confederation.\n#R However, the HRE Emperor can intervene after Prussia completed their conquest!#! During the Hegemony War, if a player is the HRE leader or their ally, they can enforce the 'Restore Imperial Order' peace treaty to shatter Prussia's sphere of influence, cancel this Situation, and permanently halt their ambitions."
+ the_prussian_ascension_desc: "With our eastern borders secured, [GetCountry('PRU').GetName] must now challenge the old Imperial order and establish total hegemony over [ShowRegionName('north_german_region')].\n\nFirst, the wealthy [ShowAreaName('silesia_area')] must be ripped from its current masters. Then we shall march west into the Saxon and Westphalian lands, binding the northern states to us through the Zollverein or crushing those who refuse it."
 
 
 
@@ -489,7 +489,7 @@
 
  # -------------------------- SITUATION 3: BLOOD AND IRON -------------------
  the_blood_and_iron: "Blood and Iron"
- the_blood_and_iron_desc: "The North German states are united under Berlin's banner, but the great question of Germany remains unanswered. Over the Rhine, the French Empire watches our rise with fear and jealousy. Chancellor Bismarck knows that to knit the final pieces of Germany together, a common enemy is needed.\n\nThe destiny of Germany will not be settled by speeches and majority decisions, but by iron and blood. We must navigate the rising diplomatic tension, isolate France, and force them into a war that will rally the reluctant Southern German states to our side.\n\n#Y ----------------------------------------#!\n\n#G HISTORICAL CONTEXT & AI BEHAVIOR:#!\nIn 1870, Otto von Bismarck successfully provoked France into declaring war on Prussia by editing the 'Ems Dispatch' to insult both nations. The aggressive French response frightened the independent Southern German states, causing them to immediately ally with Prussia.\n\n#Y What to Expect:#! As tensions passively rise each month, diplomatic flavor events will fire. Upon reaching maximum tension, the 'Ems Dispatch' will trigger. The Southern German states will automatically form an alliance with the North German Confederation, and France will declare war shortly after. Winning this final defensive war will allow the formation of the German Empire and the automatic annexation of the red-highlighted imperial borderlands ([ShowAreaName('alsace_area')], [ShowAreaName('lorraine_area')] and [ShowAreaName('franche_comte_area')]).\n#R However, the French coalition can intervene! If a player is France or their ally, they can enforce the 'Shatter the German Menace' peace treaty. This will instantly end the Situation, inflict severe debuffs on the German forces, and secure powerful buffs for the victors.#!"
+ the_blood_and_iron_desc: "The North German states are united under Berlin's banner, but the great question of Germany remains unanswered. Over the Rhine, the French Empire watches our rise with fear and jealousy. Chancellor Bismarck knows that to knit the final pieces of Germany together, a common enemy is needed.\n\nThe destiny of Germany will not be settled by speeches and majority decisions, but by iron and blood. We must navigate the rising diplomatic tension, isolate France, and force them into a war that will rally the reluctant Southern German states to our side."
 
  # --- PHASE 3 EVENTLERI ---
  pd_brandenburg.300.title: "The Path to Empire"
@@ -560,7 +560,7 @@
 
  blood_and_iron_ngc_destroyed_tt: "The [GetCountry('NGC').GetName] no longer exists."
  blood_and_iron_fra_destroyed_tt: "[GetCountry('FRA').GetName] no longer exists."
- blood_and_iron_victory_tt: "[GetCountry('NGC').GetName] have defeated [GetCountry('FRA').GetName] and are ready to proclaim the #YGerman Empire#!."
+ blood_and_iron_victory_tt: "[GetCountry('NGC').GetName] have defeated [GetCountry('FRA').GetName] and are ready to proclaim the #Y German Empire#!."
  blood_and_iron_defeat_tt: "[GetCountry('FRA').GetName] has successfully halted [GetCountry('NGC').GetName] unification plans."
  blood_and_iron_stalemate_tt: "Stalemate: If no decisive peace treaty is signed after 3 major war attempts (at 100, 250, and 400 months), the Situation is going to be closed permanently at 450 months (37.5 years)."
  PD_blood_and_iron_map_tt: "#R Targeted Imperial Territory#!\nIf [GetCountry('NGC').GetName] wins the war against [GetCountry('FRA').GetName], they will automatically annex this region."
@@ -601,3 +601,120 @@
 
 
 
+ # ==============================================================================
+ # BLOOD AND IRON - SITUATION PANEL
+ # Every figure below is taken from the_blood_and_iron.txt and PD_events.txt.
+ # ==============================================================================
+
+ PD_BI_TENSION_LABEL: "Franco-Prussian Tension"
+ PD_bi_tension_explain_tt: "Currently the tension is: [GetSituationByKey('the_blood_and_iron').MakeScope.GetVariable('PD_franco_prussian_tension').GetValue|0]%\nMeasures how close Berlin and Paris have come to the war neither of them will admit to wanting.\n\n#T Monthly Gains#!\n$BULLET$#R +1#! every month, without exception\n\n#T Relief#!\n$BULLET$#G Nothing#! lowers it. This is a clock, not a contest - no treaty, no gift and no concession slows it down.\n\nThe four crises fire once each, at 25, 50, 75 and 100. The last of them is the Ems Dispatch, and it arrives roughly eight years and four months after this situation opens."
+ PD_bi_first_tension_threshold: "25%"
+ PD_bi_second_tension_threshold: "50%"
+ PD_bi_third_tension_threshold: "75%"
+ PD_bi_fourth_tension_threshold: "100%"
+ PD_bi_tension_25_tt: "#T At 25 Tension#!\n$BULLET$#Y The Luxembourg Crisis#! reaches every court with a presence in [ShowContinentName('europe')].\n$BULLET$A sale of territory that neither Berlin nor Paris can let pass without losing face. The first time the quarrel is spoken aloud."
+ PD_bi_tension_50_tt: "#T At 50 Tension#!\n$BULLET$#Y The Continental Arms Race#! reaches every court with a presence in [ShowContinentName('europe')].\n$BULLET$Both capitals stop arguing about borders and start counting the other side's battalions."
+ PD_bi_tension_75_tt: "#T At 75 Tension#!\n$BULLET$#Y The Diplomatic Breakdown#! reaches every court with a presence in [ShowContinentName('europe')].\n$BULLET$The last channels close. Nothing is left to negotiate before the final provocation."
+ PD_bi_tension_100_tt: "#T At 100 Tension#!\n$BULLET$#Y The Ems Dispatch#! goes to Berlin.\n$BULLET$Every state whose capital lies in [ShowRegionName('south_german_region')] allies with the German power in the same instant - Austria, [GetCountry('FRA').GetName] and the Emperor excepted, and no one already a subject.\n$BULLET$[GetCountry('FRA').GetName] then reads it. The AI declares war at once; a French player may refuse the insult and take a five-year [ShowCasusBelliName('cb_PD_blood_and_iron')] instead."
+
+ PD_bi_road_header: "The Road to War"
+ PD_bi_road_hint: "The tension only climbs. Hover a rung to see what it brings."
+ PD_bi_road_25: "The Luxembourg Crisis"
+ PD_bi_road_50: "The Continental Arms Race"
+ PD_bi_road_75: "The Diplomatic Breakdown"
+ PD_bi_road_100: "The Ems Dispatch"
+ PD_bi_sec_rematch: "If the Question Stays Open"
+ PD_bi_road_250: "The Second Reckoning"
+ PD_bi_road_400: "The Third Reckoning"
+ PD_bi_rematch_tt: "#T The rematches#!\nIf Ems came and went with no German Empire proclaimed and the German cause not yet broken, the quarrel is handed to [GetCountry('FRA').GetName] again: once at #Y 250#! tension, about twelve and a half years after Ems, and once more at #Y 400#!, about twenty-five years after it.\n\nBoth require every party to be at peace on the month they fire, so an unfinished war postpones the reckoning rather than cancelling it."
+
+ PD_bi_levers_header: "What We Can Do"
+ PD_bi_levers_body: "#T As the German power#!\n$BULLET$There is nothing to spend and nothing to build here. The tension climbs by itself, and the whole of this phase is the wait.\n$BULLET$Use the wait. Ems hands you every south German state as an ally in one stroke, but it does not hand you an army.\n$BULLET$When the dispatch arrives those alliances are already signed - they are in the news itself, not in your answer. Your reply is what sends the provocation to Paris.\n$BULLET$Win the war that follows and [ShowPeaceTreatyTypeName('PD_blood_and_iron_proclaim_germany')] proclaims the Empire and takes the three borderlands painted red on this situation's map - [ShowAreaName('alsace_area')], [ShowAreaName('lorraine_area')] and [ShowAreaName('franche_comte_area')] - with it.\n\n#T As [GetCountry('FRA').GetName]#!\n$BULLET$A ten-year mutual truce is signed the day this situation opens. It protects the opening; it does not stop the dispatch.\n$BULLET$When Ems reaches you the AI declares war on the spot. You do not have to. Refusing the insult costs #R 10#! prestige, dissolves the truce and gives you a five-year [ShowCasusBelliName('cb_PD_blood_and_iron')] - the same war, opened when your armies are where you want them.\n$BULLET$It is not a free delay: the Prussian general staff keeps its bonus for #R 15#! years instead of 10 when you wait.\n$BULLET$Win and [ShowPeaceTreatyTypeName('PD_france_shatter_prussian_menace')] ends this situation outright, breaks the German cause and rewards the coalition.\n\n#T As anyone else in [ShowContinentName('europe')]#!\n$BULLET$All four crises come to you as news. None of them binds you.\n$BULLET$Your alliances decide this war before it is declared. The two lists at the foot of this panel are the game's own count of who would actually march, and they change as you sign.\n$BULLET$If your capital lies in [ShowRegionName('south_german_region')] you will be pulled into the German alliance the moment Ems fires - unless you are already someone's subject by then.\n\n#T How the AI plays this#!\n$BULLET$It barely decides anything here. The tension, the four crises and the southern alliances are all automatic - they happen to the AI rather than because of it.\n$BULLET$The one real decision is France's answer to the dispatch, and the AI always gives the same one: it declares war on the spot. The option to wait is written for players only, so an AI France never takes it.\n$BULLET$The Prussian general staff bonus is handed out by the event itself, not earned by anything the AI does, and only when the Prussian buff game rule is switched on.\n$BULLET$The rematches wait for peace. If any of the three is still at war on the month a reckoning falls due, it is postponed rather than cancelled."
+
+ PD_bi_camp_german: "With the German Cause"
+ PD_bi_camp_french: "With [GetCountry('FRA').GetName]"
+
+ # ==============================================================================
+ # PEACE TREATY NAMES
+ # The engine derives a peace treaty's display name from the bare treaty key,
+ # the way vanilla does it (peace_reintegrate_revolter, hegemon_demand_*).
+ # This mod only ever defined the _entry / _entry_short / _desc / _tt keys, so
+ # anything asking for the name - ShowPeaceTreatyTypeName among others - printed
+ # the raw key instead. Values match each treaty's own _entry text.
+ # ==============================================================================
+
+ PD_prussian_ascension_take_regions: "Annex Claimed Territories"
+ PD_hegemony_demand_submission: "Enforce German Hegemony"
+ PD_blood_and_iron_proclaim_germany: "Proclaim the German Empire"
+ PD_france_shatter_prussian_menace: "Shatter the German Menace"
+ PD_emperor_crush_prussian_hegemony: "Restore Imperial Order"
+
+ # ==============================================================================
+ # BLOOD AND IRON - HISTORICAL CONTEXT CARD
+ # Lifted out of the_blood_and_iron_desc: the engine shows a situation's
+ # description in places with far less room, and every vanilla situation keeps
+ # that text purely in-world.
+ # ==============================================================================
+
+ PD_bi_history_header: "Historical Context"
+ PD_bi_history_body: "#T The Confederation and the missing south#!\nPrussia broke Austria at Königgrätz in 1866, dissolved the old German Confederation and bound the north to Berlin. The southern kingdoms - Bavaria, Württemberg, Baden and Hesse-Darmstadt - stayed outside it. They had signed defensive treaties with Prussia, but no southern parliament was going to vote itself into a Hohenzollern empire while France stood guarantor of their independence.\n\n#T The dispatch#!\nIn July 1870 a Hohenzollern prince was offered the vacant Spanish throne. Paris objected, and the French ambassador pressed Wilhelm I at the spa town of Bad Ems for a promise that the candidacy would never be revived. The king refused politely and wired Berlin an account of the meeting. Bismarck shortened that account before releasing it to the press on 13 July - inventing nothing, cutting away every courtesy, so that each nation read an insult to itself. France declared war six days later.\n\n#T Iron and blood#!\nThe southern states honoured their treaties within days, and the war France believed it had declared on Prussia was fought against Germany. Napoleon III was captured at Sedan on 2 September 1870. On 18 January 1871, in the Hall of Mirrors at Versailles, the German Empire was proclaimed - an empire founded in a French palace, by a war fought to make it necessary. The Treaty of Frankfurt took Alsace and most of Lorraine that May, and left France a grievance it carried until 1918."
+
+ # ==============================================================================
+ # THE PRUSSIAN ASCENSION - SITUATION PANEL
+ # Every figure below comes from docs/ASCENSION-NOTES.md, which was read out of
+ # the situation file and the 21 phase-2 events rather than summarised from memory.
+ # ==============================================================================
+
+ PD_PA_STEP_LABEL: "The Ascension"
+ PD_pa_step_meter_tt: "Where [GetCountry('PRU').GetName] stands on the road to a Germany run from Berlin.\n\nThe situation keeps one number, and nothing else moves it: the step advances only when the lands of the current step are wholly held by [GetCountry('PRU').GetName] or by its subjects.\n\n$BULLET$#Y 1#! - [ShowAreaName('silesia_area')]\n$BULLET$#Y 2#! - the western march\n$BULLET$#Y 3#! - the great ultimatum"
+ PD_pa_step_1: "Silesia"
+ PD_pa_step_2: "The Western March"
+ PD_pa_step_3: "The Great Ultimatum"
+
+ PD_pa_road_header: "The Road to Berlin's Germany"
+ PD_pa_road_hint: "A step closes only when its lands are wholly Prussian. Hover a rung to see what that means."
+ PD_pa_step_1_tt: "#T Step 1 - [ShowAreaName('silesia_area')]#!\nThe step closes when #Y every#! location in [ShowAreaName('silesia_area')] is owned by [GetCountry('PRU').GetName] or by one of its subjects. A single holdout keeps the whole situation on step 1.\n\nWhen it closes, onlookers hear of the fall of Silesia and the owners of the western lands are told who is next."
+ PD_pa_step_2_tt: "#T Step 2 - the western march#!\nThe same test, over a wider board: [ShowAreaName('lower_saxony_area')], [ShowAreaName('upper_saxony_area')], [ShowAreaName('mecklenburg_area')], [ShowAreaName('holstein_area')], [ShowAreaName('westphalia_area')], [ShowAreaName('hesse_area')] and [ShowAreaName('rhineland_area')] must all be Prussian or Prussian-subject.\n\nThis is where the Zollverein does its work: a state that accepts the customs union is bound without a war."
+ PD_pa_step_3_tt: "#T Step 3 - the great ultimatum#!\nThe north is held, and the quarrel is no longer with small states but with the Emperor. The ultimatum goes out, and the answer to it is the hegemony war.\n\nThis is the step where the situation can be lost as well as won: a victorious Emperor can enforce [ShowPeaceTreatyTypeName('PD_emperor_crush_prussian_hegemony')] and end the ascension outright."
+
+ PD_pa_sec_diplomacy: "The Diplomacy"
+ PD_pa_zollverein_offered: "The Zollverein has been offered"
+ PD_pa_zollverein_waiting: "The Zollverein has not been offered yet"
+ PD_pa_ultimatum_sent: "The ultimatum has gone to the Emperor"
+ PD_pa_ultimatum_waiting: "The ultimatum has not been sent"
+ PD_pa_sec_target: "The Current Target"
+ PD_pa_target_none: "No target this month"
+ PD_pa_target_tt: "The country Berlin is currently working against.\n\nA target is taken up only when there is none, and then held until the matter is settled. It clears itself if the country is annexed, becomes a subject, or a truce comes between.\n\n#T What sets the pace#!\nNot the situation. The tempo comes from the $rule_BRA_prussian_buff_rule$ game rule:\n$BULLET$#Y Terminator#! - a new war may open every #Y 12#! months, and no sooner than a year after the last one ended.\n$BULLET$#Y Historical#! or #Y Vanilla#! - every #Y 60#! months, and no sooner than two years after the last one."
+
+ PD_pa_history_header: "Historical Context"
+ PD_pa_history_body: "#T The wound: Silesia, 1740#!\nIn December 1740, weeks after Maria Theresa inherited the Habsburg lands, Frederick II marched into Silesia without a declaration and without a real claim. It was the richest province Austria held, and taking it made Prussia a great power and Austria an enemy for a century. Vienna fought three wars to get it back - 1740, 1744 and the Seven Years' War - and failed in all three. Every later quarrel between Berlin and Vienna is downstream of that winter.\n\n#T The quiet instrument: the Zollverein, 1834#!\nOn the first day of 1834 the Prussian customs union opened its borders across most of the German states. It carried no flag and demanded no oath; it simply made trade easier inside it than outside it, and it left Austria out. Within a generation the German economy was organised around Berlin while the German constitution still pointed at Vienna. Unification was being built by tariff schedules long before it was built by armies.\n\n#T The settlement: 1866#!\nThe question of who would speak for Germany was answered in seven weeks. At Koeniggraetz in July 1866 Prussia broke the Austrian army, dissolved the old German Confederation, and bound the north into a confederation of its own. Austria was not annexed and barely punished - Bismarck wanted it out of Germany, not destroyed. The southern kingdoms stayed outside, and answering that remained for the war with France."
+
+ PD_pa_levers_header: "What We Can Do"
+ PD_pa_levers_body: "#T As [GetCountry('PRU').GetName]#!\n$BULLET$The step only moves when a whole set of areas is yours or your subjects'. Partial conquest buys nothing here - one unclaimed location in [ShowAreaName('silesia_area')] holds the entire situation on step 1.\n$BULLET$A subject counts the same as direct ownership. Vassalising a holdout advances the step exactly as annexing it would, and it is usually cheaper.\n$BULLET$The Zollverein is the cheap road through step 2. A state that accepts is bound without a war; a state that refuses has to be taken.\n$BULLET$At step 3 the quarrel becomes the Emperor's. Win that war and the north is yours; lose it and [ShowPeaceTreatyTypeName('PD_emperor_crush_prussian_hegemony')] can end this situation for good.\n\n#T As a German state in the way#!\n$BULLET$You will be told when Silesia falls, because you are on the list that follows it.\n$BULLET$When the Zollverein is offered, accepting binds you to Berlin without a shot. Refusing is legitimate and survivable - but it moves you from the diplomatic column to the military one.\n$BULLET$Your best protection is not your own army. It is being unprofitable to attack while the Emperor is still willing to march.\n\n#T As the Emperor#!\n$BULLET$Nothing you do before step 3 slows Berlin; the early steps are fought over other men's lands.\n$BULLET$The ultimatum is the moment. Win the war it starts and [ShowPeaceTreatyTypeName('PD_emperor_crush_prussian_hegemony')] shatters the Prussian sphere and cancels the ascension permanently.\n\n#T How the AI plays this#!\n$BULLET$It never hesitates. Five of this situation's events offer a choice, and in every one of them the AI weighting is a number against #Y zero#! - so the AI takes the first option every single time.\n$BULLET$The second option is not hidden from it. There is not one AI gate anywhere in these events; the alternative is simply weighted to nothing and therefore never chosen. Those choices exist for a human sitting in one of these seats.\n$BULLET$So the AI's path is fixed: it takes Silesia, it offers the Zollverein, it presses the insolence, and it answers the Emperor with war. What varies is not its decisions but whether its armies can carry them.\n$BULLET$The remaining sixteen events carry a single option each. They are news, not decisions - sent to onlookers, to the next victims, and to whoever just won or lost."
+
+ # ==============================================================================
+ # THE PRUSSIAN AMBITION - SITUATION PANEL
+ # Figures below come from docs/AMBITION-NOTES.md, read out of
+ # brandenburg_rise.txt and the 18 phase-1 events.
+ # ==============================================================================
+
+ PD_AM_BALANCE_LABEL: "The Baltic Balance"
+ PD_am_balance_tt: "#T What the score is#!\nRecomputed for both sides every month, and nothing else feeds it:\n$BULLET$army strength\n$BULLET$monthly trade and tax income\n$BULLET$#Y one fifth#! of prestige\n\n#T What it decides#!\nWhichever side is ahead is the side allowed to act. A tie counts as Brandenburg's - the Order needs to be strictly ahead to take its own opening.\n\nThe bar is the share, not the total: it fills toward whoever is leading.\n\n[GetCountry('BRA').GetName]: [SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_bra_score').GetValue|2]\n[GetCountry('TEU').GetName]: [SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_teu_score').GetValue|2]"
+
+ PD_am_standings_header: "The Standings"
+ PD_am_standings_hint: "The side that is ahead is the side allowed to move. Hover a score to see what makes it."
+ PD_am_word_leading: "Leading"
+ PD_am_word_behind: "Behind"
+ PD_am_sec_targets: "What Each Side Is Working On"
+ PD_am_target_none: "No target this month"
+ PD_am_target_tt: "The country this side is currently working against.\n\nA side takes up a target only when it has none, and then holds it until the matter is settled.\n\n#T What sets the pace#!\nThe two are not paced alike. [GetCountry('BRA').GetName] may choose again after #Y 12#! months; the Order must wait #Y 48#!. An opening the Order misses does not come round as often."
+
+ PD_am_history_header: "Historical Context"
+ PD_am_history_body: "#T Two neighbours, both borrowed#!\nThe Teutonic Order had ruled Prussia since the 1230s as a crusading state answerable to nobody but the Pope. The Hohenzollerns arrived in Brandenburg much later and by purchase: in 1415 the Emperor handed the margraviate to a Nuremberg burgrave who had lent him money. Neither house was native to the sand it ended up governing.\n\n#T The Order breaks#!\nAt Tannenberg in 1410 a Polish-Lithuanian army destroyed the Order's field force and, with it, the argument that it was Christendom's shield. The Thirteen Years' War finished the job: by the Second Peace of Thorn in 1466 the Order had lost western Prussia outright and held the rest as a vassal of the Polish crown. A crusading state that owes homage to a king is no longer a crusading state.\n\n#T The quietest conquest in German history#!\nIt never came to the war this situation stages. In 1525 the Grand Master, Albert of Hohenzollern-Ansbach, converted to Lutheranism and turned the Order's lands into the secular Duchy of Prussia - with himself as duke. He was a Hohenzollern, a cousin of the Elector of Brandenburg. When his line died out in 1618 the duchy simply passed to Berlin, and Brandenburg-Prussia existed.\n\n#Y In this campaign it is fought for instead of inherited.#! The score below is the mod's answer to a question history settled with a conversion and a funeral."
+
+ PD_am_levers_header: "What We Can Do"
+ PD_am_levers_body: "#T As [GetCountry('BRA').GetName]#!\n$BULLET$The score is three things and only three: army strength, monthly trade and tax, and a fifth of your prestige. Prestige is the cheap one - a fifth of it counts, and it moves faster than an army does.\n$BULLET$You do not need to be far ahead, only ahead. A tie counts as yours; the Order has to be strictly higher to take its own opening.\n$BULLET$Winning does not require conquering the Order. It ends when the Order is your subject, or when it holds nothing in [ShowAreaName('brandenburg_area')], [ShowAreaName('pomerania_area')] or [ShowAreaName('prussia_area')] while you hold Koenigsberg or Gdansk.\n\n#T As the Teutonic Order#!\n$BULLET$Same three numbers, and you are the one who has to be strictly ahead. Parity is a loss.\n$BULLET$You are also paced slower by design: Brandenburg may choose a new target every #Y 12#! months, you every #Y 48#!. Openings you miss do not come round as often.\n$BULLET$Your own knockout branch exists. This is not a situation you can only survive.\n\n#T As anyone else on the Baltic#!\n$BULLET$If you are the strongest European enemy of whichever side is being targeted, expect an envoy. That is not flavour - the loser of the score goes looking for exactly that country.\n$BULLET$Destroying the Order yourself also ends this situation, once the timeline date has passed.\n\n#T How the AI plays this#!\n$BULLET$Three of the four branching events are weighted against #Y zero#!, so the AI takes the first option every time - the same as in the mod's other two situations.\n$BULLET$#Y The one exception is worth knowing.#! When a side is about to move, it searches its target's enemies and rivals for the strongest one in Europe that holds no land in the three contested areas, and offers to strike together. That offer is weighted #Y 1000 to 1#! against going it alone - so about once in a thousand the AI refuses the ally it just went looking for. It is the only genuine coin-flip in the mod, even if it is a very unfair coin.\n$BULLET$The remaining fourteen events carry one option each. They are news, not decisions."
+
+ PD_pa_state_done: "Done"
+ PD_pa_state_current: "Current"
+ PD_pa_state_ahead: "Ahead"

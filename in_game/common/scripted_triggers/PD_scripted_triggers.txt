@@ -432,3 +432,49 @@ PD_percent_of_army_balance = {
 		}
 	}
 }
+
+
+# --- Map-mode tag guards ---------------------------------------
+# map_color and secondary_map_color run for every location on every redraw,
+# so a reference to a tag that no longer exists throws once per location per
+# redraw (jomini_script_system.cpp:252). That is what filled the log the
+# moment Prussia became the Confederation and c:PRU stopped resolving.
+#
+# The optional operator does not help: it guards the LEFT side of a
+# comparison, and the missing scope is on the right. So each guard below
+# checks the tag exists before naming it, and the explicit trigger_else
+# gives a definite answer when it does not (triggers.log:10751).
+#
+# Parameterised the way vanilla parameterises its own scripted triggers
+# (00_clothing_triggers.txt). Call as: PD_owner_is_subject_of = { TAG = PRU }
+
+PD_owner_is_subject_of = {
+	trigger_if = {
+		limit = {
+			country_exists = c:$TAG$
+		}
+		owner ?= {
+			is_subject_of = c:$TAG$
+		}
+	}
+	trigger_else = {
+		always = no
+	}
+}
+
+PD_owner_allied_to = {
+	trigger_if = {
+		limit = {
+			country_exists = c:$TAG$
+		}
+		owner ?= {
+			has_scripted_relation = {
+				target = c:$TAG$
+				type = relation_type:alliance
+			}
+		}
+	}
+	trigger_else = {
+		always = no
+	}
+}

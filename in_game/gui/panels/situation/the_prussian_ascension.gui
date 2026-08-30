@@ -1,91 +1,571 @@
-﻿situation_panel = {
+# Situation panel for the_prussian_ascension.
+#
+# The state on screen is read from the situation, not restated: this whole arc
+# is one variable, PD_phase2_current_step, which moves only when the lands of
+# the current step are wholly Prussian or Prussian-subject
+# (the_prussian_ascension.txt:443 and :618). PD_zollverein_asked and
+# PD_austria_ultimatum_sent are the two diplomatic sub-lines, and
+# PD_phase2_conquest_target_country is whoever the machine is working on now.
+#
+# What the cards say about the AI comes from docs/ASCENSION-NOTES.md, which was
+# read out of the 21 phase-2 events rather than summarised from memory.
+#
+# Patterns: the_blood_and_iron.gui (this mod's finished reference), vanilla
+# rise_of_the_ottomans.gui:14 (reading a country out of a situation variable).
 
-    # ÜST RESİM
-    blockoverride "situation_panel_image" {
-        hbox = {
-            layoutpolicy_horizontal = expanding
-            size = { 0 220 }
-            background = {
-                texture = "gfx/interface/illustrations/situations/prussian_ascension_header.dds"
-                spriteType = stretched
-            }
-        }
-    }
+types PrussianAscensionTypes {
 
-    # ANA İÇERİK (Kusursuz Aç/Kapa Mantığı)
-    blockoverride "situation_panel_main_content" {
-        vbox = {
-            layoutpolicy_horizontal = expanding
-            layoutpolicy_vertical = expanding
-            # BOŞLUĞU SIFIRLAYAN AYARLAR:
-            margin_left = 15
-            margin_right = 15
-            margin_bottom = 10
-            margin_top = -10 
-            spacing = 8 
+	# One rung of the road. Three states, not two: done, current, still ahead.
+	type pd_pa_road_row = hbox {
+		layoutpolicy_horizontal = expanding
+		spacing = 8
+		block "pd_pa_road_tooltip" {}
 
-            # 1. KART: DURUM AÇIKLAMASI
-            situation_card_expandable = {
-                blockoverride "header_button_onclick" {
-                    onclick = "[LateralView.Vars.Toggle( 'the_prussian_ascension_desc_toggled' )]"
-                }
-                blockoverride "header_text" {
-                    text = "the_prussian_ascension"
-                }
-                blockoverride "header_icon" {
-                    texture = "gfx/interface/icons/traits/_default.dds"
-                }
-                blockoverride "bottom_content" {
-                    text_multi = {
-                        margin = { 15 10 }
-                        layoutpolicy_horizontal = expanding
-                        max_width = 460
-                        autoresize = yes
-                        text = "the_prussian_ascension_desc"
-                        using = fontsize_medium
-                    }
-                }
-                blockoverride "bottom_content_onclick" {
-                    visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_desc_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_yes" {
-                    visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_desc_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_not" {
-                    visible = "[Not(LateralView.Vars.Exists( 'the_prussian_ascension_desc_toggled' ))]"
-                }
-            }
+		icon = {
+			size = { 16 16 }
+			texture = "gfx/interface/progressbars/green_circle_bg.dds"
+			block "pd_pa_road_done" { visible = no }
+		}
+		icon = {
+			size = { 16 16 }
+			texture = "gfx/interface/progressbars/orange_circle_bg.dds"
+			block "pd_pa_road_current" { visible = no }
+		}
+		icon = {
+			size = { 16 16 }
+			texture = "gfx/interface/progressbars/empty_circle_bg.dds"
+			block "pd_pa_road_pending" { visible = yes }
+		}
+		text_single = {
+			fontsize = 15
+			block "pd_pa_road_name" { raw_text = "Step" }
+		}
+		expand = {}
+		# The block wraps the whole widget, not just its text, so a row can
+		# supply several state-gated words in one override.
+		block "pd_pa_road_value" {
+			text_single = {
+				fontsize = 14
+				default_format = "#subtle_name"
+				raw_text = ""
+			}
+		}
+	}
+}
 
-            # 2. KART: HEDEFLER LİSTESİ (Savaşın Bitiş Şartları)
-            situation_card_expandable = {
-                blockoverride "header_button_onclick" {
-                    onclick = "[LateralView.Vars.Toggle( 'the_prussian_ascension_req_toggled' )]"
-                }
-                blockoverride "header_text" {
-                    text = "END_REQUIREMENTS"
-                }
-                blockoverride "header_icon" {
-                    texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
-                }
-                blockoverride "bottom_content" {
-                    TooltipRequirementsList = {
-                        textcontext = "[SituationView.GetActiveSituation.GetSituation.GetEndConditions]"
-                        margin = { 15 10 } 
-                    }
-                }
-                blockoverride "bottom_content_onclick" {
-                    visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_req_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_yes" {
-                    visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_req_toggled' )]"
-                }
-                blockoverride "icon_replace_visible_not" {
-                    visible = "[Not(LateralView.Vars.Exists( 'the_prussian_ascension_req_toggled' ))]"
-                }
-            }
+situation_panel = {
 
-            # Alttaki boşluğu sıfırlayan dostumuz
-            expand = {} 
-        }
-    }
+	##################################### TOP HEADER #####################################
+	# Which of the three steps the ascension stands on.
+
+	blockoverride "situation_header_left" {
+		icon = {
+			size = { 32 32 }
+			texture = "gfx/interface/icons/situations/the_prussian_ascension.dds"
+		}
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			text_single = {
+				fontsize = 15
+				text = "PD_PA_STEP_LABEL"
+				default_format = "#subtle_name"
+			}
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				spacing = 3
+				tooltip = "PD_pa_step_meter_tt"
+				icon = {
+					size = { 14 14 }
+					texture = "gfx/interface/progressbars/orange_circle_bg.dds"
+					visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1')]"
+				}
+				icon = {
+					size = { 14 14 }
+					texture = "gfx/interface/progressbars/empty_circle_bg.dds"
+					visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1'))]"
+				}
+				icon = {
+					size = { 14 14 }
+					texture = "gfx/interface/progressbars/orange_circle_bg.dds"
+					visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+				}
+				icon = {
+					size = { 14 14 }
+					texture = "gfx/interface/progressbars/empty_circle_bg.dds"
+					visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2'))]"
+				}
+				icon = {
+					size = { 14 14 }
+					texture = "gfx/interface/progressbars/orange_circle_bg.dds"
+					visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+				}
+				icon = {
+					size = { 14 14 }
+					texture = "gfx/interface/progressbars/empty_circle_bg.dds"
+					visible = "[Not(GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3'))]"
+				}
+				text_single = {
+					fontsize = 13
+					margin_left = 4
+					raw_text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue|0] / 3"
+				}
+				expand = {}
+			}
+		}
+		expand = {}
+	}
+
+	blockoverride "situation_header_right" {
+		expand = {}
+		vbox = {
+			layoutpolicy_horizontal = expanding
+			visible = "[GetCountry('PRU').IsValid]"
+			text_single = {
+				fontsize = 15
+				align = right|nobaseline
+				text = "[GetCountry('PRU').GetName]"
+				default_format = "#subtle_name"
+			}
+			hbox = {
+				layoutpolicy_horizontal = expanding
+				expand = {}
+				text_single = {
+					fontsize = 13
+					align = right|nobaseline
+					visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1')]"
+					text = "PD_pa_step_1"
+				}
+				text_single = {
+					fontsize = 13
+					align = right|nobaseline
+					visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+					text = "PD_pa_step_2"
+				}
+				text_single = {
+					fontsize = 13
+					align = right|nobaseline
+					visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+					text = "PD_pa_step_3"
+				}
+			}
+		}
+		# Prussia's own flag, not the situation icon: the left of this same
+		# strip is already showing that icon.
+		country_flag_small = {
+			visible = "[GetCountry('PRU').IsValid]"
+			datacontext = "[GetCountry('PRU')]"
+		}
+	}
+
+	##################################### MAIN IMAGE #####################################
+
+	blockoverride "situation_panel_image" {
+		using = two_countries_header_template
+
+		# This mod keeps its art under illustrations/situationS/<name>_header.dds,
+		# which is not where GetSituationIllustration looks (vanilla
+		# in_game/gui/panels/situation/common.gui:113 documents
+		# illustrations/situation/), so the texture is named outright.
+		block "two_countries_header_image" {
+			background = {
+				texture = "gfx/interface/illustrations/situations/prussian_ascension_header.dds"
+				spriteType = stretched
+
+				modify_texture = {
+					texture = "gfx/interface/component_masks/mask_fade_horizontal_middle.dds"
+					texture_density = 2
+					spriteType = stretched
+					spriteborder = { 250 250 }
+					blend_mode = alphamultiply
+					alpha = 0.4
+				}
+			}
+		}
+
+		blockoverride "FirstCountryVisible" {
+			visible = "[GetCountry('PRU').IsValid]"
+		}
+		blockoverride "FirstCountryContext" {
+			datacontext = "[GetCountry('PRU')]"
+		}
+
+		# The Emperor, whoever currently holds the title - NOT Austria. This was
+		# hardcoded to HAB at first, which showed the wrong throne the moment the
+		# crown sat anywhere else (Upper Bavaria, in the campaign that caught it).
+		# The situation's own map_color already reads the office rather than the
+		# tag (the_prussian_ascension.txt:1172); the panel now matches it.
+		# HasValidLeaderCountry also covers the Empire being dismantled, which
+		# this mod allows.
+		blockoverride "SecondCountryVisible" {
+			visible = "[GetUniqueInternationalOrganization('hre').HasValidLeaderCountry]"
+		}
+		blockoverride "SecondCountryContext" {
+			datacontext = "[GetUniqueInternationalOrganization('hre').GetLeaderCountry]"
+		}
+
+		blockoverride "first_character_portrait_anchor" {
+			parentanchor = bottom|left
+		}
+		blockoverride "second_character_portrait_anchor" {
+			parentanchor = bottom|right
+		}
+		blockoverride "character_religion_visibility" {
+			visible = no
+		}
+		blockoverride "character_name_maximumsize" {
+			maximumsize = { 270 -1 }
+		}
+	}
+
+	##################################### SUBHEADER #####################################
+
+	blockoverride "situation_subheader_content" {}
+
+	##################################### MAIN CONTENT #####################################
+
+	blockoverride "situation_panel_main_content" {
+
+		# CARD 1: what the situation is.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_prussian_ascension_desc_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "the_prussian_ascension"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_prussian_ascension.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "the_prussian_ascension_desc"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_desc_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_desc_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_prussian_ascension_desc_toggled' ))]"
+			}
+		}
+
+		# CARD 2: Silesia 1740, the Zollverein, and 1866.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_prussian_ascension_history_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_pa_history_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/events/history.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_pa_history_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_prussian_ascension_history_toggled' ))]"
+			}
+		}
+
+		# CARD 3: the road, the diplomacy, and who is being worked on now.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_prussian_ascension_road_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_pa_road_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_prussian_ascension.dds"
+			}
+			blockoverride "header_content_rest" {
+				text_single = {
+					fontsize = 14
+					default_format = "#subtle_name"
+					raw_text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue|0] / 3"
+					tooltip = "PD_pa_step_meter_tt"
+				}
+			}
+			blockoverride "bottom_content" {
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					margin = { 15 10 }
+					spacing = 8
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 13
+						text = "PD_pa_road_hint"
+						default_format = "#subtle_name"
+						tooltip = "PD_pa_step_meter_tt"
+					}
+
+					pd_pa_road_row = {
+						blockoverride "pd_pa_road_tooltip" { tooltip = "PD_pa_step_1_tt" }
+						blockoverride "pd_pa_road_done" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+						}
+						blockoverride "pd_pa_road_current" {
+							visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1')]"
+						}
+						blockoverride "pd_pa_road_pending" { visible = no }
+						blockoverride "pd_pa_road_name" { text = "PD_pa_step_1" }
+						blockoverride "pd_pa_road_value" {
+							text_single = {
+								fontsize = 14
+								visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+								text = "PD_pa_state_done"
+								default_format = "#G"
+							}
+							text_single = {
+								fontsize = 14
+								visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1')]"
+								text = "PD_pa_state_current"
+								default_format = "#Y"
+							}
+						}
+					}
+
+					pd_pa_road_row = {
+						blockoverride "pd_pa_road_tooltip" { tooltip = "PD_pa_step_2_tt" }
+						blockoverride "pd_pa_road_done" {
+							visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+						}
+						blockoverride "pd_pa_road_current" {
+							visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+						}
+						blockoverride "pd_pa_road_pending" {
+							visible = "[LessThan_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+						}
+						blockoverride "pd_pa_road_name" { text = "PD_pa_step_2" }
+						blockoverride "pd_pa_road_value" {
+							text_single = {
+								fontsize = 14
+								visible = "[GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+								text = "PD_pa_state_done"
+								default_format = "#G"
+							}
+							text_single = {
+								fontsize = 14
+								visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+								text = "PD_pa_state_current"
+								default_format = "#Y"
+							}
+							text_single = {
+								fontsize = 14
+								visible = "[LessThan_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)2')]"
+								text = "PD_pa_state_ahead"
+								default_format = "#subtle_name"
+							}
+						}
+					}
+
+					pd_pa_road_row = {
+						blockoverride "pd_pa_road_tooltip" { tooltip = "PD_pa_step_3_tt" }
+						blockoverride "pd_pa_road_done" { visible = no }
+						blockoverride "pd_pa_road_current" {
+							visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+						}
+						blockoverride "pd_pa_road_pending" {
+							visible = "[LessThan_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+						}
+						blockoverride "pd_pa_road_name" { text = "PD_pa_step_3" }
+						blockoverride "pd_pa_road_value" {
+							text_single = {
+								fontsize = 14
+								visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+								text = "PD_pa_state_current"
+								default_format = "#Y"
+							}
+							text_single = {
+								fontsize = 14
+								visible = "[LessThan_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)3')]"
+								text = "PD_pa_state_ahead"
+								default_format = "#subtle_name"
+							}
+						}
+					}
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 15
+						text = "PD_pa_sec_diplomacy"
+						default_format = "#T"
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 8
+						icon = {
+							size = { 16 16 }
+							texture = "gfx/interface/progressbars/green_circle_bg.dds"
+							visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_zollverein_asked').IsSet]"
+						}
+						icon = {
+							size = { 16 16 }
+							texture = "gfx/interface/progressbars/empty_circle_bg.dds"
+							visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_zollverein_asked').IsSet)]"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_zollverein_asked').IsSet]"
+							text = "PD_pa_zollverein_offered"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_zollverein_asked').IsSet)]"
+							text = "PD_pa_zollverein_waiting"
+							default_format = "#subtle_name"
+						}
+						expand = {}
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 8
+						icon = {
+							size = { 16 16 }
+							texture = "gfx/interface/progressbars/red_circle_bg.dds"
+							visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_austria_ultimatum_sent').IsSet]"
+						}
+						icon = {
+							size = { 16 16 }
+							texture = "gfx/interface/progressbars/empty_circle_bg.dds"
+							visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_austria_ultimatum_sent').IsSet)]"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_austria_ultimatum_sent').IsSet]"
+							text = "PD_pa_ultimatum_sent"
+						}
+						text_single = {
+							fontsize = 14
+							visible = "[Not(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_austria_ultimatum_sent').IsSet)]"
+							text = "PD_pa_ultimatum_waiting"
+							default_format = "#subtle_name"
+						}
+						expand = {}
+					}
+
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 15
+						text = "PD_pa_sec_target"
+						default_format = "#T"
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						spacing = 8
+						visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_conquest_target').GetValue, '(CFixedPoint)1'), SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_conquest_target_country').GetCountry.IsValid )]"
+						country_flag_small = {
+							datacontext = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_conquest_target_country').GetCountry]"
+						}
+						text_single = {
+							fontsize = 15
+							text = "[SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_conquest_target_country').GetCountry.GetName]"
+							tooltip = "PD_pa_target_tt"
+						}
+						expand = {}
+					}
+					text_single = {
+						layoutpolicy_horizontal = expanding
+						fontsize = 14
+						visible = "[Not(EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_conquest_target').GetValue, '(CFixedPoint)1'))]"
+						text = "PD_pa_target_none"
+						default_format = "#subtle_name"
+						tooltip = "PD_pa_target_tt"
+					}
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_road_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_road_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_prussian_ascension_road_toggled' ))]"
+			}
+		}
+
+		# CARD 4: how the situation ends.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_prussian_ascension_req_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "END_REQUIREMENTS"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
+			}
+			blockoverride "bottom_content" {
+				TooltipRequirementsList = {
+					textcontext = "[SituationView.GetActiveSituation.GetSituation.GetEndConditions]"
+					margin = { 15 10 }
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_req_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_req_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_prussian_ascension_req_toggled' ))]"
+			}
+		}
+
+		# CARD 5: what a player can do, from each seat, and what the AI decides.
+		situation_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'the_prussian_ascension_levers_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_pa_levers_header"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/situations/the_prussian_ascension.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_pa_levers_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'the_prussian_ascension_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'the_prussian_ascension_levers_toggled' ))]"
+			}
+		}
+	}
 }
