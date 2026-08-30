@@ -8,20 +8,26 @@ ultimatum) and `the_blood_and_iron` (the Franco-Prussian tension clock and the
 Ems Dispatch). Game rules choose the timeline (frontloaded / strict historical)
 and whether the AI gets conquest safety nets.
 
+It also ships one **disaster**, `PD_bohemian_estates_crisis` — the crown
+of Bohemia against its estates. Read `docs/BOHEMIA-DISASTER.md` before
+touching it: it is deliberately NOT coupled to the situations, and the
+reasoning for that is the part worth keeping.
+
 ## Run this after every change
 
 ```
 python tools/verify_pd.py
 ```
 
-Six checks. **Every check prints how many items it scanned, and a check that
+Ten checks. **Every check prints how many items it scanned, and a check that
 scans zero FAILS** — a silent zero is the exact failure this mod keeps
 producing. It locates vanilla by probing a known FILE; if it reports the tree
 missing, add your path to `VANILLA_CANDIDATES` rather than ignoring the
 degraded run.
 
-What it flags today is real and queued, not noise: two `.gui` files still carry
-a BOM, and two situations still name `c:TAG` inside map-mode blocks.
+It is green as of 2026-08-30. When it goes red, the finding is real until
+proven otherwise — but prove it: three of these checks were themselves wrong
+before the mod was.
 
 ## The mistakes this mod actually makes
 
@@ -54,6 +60,13 @@ treaty key itself; without it every place that asks prints the raw key.
 **`#Y` needs a space after it.** `#YGerman` is read as a tag named `YGerman`,
 logged once per render, and the word is eaten off the screen.
 
+**A disaster's panel and icon are found by its KEY, not by its filename.**
+`savonarola.txt` holds the key `savonarola_disaster` and ships
+`savonarola_disaster.gui` / `.dds`. Name either file anything else and the
+panel is simply never loaded — no error, no missing texture, just the
+default panel where yours should be. This mod shipped exactly that bug for
+an afternoon. `verify_pd.py` check 10 catches it now.
+
 ## Files
 
 - `.txt` and `.yml`: UTF-8 **with BOM**. `.gui`: **no BOM** — vanilla ships 483
@@ -80,12 +93,24 @@ description (short, in-world) · historical context · live state read from the
 situation's own variables · End Requirements · what the player can do, with a
 section per seat and one on what the AI actually decides.
 
-Two rules that are easy to get wrong:
+Four rules that are easy to get wrong:
 - The situation `_desc` key is read by the **engine**, in places far narrower
   than the panel. Keep it narrative; mechanics go on cards, where they can be
   live instead of a paragraph that ages.
 - A panel cannot branch on which tag exists. Have the situation write the
   answer into a variable and read it back with `GetVariable('x').GetCountry`.
+- **A variable the panel reads must be one the script writes.** A name that
+  matches nothing produces no error at all — the widget draws a blank, or a
+  zero that reads as a real value, and the panel confidently reports the wrong
+  state. `check_panel_variables` in the harness catches it; it was added the
+  day a new variable made the risk real, and it is proven against a known
+  positive.
+- **If the AI is allowed to act outside the step the panel advertises, the
+  panel owes the player a state for it.** The Ascension's step 1 was once
+  widened to let Prussia march west when Silesia was unreachable, while every
+  tooltip still said Silesia. The fix was not a vaguer tooltip; it was
+  `PD_phase2_diverted`, a variable whose only job is to let the panel say what
+  is actually happening. See `docs/ASCENSION-NOTES.md`.
 
 ## Releasing — this repo is NOT what gets published
 
@@ -112,6 +137,11 @@ python tools/check_release.py
 It compares the two trees file by file and refuses to say "up to date" unless
 they match, and separately reports any development file that leaked across.
 
+`tools/art_to_dds.py` converts commissioned art to a game DDS — magenta
+key, despill, decontamination, premultiplied downscale, colour bleed. Every
+one of those steps is there because leaving it out produced a visible pink
+rim; the reasoning is in `../1066 Test Mod/docs/EU5-MODDING-GUIDE.md`.
+
 **Bump the version in BOTH `.metadata/metadata.json` files.** As of 2026-08-30
 they both read `4.0.0` while the Steam page had been at `4.1.0` for a release —
 the field had simply not been touched, so the in-game launcher and the workshop
@@ -133,6 +163,11 @@ session does not pay for it twice:
 - `ASCENSION-WIP.md` — the checklist that panel rebuild ran on, kept as the
   worked example of how to slice this kind of job so it survives being
   interrupted.
+- `BOHEMIA-DISASTER.md` — the disaster's design, its fairness rules, and a
+  correction worth reading before writing anything dated: the first version
+  gated it on real-world years and landed ~78 years after the situation it
+  was meant to open. **This mod's calendar is shifted; check dates against
+  the mod's window, not history's.**
 
 The headline finding, true across all three situations: nearly every branching
 event is weighted N against **zero**, so the AI takes the first option every

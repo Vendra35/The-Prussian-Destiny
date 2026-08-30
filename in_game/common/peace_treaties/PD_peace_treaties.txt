@@ -304,8 +304,6 @@ PD_blood_and_iron_proclaim_germany = {
 		scope:winner = {
 			trigger_event_non_silently = pd_brandenburg.306
 		}
-		# Situation sonlandirma trigger'ini aktif et
-		set_global_variable = blood_and_iron_won
 	}
 	ai_desire = {
 		value = 500000000

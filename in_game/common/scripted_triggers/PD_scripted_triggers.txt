@@ -478,3 +478,172 @@ PD_owner_allied_to = {
 		always = no
 	}
 }
+
+
+# Is this country a legal conquest target for the Ascension right now?
+# Called in the TARGET's scope, from two places that must never disagree:
+# the picker in the situation's on_monthly, and the fallback that decides
+# whether the already-stored target is still valid. Keeping one copy is the
+# point - see the note at the call site.
+#
+# Deliberately contains no `prev`: it is evaluated at different nesting
+# depths in the two call sites, and `prev` counts scope-changing hops.
+PD_ascension_valid_target = {
+	# Two ways in. Either one is enough - this is an OR, and the whole
+	# block is ONE of the trigger's two tests (the other is STEP TARGETS
+	# below). Both members are listed here so neither can be missed:
+	OR = {
+		# TIER 1 - the cautious calculation, and the ONLY way in for the
+		# first decade: the target's whole defensive network must be weaker
+		# than our offensive one. One line, no multiplier, always tested.
+		defensive_alliance_strength < c:PRU.offensive_alliance_strength
+		# TIER 2 - the gamble, after ten years with no way in. Prussia does
+		# NOT stop looking at the enemy's allies; it raises what it will
+		# accept from them, from 1:1 to 1.5:1. Frederick in December 1740
+		# attacked a stronger alliance, not an army he could not beat - so
+		# the second half still requires us to out-gun the enemy itself.
+		# Both halves must hold.
+		AND = {
+			PD_ascension_stall_gamble = yes
+			defensive_alliance_strength < {
+				value = c:PRU.offensive_alliance_strength
+				multiply = 1.5
+			}
+			relative_military_strength = {
+				target = c:PRU
+				value < 1.0
+			}
+		}
+	}
+	# STEP TARGETS
+	OR = {
+		# Step 1 - Silesia, and anyone squatting on our own homeland.
+		# Nothing else: the panel promises Silesia here and this is what
+		# makes that promise true.
+		#
+		# NOTE this branch does NOT test PD_phase2_diverted, so it stays live
+		# while the diversion is open. These four areas therefore never need
+		# repeating in the diverted branch below - the two are OR'd, and the
+		# eligible set while diverted is this list PLUS the western one.
+		AND = {
+			situation:the_prussian_ascension = {
+				var:PD_phase2_current_step = 1
+			}
+			any_owned_location = {
+				OR = {
+					this.area = area:silesia_area
+					this.area = area:brandenburg_area
+					this.area = area:pomerania_area
+					this.area = area:prussia_area
+				}
+			}
+		}
+		# Step 1, DIVERTED. Twenty years and Silesia is still shut even
+		# to the gamble, so Prussia turns west to build the strength it
+		# needs for it. PD_phase2_diverted is set in on_monthly and read
+		# by the panel, so the road card says this out loud instead of
+		# promising Silesia while the armies march the other way.
+		AND = {
+			situation:the_prussian_ascension = {
+				var:PD_phase2_current_step = 1
+				var:PD_phase2_diverted = 1
+			}
+			any_owned_location = {
+				OR = {
+					this.area = area:mecklenburg_area
+					this.area = area:lower_saxony_area
+					this.area = area:upper_saxony_area
+				}
+			}
+		}
+		# Eğer Aşama 2'deysek Saxony, Mecklenburg, Holstein ve Westphalia'yı gör
+		AND = {
+			situation:the_prussian_ascension = {
+				var:PD_phase2_current_step = 2
+			}
+			any_owned_location = {
+				OR = {
+					this.area = area:upper_saxony_area
+					this.area = area:lower_saxony_area
+					this.area = area:mecklenburg_area
+					this.area = area:holstein_area
+					this.area = area:westphalia_area
+					this.area = area:hesse_area
+					this.area = area:rhineland_area
+					this.area = area:brandenburg_area
+					this.area = area:pomerania_area
+					this.area = area:prussia_area
+				}
+			}
+		}
+	}
+}
+
+
+# the war-pacing rule, because the rest of this situation is: the war
+# cooldown is 12 months under BRA_buff_enabled and 60 without it. Flat
+# thresholds meant Terminator sat through TEN missed war windows before
+# gambling while Historical sat through two - and Terminator is the mode
+# that is supposed to be the impatient one.
+# Has the current step been blocked long enough for Prussia to gamble? Scaled to
+PD_ascension_stall_gamble = {
+	OR = {
+		AND = {
+			has_game_rule = BRA_buff_enabled
+			situation:the_prussian_ascension = {
+				var:PD_phase2_step_stall >= 36
+			}
+		}
+		AND = {
+			NOT = {
+				has_game_rule = BRA_buff_enabled
+			}
+			situation:the_prussian_ascension = {
+				var:PD_phase2_step_stall >= 120
+			}
+		}
+	}
+}
+
+# Blocked long enough to give up on the step's own lands and expand elsewhere first?
+PD_ascension_stall_divert = {
+	OR = {
+		AND = {
+			has_game_rule = BRA_buff_enabled
+			situation:the_prussian_ascension = {
+				var:PD_phase2_step_stall >= 72
+			}
+		}
+		AND = {
+			NOT = {
+				has_game_rule = BRA_buff_enabled
+			}
+			situation:the_prussian_ascension = {
+				var:PD_phase2_step_stall >= 240
+			}
+		}
+	}
+}
+
+# Ends when one side has won the argument, or when the crown that was arguing
+# has lost Bohemia altogether. Two counters rather than one so both answers are
+# real - see docs/BOHEMIA-DISASTER.md. Shape copied from vanilla's
+# turmoil_in_brandenburg_end_trigger (disaster_triggers.txt:707-716).
+PD_bohemian_estates_crisis_end_trigger = {
+	OR = {
+		custom_tooltip = {
+			text = PD_boh_end_concessions_tt
+			var:PD_boh_concessions >= 100
+		}
+		custom_tooltip = {
+			text = PD_boh_end_repression_tt
+			var:PD_boh_repression >= 100
+		}
+		custom_tooltip = {
+			text = PD_boh_end_crown_lost_tt
+			NOT = {
+				owns = location:prague
+			}
+		}
+	}
+}

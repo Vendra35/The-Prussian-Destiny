@@ -1,0 +1,157 @@
+﻿# THE BOHEMIAN ESTATES CRISIS
+#
+# A disaster for whoever rules Bohemia. It is CONTENT, not a lever: nothing
+# here names Prussia, the Ascension or Silesia, and there is no is_ai gate, so
+# a player and the AI live under the same rules. If it gives Prussia an opening
+# that is emergent - the Ascension's target gate is a strength ratio and this
+# makes Bohemia weaker. Do not couple it to that situation later.
+#
+# Two historical anchors, one per timeline rule (see docs/BOHEMIA-DISASTER.md):
+#   frontloaded      - the Bohemian Revolt, 1618-1620. Prague's governors go
+#                      out of a window, the estates depose their king, and
+#                      Ferdinand breaks them at the White Mountain.
+#   strict historical - the invasion of 1741-42. A Franco-Bavarian army takes
+#                      Prague and Charles Albert is crowned there, while Maria
+#                      Theresa fights for her inheritance. That is the actual
+#                      historical reason Silesia was takeable.
+#
+# The gate is LEGITIMACY, because ruler_religion is not a trigger and because
+# both anchors are legitimacy crises by definition - a king deposed, and a
+# rival crowned in the capital. It is also the fair condition: a Bohemia that
+# keeps its crown secure never sees this at all.
+
+PD_bohemian_estates_crisis = {
+
+	image = "gfx/interface/illustrations/disaster/PD_bohemian_estates_crisis.dds"
+
+	monthly_spawn_chance = monthly_spawn_chance_unique
+
+	fire_only_once = yes
+
+	can_start = {
+		# By land, not by tag: BOH, HAB or whoever actually holds the crown.
+		owns = location:prague
+		has_ruler = yes
+		# 0-100 scale; vanilla gates at <50, <40 and <25.
+		legitimacy < 50
+		# Vanilla's own guards, turmoil_in_brandenburg.txt:11-12.
+		in_civil_war = no
+		has_any_active_disaster = no
+		# The window is the Ascension's own, measured, not the almanac's:
+		# it can begin at 1522.3.9 frontloaded and 1648.1.1 strict
+		# (PD_events.txt:1007,1016), and the auto-conquest failsafe closes
+		# the era at 1632 and 1745 (the_prussian_ascension.txt:254,259).
+		# An earlier draft gated this at 1600 and 1725 - both ~78 years
+		# after their situation can start - so the crisis could only ever
+		# arrive once the story was over. Dates here only say 'while this
+		# era is running'; legitimacy is what actually decides.
+		OR = {
+			AND = {
+				has_game_rule = PD_timeline_frontloaded
+				current_date > 1522.3.9
+				current_date < 1640.1.1
+			}
+			AND = {
+				has_game_rule = PD_timeline_strict_historical
+				current_date > 1648.1.1
+				current_date < 1755.1.1
+			}
+		}
+	}
+
+	can_end = {
+		PD_bohemian_estates_crisis_end_trigger = yes
+	}
+
+	# The weakening. Every tag verified against modifiers.log; the manpower one
+	# has disaster precedent at english_civil_war.txt:49 (-0.33 there).
+	modifier = {
+		global_max_control = -0.1
+		global_monthly_control = -0.0005
+		monthly_legitimacy = -0.03
+		global_manpower_modifier = -0.2
+		nobles_estate_levy_size = -0.25
+	}
+
+	on_start = {
+		# Two counters, not one, so that both answers are real: buying the
+		# estates off ends this with the crown weakened and the realm intact,
+		# crushing them ends it with the realm cowed and the treasury spent.
+		# Neither is the correct answer. Pattern from turmoil_in_brandenburg,
+		# whose end trigger reads two counters the same way
+		# (disaster_triggers.txt:707-716).
+		set_variable = {
+			name = PD_boh_concessions
+			value = 0
+		}
+		set_variable = {
+			name = PD_boh_repression
+			value = 0
+		}
+		set_variable = {
+			name = PD_boh_crisis_months
+			value = 0
+		}
+		# Which crisis, by DATE rather than by game rule, so the text always
+		# suits the century it fires in. Under the windows above this is the
+		# revolt in frontloaded and the foreign claimant in strict, but it
+		# stays right if a campaign runs long or short.
+		if = {
+			limit = {
+				current_date < 1650.1.1
+			}
+			trigger_event_non_silently = pd_bohemia.1
+		}
+		else = {
+			trigger_event_non_silently = pd_bohemia.2
+		}
+		# The neighbours hear of it. No mention of who benefits.
+		every_country = {
+			limit = {
+				this != root
+				OR = {
+					has_presence_in = region:north_german_region
+					has_presence_in = region:south_german_region
+				}
+			}
+			trigger_event_non_silently = pd_bohemia.20
+		}
+	}
+
+	on_monthly = {
+		change_variable = {
+			name = PD_boh_crisis_months
+			add = 1
+		}
+		# The estates come back to the table every two years until one side
+		# has had enough.
+		if = {
+			limit = {
+				var:PD_boh_crisis_months >= 24
+			}
+			set_variable = {
+				name = PD_boh_crisis_months
+				value = 0
+			}
+			trigger_event_non_silently = pd_bohemia.10
+		}
+	}
+
+	on_end = {
+		if = {
+			limit = {
+				var:PD_boh_concessions >= 100
+			}
+			trigger_event_non_silently = pd_bohemia.100
+		}
+		else_if = {
+			limit = {
+				var:PD_boh_repression >= 100
+			}
+			trigger_event_non_silently = pd_bohemia.101
+		}
+		remove_variable = PD_boh_concessions
+		remove_variable = PD_boh_repression
+		remove_variable = PD_boh_crisis_months
+	}
+}

@@ -1,0 +1,92 @@
+﻿namespace = pd_bohemia
+
+# The Bohemian Estates Crisis. Design and citations: docs/BOHEMIA-DISASTER.md.
+# Nothing here names Prussia, the Ascension or Silesia, and nothing is gated on
+# is_ai - a player and the AI face the same crisis on the same terms.
+
+# --- OPENING, frontloaded timeline: the Revolt of 1618 ---
+pd_bohemia.1 = {
+	type = country_event
+	title = pd_bohemia.1.title
+	desc = pd_bohemia.1.desc
+	option = {
+		name = pd_bohemia.1.a
+	}
+}
+
+# --- OPENING, strict historical timeline: the invasion of 1741 ---
+pd_bohemia.2 = {
+	type = country_event
+	title = pd_bohemia.2.title
+	desc = pd_bohemia.2.desc
+	option = {
+		name = pd_bohemia.2.a
+	}
+}
+
+# --- THE RECURRING CHOICE, every two years while the crisis runs ---
+# Both answers are real. Conceding ends it with the crown weakened and the
+# realm intact; repression ends it with the realm cowed and the treasury spent.
+pd_bohemia.10 = {
+	type = country_event
+	title = pd_bohemia.10.title
+	desc = pd_bohemia.10.desc
+	option = {
+		name = pd_bohemia.10.a
+		change_variable = {
+			name = PD_boh_concessions
+			add = 25
+		}
+		# The crown yields ground to keep the realm together.
+		add_legitimacy = -4
+		ai_chance = {
+			factor = 50
+		}
+	}
+	option = {
+		name = pd_bohemia.10.b
+		change_variable = {
+			name = PD_boh_repression
+			add = 25
+		}
+		# Soldiers and confiscations are not free.
+		add_gold = -50
+		add_prestige = -2
+		ai_chance = {
+			factor = 50
+		}
+	}
+}
+
+# --- NEWS to the German neighbours ---
+pd_bohemia.20 = {
+	type = country_event
+	title = pd_bohemia.20.title
+	desc = pd_bohemia.20.desc
+	option = {
+		name = pd_bohemia.20.a
+	}
+}
+
+# --- RESOLUTION: the estates were bought ---
+pd_bohemia.100 = {
+	type = country_event
+	title = pd_bohemia.100.title
+	desc = pd_bohemia.100.desc
+	option = {
+		name = pd_bohemia.100.a
+		add_legitimacy = 10
+	}
+}
+
+# --- RESOLUTION: the estates were broken ---
+pd_bohemia.101 = {
+	type = country_event
+	title = pd_bohemia.101.title
+	desc = pd_bohemia.101.desc
+	option = {
+		name = pd_bohemia.101.a
+		add_legitimacy = 15
+		add_prestige = 5
+	}
+}

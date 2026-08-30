@@ -132,8 +132,16 @@ situation_panel = {
 				text_single = {
 					fontsize = 13
 					align = right|nobaseline
-					visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1')]"
+					visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1'), Not(EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_diverted').GetValue, '(CFixedPoint)1')) )]"
 					text = "PD_pa_step_1"
+				}
+				# Step 1 is still open but Silesia is shut, so the name says the
+				# truth rather than a plan the armies are not following.
+				text_single = {
+					fontsize = 13
+					align = right|nobaseline
+					visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1'), EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_diverted').GetValue, '(CFixedPoint)1') )]"
+					text = "PD_pa_step_1_diverted"
 				}
 				text_single = {
 					fontsize = 13
@@ -339,11 +347,41 @@ situation_panel = {
 							}
 							text_single = {
 								fontsize = 14
-								visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1')]"
+								visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1'), Not(EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_diverted').GetValue, '(CFixedPoint)1')) )]"
 								text = "PD_pa_state_current"
 								default_format = "#Y"
 							}
+							text_single = {
+								fontsize = 14
+								visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1'), EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_diverted').GetValue, '(CFixedPoint)1') )]"
+								text = "PD_pa_state_diverted"
+								default_format = "#R"
+							}
 						}
+					}
+
+					# The step has been open five years or more and Silesia is still
+					# shut. Nothing on this panel mentioned the clock that drives both
+					# fallbacks, so a stuck situation looked identical to a healthy one.
+					text_multi = {
+						layoutpolicy_horizontal = expanding
+						max_width = 500
+						autoresize = yes
+						fontsize = 13
+						visible = "[And( EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_current_step').GetValue, '(CFixedPoint)1'), And( GreaterThanOrEqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_step_stall').GetValue, '(CFixedPoint)60'), Not(EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_diverted').GetValue, '(CFixedPoint)1')) ) )]"
+						text = "PD_pa_stall_note"
+						default_format = "#subtle_name"
+					}
+
+					# Only drawn once the situation has given up on Silesia for now.
+					text_multi = {
+						layoutpolicy_horizontal = expanding
+						max_width = 500
+						autoresize = yes
+						fontsize = 13
+						visible = "[EqualTo_CFixedPoint(SituationView.GetActiveSituation.GetSituation.MakeScope.GetVariable('PD_phase2_diverted').GetValue, '(CFixedPoint)1')]"
+						text = "PD_pa_diverted_note"
+						default_format = "#subtle_name"
 					}
 
 					pd_pa_road_row = {

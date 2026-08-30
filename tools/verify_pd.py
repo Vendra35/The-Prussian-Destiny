@@ -113,9 +113,14 @@ def check_encoding():
     scanned, bad = 0, []
     targets = ([(f, "yml") for f in mod_loc_files] +
                [(f, "gui") for f in gui_files] +
-               [(f, "txt") for f in glob.glob(
-                   os.path.join(MOD, "in_game", "common", "**", "*.txt"),
-                   recursive=True)])
+               # events too: the disaster's event file lives under
+               # in_game/events/ and was going unchecked, which is the same
+               # silent-BOM failure class this check exists for.
+               [(f, "txt") for f in
+                glob.glob(os.path.join(MOD, "in_game", "common", "**", "*.txt"),
+                          recursive=True)
+                + glob.glob(os.path.join(MOD, "in_game", "events", "**", "*.txt"),
+                            recursive=True)])
     for path, kind in targets:
         scanned += 1
         raw = open(path, "rb").read()
@@ -320,9 +325,129 @@ def check_treaty_event_tooltips():
             depth += line.count("{") - line.count("}")
     record("peace treaty events", scanned, bad)
 
+# ------------------------------------------------ 7. panel variable writes --
+def check_panel_variables():
+    """Every GetVariable('X') in a .gui must be written somewhere in script.
+
+    A panel reads situation state through GetVariable. When the name does not
+    match anything the script writes, the engine says nothing: the widget just
+    draws a blank, or a zero that looks like a real value. Nothing in the log,
+    nothing on screen, and a panel that confidently reports the wrong state.
+
+    The writer set is deliberately loose - every 'name = X' and every
+    'set_variable = X' shorthand under in_game/common and in_game/events. A
+    loose writer set can only cause a false PASS, never a false failure, and a
+    check that cries wolf gets ignored.
+    """
+    scanned, bad = 0, []
+    script_files = sorted(
+        glob.glob(os.path.join(MOD, "in_game", "common", "**", "*.txt"),
+                  recursive=True)
+        + glob.glob(os.path.join(MOD, "in_game", "events", "**", "*.txt"),
+                    recursive=True))
+    written = set()
+    for path in script_files:
+        body = read(path)
+        written.update(re.findall(r"\bname\s*=\s*([A-Za-z_][A-Za-z_0-9]*)", body))
+        written.update(re.findall(
+            r"\b(?:set_variable|set_global_variable|set_local_variable)"
+            r"\s*=\s*([A-Za-z_][A-Za-z_0-9]*)\s*$", body, re.M))
+    if not script_files:
+        record("panel variables", 0, [])
+        return
+    # loc too: vanilla reads situation variables straight out of loc keys
+    # (26 SituationView...GetVariable uses in its english tree), so the
+    # same silent typo can hide in a .yml.
+    for path in gui_files + mod_loc_files:
+        for n, line in enumerate(read(path).split("\n"), 1):
+            if line.lstrip().startswith("#"):
+                continue          # commented-out code, not a live read
+            for var in re.findall(r"GetVariable\('([A-Za-z_][A-Za-z_0-9]*)'\)", line):
+                scanned += 1
+                if var not in written:
+                    bad.append("%s:%d: the panel reads variable '%s', which no "
+                               "script under in_game/ ever writes. The engine "
+                               "reports nothing for this - the widget just draws "
+                               "empty or zero." % (rel(path), n, var))
+    record("panel variables", scanned, sorted(set(bad)))
+
+
+
+def check_script_images():
+    """An image = "gfx/..." in a .txt must resolve to a real file.
+
+    check_gui_references covers textures named in .gui; nothing covered the
+    ones named in script - a disaster's illustration, an event's image. A
+    missing one draws nothing and reports nothing.
+    """
+    scanned, bad = 0, []
+    roots = [os.path.join(MOD, d) for d in ("in_game", "main_menu")]
+    if VANILLA:
+        roots += [os.path.join(VANILLA, d)
+                  for d in ("in_game", "main_menu", "loading_screen")]
+    files = (glob.glob(os.path.join(MOD, "in_game", "common", "**", "*.txt"),
+                       recursive=True)
+             + glob.glob(os.path.join(MOD, "in_game", "events", "**", "*.txt"),
+                         recursive=True))
+    for path in files:
+        for n, line in enumerate(read(path).split(chr(10)), 1):
+            for tex in re.findall(r'image\s*=\s*"(gfx/[^"]+)"', line):
+                # Commented lines are COUNTED but not validated. They are
+                # inert, so they cannot draw a missing texture - but counting
+                # them keeps this check from scanning zero and failing while
+                # art is pending, without exempting it from the zero rule.
+                scanned += 1
+                if line.lstrip().startswith("#"):
+                    continue
+                if not any(os.path.isfile(os.path.join(r, tex.replace("/", os.sep)))
+                           for r in roots):
+                    bad.append("%s:%d: image %r does not exist - it will draw "
+                               "nothing, silently" % (rel(path), n, tex))
+    record("script image paths", scanned, bad)
+
+
+def strip_line_comments(text):
+    """Drop whole-line comments only - a '#' inside a quoted path is not one."""
+    return "\n".join(l for l in text.split(chr(10))
+                      if not l.lstrip().startswith("#"))
+
+
+def check_disaster_art():
+    """Panel and icon are found by the disaster KEY, not by the file name.
+
+    Vanilla: savonarola.txt holds the key savonarola_disaster and ships
+    savonarola_disaster.gui / .dds; reform_society.txt holds reform_society and
+    ships reform_society.gui / .dds. Get the name wrong and the panel is not
+    loaded and the icon falls back to _default.dds - both silently.
+    """
+    scanned, bad = 0, []
+    for path in glob.glob(os.path.join(MOD, "in_game", "common", "disasters",
+                                       "*.txt")):
+        body = strip_line_comments(read(path))
+        for key in re.findall(r"^([A-Za-z_][A-Za-z_0-9]*)\s*=\s*\{", body, re.M):
+            scanned += 1
+            gui = os.path.join(MOD, "in_game", "gui", "panels", "disaster",
+                               key + ".gui")
+            icon = os.path.join(MOD, "main_menu", "gfx", "interface", "icons",
+                                "disasters", key + ".dds")
+            if not os.path.isfile(gui):
+                bad.append("%s: disaster '%s' has no panel at "
+                           "in_game/gui/panels/disaster/%s.gui - the engine "
+                           "looks it up by KEY, so a differently named file is "
+                           "never loaded and no error is raised"
+                           % (rel(path), key, key))
+            if not os.path.isfile(icon):
+                bad.append("%s: disaster '%s' has no icon at "
+                           "main_menu/gfx/interface/icons/disasters/%s.dds - it "
+                           "will quietly fall back to _default.dds"
+                           % (rel(path), key, key))
+    record("disaster panel + icon names", scanned, bad)
+
 
 for fn in (check_encoding, check_gui_references, check_show_names,
-           check_format_tags, check_hot_block_tags, check_treaty_event_tooltips):
+           check_format_tags, check_hot_block_tags, check_treaty_event_tooltips,
+           check_panel_variables, check_script_images,
+           check_disaster_art):
     fn()
 
 # ------------------------------------------------------------------ report --

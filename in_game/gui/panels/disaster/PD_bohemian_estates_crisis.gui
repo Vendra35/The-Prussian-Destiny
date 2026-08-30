@@ -1,0 +1,163 @@
+# The Bohemian Estates Crisis. Design: docs/BOHEMIA-DISASTER.md.
+# Structure follows vanilla reform_society.gui - the cards live in
+# blockoverride "disaster_secondary_tab", and disaster_card_expandable takes
+# the same seven blocks situation_card_expandable does.
+disaster_panel = {
+
+	blockoverride "main_image" {}
+
+	blockoverride "disaster_secondary_tab" {
+		margin_top = 10
+		spacing = 5
+
+		# CARD 0: what actually happened. First in the stack, per the panel law
+		# in ../1066 Test Mod/docs/SITUATION-CRAFT.md - and doubly worth having
+		# here, because a crisis that weakens a rival is the kind of content a
+		# player is entitled to be suspicious of. This says it is not invented.
+		disaster_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'PD_boh_history_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_boh_card_history"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/events/history.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_boh_history_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'PD_boh_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'PD_boh_history_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'PD_boh_history_toggled' ))]"
+			}
+		}
+
+		# CARD 1: where the argument stands. Both counters, always both, so
+		# neither answer looks like the intended one.
+		disaster_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'PD_boh_state_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_boh_card_state"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
+			}
+			blockoverride "bottom_content" {
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					margin = { 15 10 }
+					spacing = 6
+
+					text_multi = {
+						layoutpolicy_horizontal = expanding
+						max_width = 500
+						autoresize = yes
+						fontsize = 14
+						text = "PD_boh_state_concessions"
+					}
+					text_multi = {
+						layoutpolicy_horizontal = expanding
+						max_width = 500
+						autoresize = yes
+						fontsize = 14
+						text = "PD_boh_state_repression"
+					}
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'PD_boh_state_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'PD_boh_state_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'PD_boh_state_toggled' ))]"
+			}
+		}
+
+		# CARD 2: what the two answers actually cost.
+		disaster_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'PD_boh_levers_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "PD_boh_card_levers"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
+			}
+			blockoverride "bottom_content" {
+				text_multi = {
+					margin = { 15 10 }
+					layoutpolicy_horizontal = expanding
+					max_width = 500
+					autoresize = yes
+					text = "PD_boh_levers_body"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'PD_boh_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'PD_boh_levers_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'PD_boh_levers_toggled' ))]"
+			}
+		}
+
+		# CARD 3: how it ends - vanilla's own card, verbatim from
+		# reform_society.gui.
+		disaster_card_expandable = {
+			blockoverride "header_button_onclick" {
+				onclick = "[LateralView.Vars.Toggle( 'requirements_toggled' )]"
+			}
+			blockoverride "header_text" {
+				text = "END_REQUIREMENTS"
+			}
+			blockoverride "header_icon" {
+				texture = "gfx/interface/icons/disasters/end_requirements_green.dds"
+			}
+			blockoverride "bottom_content" {
+				TooltipRequirementsList = {
+					textcontext = "[DisasterView.GetDisaster.GetType.GetEndConditions]"
+				}
+			}
+			blockoverride "bottom_content_onclick" {
+				visible = "[LateralView.Vars.Exists( 'requirements_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_yes" {
+				visible = "[LateralView.Vars.Exists( 'requirements_toggled' )]"
+			}
+			blockoverride "icon_replace_visible_not" {
+				visible = "[Not(LateralView.Vars.Exists( 'requirements_toggled' ))]"
+			}
+		}
+	}
+
+	blockoverride "disaster_main_content_subheader" {}
+
+	blockoverride "subheader_content"{
+		hbox = {
+			using = layoutpolicy_expanding
+			widget = {
+				layoutpolicy_horizontal = expanding
+				size = { -1 40 }
+			}
+		}
+	}
+}

@@ -135,6 +135,17 @@
 			name = PD_phase2_conquest_target_country
 			value = c:PRU
 		}
+		# Months on the current step, and whether step 1 has given up on
+		# reaching Silesia for now. Both are read by the target gate and
+		# by the situation panel.
+		set_variable = {
+			name = PD_phase2_step_stall
+			value = 0
+		}
+		set_variable = {
+			name = PD_phase2_diverted
+			value = 0
+		}
 		c:PRU = {
 			# NGF Başlangıç Eventi (İttifakları kırma vs. için)
 			trigger_event_non_silently = pd_brandenburg.200
@@ -193,6 +204,42 @@
 		}
 	}
 	on_monthly = {
+		# SAVE MIGRATION - these two arrived after this situation shipped, so a
+		# campaign already past on_start has neither of them. Everything below
+		# reads them, and reading a variable that was never set is not something
+		# the engine forgives quietly. Seed them here, before anything looks.
+		# A no-op in a new campaign; on_start sets both there.
+		if = {
+			limit = {
+				NOT = {
+					has_variable = PD_phase2_step_stall
+				}
+			}
+			set_variable = {
+				name = PD_phase2_step_stall
+				value = 0
+			}
+			# And drop whatever target this save chose under the old rules. The
+			# war block below fires on PD_phase2_conquest_target = 1 alone and
+			# never re-tests the stored country against the step's areas, so a
+			# save mid-situation would otherwise declare on a target the current
+			# step no longer allows - and the new rules would look inert.
+			set_variable = {
+				name = PD_phase2_conquest_target
+				value = 0
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_variable = PD_phase2_diverted
+				}
+			}
+			set_variable = {
+				name = PD_phase2_diverted
+				value = 0
+			}
+		}
 		if = {
 			limit = {
 				has_game_rule = PD_the_prussian_ascension_auto_conquest_yes
@@ -443,6 +490,15 @@
 				name = PD_phase2_current_step
 				value = 2
 			}
+				# New step, new clock - and the diversion is off again.
+				set_variable = {
+					name = PD_phase2_step_stall
+					value = 0
+				}
+				set_variable = {
+					name = PD_phase2_diverted
+					value = 0
+				}
 		}
 		# --- AŞAMA 2: ZOLLVEREIN (GÜMRÜK BİRLİĞİ) DİPLOMASİSİ VE Saxony-holstein-mecklenburg BÖLGESİ---
 		if = {
@@ -618,6 +674,15 @@
 				name = PD_phase2_current_step
 				value = 3
 			}
+				# New step, new clock - and the diversion is off again.
+				set_variable = {
+					name = PD_phase2_step_stall
+					value = 0
+				}
+				set_variable = {
+					name = PD_phase2_diverted
+					value = 0
+				}
 			# Avrupa'ya haber ver: "Sıradaki hedef İmparator!" (Event 216)
 			every_country = {
 				limit = {
@@ -719,53 +784,37 @@
 						NOT = {
 							is_subject_of = prev
 						}
-						# GÜVENLİK SİGORTASI: Hedefin TÜM defansif ittifak ağı gücü, BRA'nın çıplak gücünden KÜÇÜK olmalı.
-						defensive_alliance_strength < c:PRU.offensive_alliance_strength
-						# AŞAMALI HEDEF SEÇİMİ (Phase 2 Targets) - DÜZELTİLMİŞ KISIM
-						OR = {
-							# Eğer Aşama 1'deysek SADECE Silezya'yı gör
-							AND = {
+						# The whole target test lives in one place -
+						# PD_ascension_valid_target in common/scripted_triggers/ - because
+						# the FALLBACK below has to apply exactly the same test to the
+						# target it is already holding. Two copies drift: Mongol
+						# Resurgence ended up with comments saying 1.1 over code saying
+						# 0.7 for precisely that reason.
+						PD_ascension_valid_target = yes
+					}
+					max = 1
+					# Smallest first among equals - the easy war before the hard one,
+					# and the gate above has already thrown out anything unwinnable.
+					# But size must NOT outrank the objective: step 1 closes on Silesia
+					# and nothing else, and Silesia's holder is usually the biggest
+					# country on the list. Without the bonus below it sorts last, behind
+					# every homeland squatter and - once diverted - every small western
+					# state, so the one country that can close the step never gets
+					# picked. Conditional order_by per country_interactions/hre.txt:2143.
+					order_by = {
+						value = num_locations
+						multiply = -1
+						if = {
+							limit = {
 								situation:the_prussian_ascension = {
 									var:PD_phase2_current_step = 1
 								}
 								any_owned_location = {
-									OR = {
-										this.area = area:silesia_area
-										this.area = area:brandenburg_area
-										this.area = area:pomerania_area
-										this.area = area:prussia_area
-										this.area = area:mecklenburg_area
-										this.area = area:lower_saxony_area
-										this.area = area:upper_saxony_area
-									}
+									this.area = area:silesia_area
 								}
 							}
-							# Eğer Aşama 2'deysek Saxony, Mecklenburg, Holstein ve Westphalia'yı gör
-							AND = {
-								situation:the_prussian_ascension = {
-									var:PD_phase2_current_step = 2
-								}
-								any_owned_location = {
-									OR = {
-										this.area = area:upper_saxony_area
-										this.area = area:lower_saxony_area
-										this.area = area:mecklenburg_area
-										this.area = area:holstein_area
-										this.area = area:westphalia_area
-										this.area = area:hesse_area
-										this.area = area:rhineland_area
-										this.area = area:brandenburg_area
-										this.area = area:pomerania_area
-										this.area = area:prussia_area
-									}
-								}
-							}
+							add = 100000
 						}
-					}
-					max = 1
-					order_by = {
-						value = num_locations
-						multiply = -1
 					}
 					situation:the_prussian_ascension = {
 						set_variable = {
@@ -785,6 +834,70 @@
 			name = PD_phase2_conquest_cooldown
 			add = 1
 		}
+		# STEP STALL - months spent on the CURRENT step. Reset only when the
+		# step changes, so it measures the thing that is actually stuck: a
+		# war elsewhere does not clear it. The target gate reads it to open
+		# its second tier at 120, and the switch below reads it at 240.
+		change_variable = {
+			name = PD_phase2_step_stall
+			add = 1
+		}
+		# Twenty years on step 1 and Silesia is still out of reach. Open the
+		# west, and record it, because the panel has to be able to say so.
+		if = {
+			limit = {
+				var:PD_phase2_current_step = 1
+				PD_ascension_stall_divert = yes
+				var:PD_phase2_diverted = 0
+			}
+			set_variable = {
+				name = PD_phase2_diverted
+				value = 1
+			}
+		}
+		# ...and close it again the moment Silesia is reachable. Without this
+		# the diversion is permanent: the flag clears only on a step change,
+		# and step 1 changes only when Silesia falls. So an enemy that grew
+		# weak later would never be turned back for - Prussia would keep
+		# marching west past an open door. The panel follows the flag, so it
+		# stops saying 'marching west' on its own.
+		if = {
+			limit = {
+				var:PD_phase2_current_step = 1
+				var:PD_phase2_diverted = 1
+				c:PRU = {
+					any_neighbor_country = {
+						any_owned_location = {
+							this.area = area:silesia_area
+						}
+						PD_ascension_valid_target = yes
+					}
+				}
+			}
+			set_variable = {
+				name = PD_phase2_diverted
+				value = 0
+			}
+			# Back to 120, not 0: keep the tier-2 tolerance Prussia earned over
+			# the last twenty years, but make it wait another decade before it
+			# may divert again. At 0 the flag would flap month to month around
+			# the gate boundary and the panel line would blink with it.
+			if = {
+				limit = {
+					has_game_rule = BRA_buff_enabled
+				}
+				set_variable = {
+					name = PD_phase2_step_stall
+					value = 36
+				}
+			}
+			else = {
+				set_variable = {
+					name = PD_phase2_step_stall
+					value = 120
+				}
+			}
+		}
 		# --- GÜVENLİK SİGORTASI (FALLBACK) BRANDENBURG İÇİN ---
 		if = {
 			limit = {
@@ -799,6 +912,15 @@
 						OR = {
 							is_subject_of = c:PRU
 							has_truce_with = c:PRU
+							# 3. The target no longer passes the test that picked it.
+							# Selection and declaration are 12 to 60 months apart, which
+							# is time enough for the target to gain an ally or for the
+							# step to move on. Without this the war fires anyway, on a
+							# flag set years earlier. Ported from Mongol Resurgence,
+							# MR_mongol_resurgence.txt:534 (audited there 2026-08-28).
+							NOT = {
+								PD_ascension_valid_target = yes
+							}
 						}
 					}
 				}
@@ -1153,6 +1275,8 @@
 		remove_variable = PD_hegemony_victory
 		remove_variable = PD_submitted_to_emperor
 		remove_variable = PD_phase2_current_step
+		remove_variable = PD_phase2_step_stall
+		remove_variable = PD_phase2_diverted
 		remove_global_variable = prussian_ascension_active
 	}
 	tooltip = {
