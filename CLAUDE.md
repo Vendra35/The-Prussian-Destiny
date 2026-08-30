@@ -87,6 +87,37 @@ Two rules that are easy to get wrong:
 - A panel cannot branch on which tag exists. Have the situation write the
   answer into a variable and read it back with `GetVariable('x').GetCountry`.
 
+## Releasing — this repo is NOT what gets published
+
+Steam is fed from a separate folder, so that the development files never reach
+players:
+
+```
+mod/The Prussian Destiny                      <- this repo, where work happens
+mod/My Mod Releases/The Prussian Destiny Release   <- what is uploaded to Steam
+```
+
+The release folder holds `in_game/`, `main_menu/` and `.metadata/` only. It must
+never contain `CLAUDE.md`, `docs/`, `tools/`, `.claude/` or `.git/`.
+
+**The failure this arrangement invites is publishing a stale copy.** The two
+trees are kept in step by hand, so a release can silently ship the previous
+version's content while the repo holds the new one, and nothing anywhere
+complains. Before every upload:
+
+```
+python tools/check_release.py
+```
+
+It compares the two trees file by file and refuses to say "up to date" unless
+they match, and separately reports any development file that leaked across.
+
+**Bump the version in BOTH `.metadata/metadata.json` files.** As of 2026-08-30
+they both read `4.0.0` while the Steam page had been at `4.1.0` for a release —
+the field had simply not been touched, so the in-game launcher and the workshop
+page disagreed. It breaks nothing, but it makes "which build is this?"
+unanswerable.
+
 ## This mod's own notes — read them before re-deriving anything
 
 `docs/` holds what has already been read out of the script, so that a later
