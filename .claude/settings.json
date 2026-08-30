@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "out=$(python tools/verify_pd.py 2>&1) || printf '%s' \"$out\" | tail -n 20 | python -c 'import sys,json;print(json.dumps({\"systemMessage\":\"verify_pd.py FAILED\\n\"+sys.stdin.read()}))'",
+            "timeout": 60,
+            "statusMessage": "Verifying The Prussian Destiny"
+          }
+        ]
+      }
+    ]
+  }
+}
