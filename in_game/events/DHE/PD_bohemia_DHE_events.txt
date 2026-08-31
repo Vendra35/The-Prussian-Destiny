@@ -12,6 +12,7 @@
 pd_bohemia_dhe.1 = {
 	type = country_event
 	title = pd_bohemia_dhe.1.title
+	historical_info = pd_bohemia_dhe.1.historical_info
 	desc = pd_bohemia_dhe.1.desc
 	fire_only_once = yes
 	dynamic_historical_event = {

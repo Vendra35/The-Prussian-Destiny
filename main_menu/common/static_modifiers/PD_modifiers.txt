@@ -395,3 +395,19 @@ PD_prussian_general_staff_buff_historical = {
 	artillery_bonus_vs_fort = 1
 	diplomatic_capacity = 20
 }
+
+
+# The standing cost of every charter the Bohemian crown confirmed to get its
+# estates out of the room. One stack per diet conceded, permanent, cumulative
+# - see in_game/events/disaster/PD_bohemia_events.txt.
+#
+# Small per stack on purpose: four of them is what a full concession route
+# costs, and four is meant to be felt without being fatal.
+PD_boh_confirmed_privileges = {
+	game_data = {
+		category = country
+	}
+	global_crown_estate_power = -0.05
+	nobles_estate_levy_size = -0.05
+	global_levy_size_modifier = -0.03
+}

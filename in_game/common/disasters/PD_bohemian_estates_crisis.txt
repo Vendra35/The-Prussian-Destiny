@@ -64,17 +64,58 @@ PD_bohemian_estates_crisis = {
 		PD_bohemian_estates_crisis_end_trigger = yes
 	}
 
-	# The weakening. Every tag verified against modifiers.log; the manpower one
-	# has disaster precedent at english_civil_war.txt:49 (-0.33 there).
+	# THE WEAKENING, and it has to be real.
+	#
+	# The first version of this block was bookkeeping - control, legitimacy,
+	# a manpower trim. None of it moved anything the Ascension's target gate
+	# reads, and that gate is the whole reason a weak Bohemia matters:
+	# defensive_alliance_strength is "the nation WITH all countries giving
+	# defensive support" (triggers.log:3577), and relative_military_strength
+	# is the army. Legitimacy and gold are in neither term.
+	#
+	# So this now does what vanilla's own civil-war disasters do. Measured
+	# across all 32 vanilla disasters: the tool of the trade is REBELS -
+	# monthly_rebel_growth appears in 9 of them - not a '-20% army' sticker,
+	# which appears in none. Rebels tie down and destroy the army, and the
+	# army is what the gate weighs. The four values below are
+	# english_civil_war.txt:47-50 exactly.
 	modifier = {
 		global_max_control = -0.1
 		global_monthly_control = -0.0005
 		monthly_legitimacy = -0.03
-		global_manpower_modifier = -0.2
 		nobles_estate_levy_size = -0.25
+		pop_join_rebel_threshold = 0.05
+		monthly_rebel_growth = 0.01
+		monthly_war_exhaustion = 0.15
+		global_manpower_modifier = -0.33
 	}
 
 	on_start = {
+		# THE ALLIANCES GO FIRST, and this is the change that matters.
+		#
+		# defensive_alliance_strength sums the nation AND everyone who can be
+		# called in to defend it, so a Bohemia with two solid allies fails the
+		# Ascension's gate for the whole game no matter how badly its own
+		# realm is doing. Nothing else in this disaster could reach that term.
+		#
+		# It is also the history. In 1618 the estates deposed their king and
+		# the Protestant Union declined to fight for the man they elected in
+		# his place; in 1741 half the Bohemian nobility swore to a rival
+		# claimant. Nobody stays bound to a crown that may not be a crown next
+		# year. This names no one and benefits no one in particular - every
+		# neighbour gains the same opening, and a player holding Bohemia pays
+		# the same price.
+		#
+		# Pattern: generic_actions/general_religion.txt:195-205.
+		save_scope_as = PD_boh_crown
+		every_related_country = {
+			type = alliance
+			remove_relation = {
+				type = relation_type:alliance
+				first = this
+				second = scope:PD_boh_crown
+			}
+		}
 		# Two counters, not one, so that both answers are real: buying the
 		# estates off ends this with the crown weakened and the realm intact,
 		# crushing them ends it with the realm cowed and the treasury spent.
@@ -127,8 +168,13 @@ PD_bohemian_estates_crisis = {
 		}
 		# The estates come back to the table every two years until one side
 		# has had enough.
+		#
+		# has_variable first: on_monthly is walked when the disaster's TOOLTIP
+		# is drawn, where no country is bound and the counter does not exist.
+		# See the note on the end trigger in PD_scripted_triggers.txt.
 		if = {
 			limit = {
+				has_variable = PD_boh_crisis_months
 				var:PD_boh_crisis_months >= 24
 			}
 			set_variable = {
@@ -140,14 +186,17 @@ PD_bohemian_estates_crisis = {
 	}
 
 	on_end = {
+		# Guarded for the same reason as on_monthly above.
 		if = {
 			limit = {
+				has_variable = PD_boh_concessions
 				var:PD_boh_concessions >= 100
 			}
 			trigger_event_non_silently = pd_bohemia.100
 		}
 		else_if = {
 			limit = {
+				has_variable = PD_boh_repression
 				var:PD_boh_repression >= 100
 			}
 			trigger_event_non_silently = pd_bohemia.101

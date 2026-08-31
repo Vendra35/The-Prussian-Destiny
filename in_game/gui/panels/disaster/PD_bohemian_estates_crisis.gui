@@ -6,6 +6,14 @@ disaster_panel = {
 
 	blockoverride "main_image" {}
 
+	# The template's monthly box draws [DisasterView.GetDisaster.GetMonthly],
+	# which is this disaster's on_monthly rendered as a tooltip. Ours moves two
+	# counters and conditionally fires an event, none of which produces visible
+	# tooltip text - so the box rendered as an empty "Each Month:" header with
+	# nothing under it. Measured in game 2026-08-31. Hidden rather than filled:
+	# what it would say is already on the state card, live.
+	blockoverride "disaster_monthly_outcomes" {}
+
 	blockoverride "disaster_secondary_tab" {
 		margin_top = 10
 		spacing = 5

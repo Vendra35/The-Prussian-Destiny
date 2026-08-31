@@ -629,14 +629,23 @@ PD_ascension_stall_divert = {
 # has lost Bohemia altogether. Two counters rather than one so both answers are
 # real - see docs/BOHEMIA-DISASTER.md. Shape copied from vanilla's
 # turmoil_in_brandenburg_end_trigger (disaster_triggers.txt:707-716).
+#
+# EVERY var: READ IS GUARDED BY has_variable IN THE SAME BLOCK, and that is not
+# defensive style - it is required. A disaster's can_end is evaluated when the
+# engine renders the disaster's TOOLTIP, with no country holding the variables,
+# and an unguarded read throws three log lines every time. The first version
+# omitted these four words and produced 24,378 error lines in one session.
+# Vanilla guards its own the same way, in the trigger this one was copied from.
 PD_bohemian_estates_crisis_end_trigger = {
 	OR = {
 		custom_tooltip = {
 			text = PD_boh_end_concessions_tt
+			has_variable = PD_boh_concessions
 			var:PD_boh_concessions >= 100
 		}
 		custom_tooltip = {
 			text = PD_boh_end_repression_tt
+			has_variable = PD_boh_repression
 			var:PD_boh_repression >= 100
 		}
 		custom_tooltip = {
