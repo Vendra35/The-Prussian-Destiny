@@ -763,3 +763,4 @@
  pd_bohemia_dhe.1.title: "The Estates Present Their Grievances"
  pd_bohemia_dhe.1.desc: "The estates of Bohemia have come to the crown with a list, as they are entitled to, and the crown has read it and set it down.\n\nThey want their charter confirmed in writing. They want the offices of the kingdom held by Bohemians. They want to be asked before they are taxed. None of it is new and none of it is unreasonable, which is precisely what makes refusing it expensive.\n\nThe nobility has gone home without an answer. That is not the same as a no, but they will not read it as anything else."
  pd_bohemia_dhe.1.a: "Let them wait."
+ PD_boh_start_grievance_tt: "The estates have laid their grievances before the crown and been refused"

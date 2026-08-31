@@ -32,11 +32,18 @@ pd_bohemia_dhe.1 = {
 	}
 	option = {
 		name = pd_bohemia_dhe.1.a
-		# -0.5 takes the nobles under the disaster's 0.5 threshold from any
-		# starting point, so the crisis opens the same month.
+		# THE GUARANTEE is this variable, not the satisfaction hit below.
+		# An earlier version relied on -0.5 crossing the disaster's < 0.5
+		# threshold, which from a full 1.0 lands on exactly 0.5 and fails a
+		# strict less-than - so it broke in the commonest case, a content
+		# nobility. The scale is 0-1, confirmed in the defines. A guarantee
+		# built out of arithmetic against a threshold breaks again, and
+		# silently, the moment either number is tuned.
+		set_variable = PD_boh_estates_aggrieved
+		# The satisfaction hit is now flavour, and free to be retuned.
 		add_estate_satisfaction = {
 			type = estate_type:nobles_estate
-			value = estate_satisfaction_radical_penalty
+			value = estate_satisfaction_extreme_penalty
 		}
 	}
 }

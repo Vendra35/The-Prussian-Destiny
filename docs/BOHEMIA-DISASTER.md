@@ -194,8 +194,23 @@ option  = { add_estate_satisfaction = {
                 value = estate_satisfaction_radical_penalty } }   # -0.5
 ```
 
-`-0.5` takes the nobles under the disaster's 0.5 threshold from any starting
-point, so the crisis opens the same month. Reliable rather than hopeful.
+**The guarantee is the variable, not the satisfaction hit.** The first version
+had the event drop noble satisfaction by `-0.5` and relied on that crossing the
+disaster's `< 0.5` threshold. From a full 1.0 that lands on exactly 0.5, and
+`< 0.5` is strictly less than — so the "guaranteed" path failed precisely in the
+commonest case, a content nobility. The scale is confirmed 0-1 by the defines
+(`REBEL_FORT_LOYALTY_ESTATE_SATISFACTION_SCALE = 30 # ... multiplied by
+satisfaction 0-1`).
+
+Building a guarantee out of arithmetic against a threshold was the mistake, not
+the number — any later tuning of either value would have broken it again, and
+silently. So the event now *says* the grievance happened: it sets
+`PD_boh_estates_aggrieved`, and the disaster accepts that as a fourth path,
+listed first because it is the one that always holds. The satisfaction hit
+stays as flavour at `-0.2` and can be retuned freely.
+
+If another disaster is already running in Bohemia the flag simply waits, and
+this one starts when that one ends.
 
 **It carries no `is_ai` gate and never names Prussia.** The alternative
 considered was Prussia sending an event to an AI Bohemia to force the
