@@ -11,6 +11,12 @@ tempting: four vanilla disasters do read `situation:` state, so it would be
 attested — but a crisis that fires because someone else is stuck is a handicap
 wearing a costume, and a Bohemia player would feel it immediately.
 
+**That rule governs the TRIGGER and the framing. It does not govern the
+CONSEQUENCES, and reading it as though it did is how the first version came
+out toothless — see the correction at the end of this file.** A disaster is
+allowed to wreck the country it lands on. Vanilla's do. What it may not do is
+know why anyone wants it wrecked.
+
 ## Why Bohemia, and why these dates
 
 The Ascension's own failsafe dates bound each timeline
@@ -239,3 +245,212 @@ disaster and this event, so the two cannot drift. Note that factoring it out
 silently narrowed `tools/check_dates.py` - the dates left the file the tool knew
 about - until its block map was taught the new name. **A refactor can quietly
 shrink a checker's coverage**, which is worth a look every time one moves.
+
+
+## Correction, 2026-08-31 (second pass) — the consequences moved nothing
+
+The disaster shipped, fired, and did not do the job it exists for. Worth
+recording in full, because the mistake was not in any line of script.
+
+### What the Ascension's gate actually reads
+
+Measured, not inferred (`triggers.log:3577`), and this is the sentence the
+whole design hangs on:
+
+> `defensive_alliance_strength` — "Strength of a defensive alliance, **including
+> the nation** with all countries giving defensive support and those that can be
+> called in for defensive wars"
+
+So the gate has exactly two terms: **Bohemia's own army, and its allies'
+armies.** Tier 2 adds `relative_military_strength`, which is the army again.
+Nothing else is in there.
+
+### What the first version did to those terms
+
+| Modifier | Reaches the gate? |
+|---|---|
+| `global_max_control = -0.1` | no |
+| `global_monthly_control = -0.0005` | no |
+| `monthly_legitimacy = -0.03` | no |
+| `global_manpower_modifier = -0.2` | indirectly, slowly — the pool, not the army in the field |
+| `nobles_estate_levy_size = -0.25` | partly, the only one |
+
+And the diet's own choices — `add_legitimacy`, `add_gold`, `add_prestige` —
+reach **none** of it. The alliance term, which is the dominant one and the
+actual reason a strong Bohemia deadlocks the situation, was never touched by
+anything at all.
+
+The crisis ran, the panel filled in, the counters moved, the log was clean, and
+Bohemia was exactly as unattackable at the end as at the start.
+
+### The lesson
+
+**A disaster's fairness lives in its trigger. Its usefulness lives in its
+consequences. Auditing only the first is how you ship a fair disaster that does
+nothing.** The static harness cannot catch this class: every tag was real,
+every scope correct, every brace balanced. Only asking "which number that
+somebody reads does this move?" catches it — so ask that of any content written
+to open a door.
+
+### What it does now
+
+**1. The alliances go first, in `on_start`.** The only thing that can reach the
+dominant term. Pattern from `generic_actions/general_religion.txt:195-205`:
+
+```
+save_scope_as = PD_boh_crown
+every_related_country = {
+    type = alliance
+    remove_relation = { type = relation_type:alliance
+                        first = this  second = scope:PD_boh_crown }
+}
+```
+
+It is also the history rather than a convenience: in 1618 the Protestant Union
+declined to fight for the king the estates had just elected, and in 1741 half
+the Bohemian nobility swore to the rival claimant. Nobody stays bound to a
+crown that may not be a crown next year. It names no one, and every neighbour
+gains the same opening — a player holding Bohemia pays exactly the same price.
+
+It is also the **durable** half: an alliance broken does not come back when the
+crisis ends. That matters, because the crisis itself is short — four diets at
+24 months is eight years, and Prussia's war cooldown is 60 months in
+historical, so barely one war window fits inside it.
+
+**2. The modifier block is english_civil_war's.** Measured across all 32
+vanilla disasters: the tool of the trade is **rebels** — `monthly_rebel_growth`
+in 9 of them — and a flat "-20% army" sticker appears in none. Rebels tie down
+and destroy the army, and the army is what the gate weighs.
+`pop_join_rebel_threshold = 0.05`, `monthly_rebel_growth = 0.01`,
+`monthly_war_exhaustion = 0.15` and `global_manpower_modifier = -0.33` are
+`english_civil_war.txt:47-50` exactly.
+
+### The two branches are priced by DURATION, not by size
+
+The first attempt at fixing the diet charged concession one legitimacy hit
+against a bill of gold, manpower and war exhaustion for repression. Nobody
+would ever have repressed. **A choice only one side of which is payable is not
+a choice**, and the 50/50 `ai_chance` would have been decorative.
+
+| | Concede | Repress |
+|---|---|---|
+| Now | -10 legitimacy, nobles satisfied | -500 gold, 3 months' manpower, +2 war exhaustion, -2 prestige, nobles angered |
+| **Later** | **one permanent stack of `PD_boh_confirmed_privileges`, four by the end** | nothing — all of it recovers |
+| Resolution | +20 legitimacy | +30 legitimacy, +20 prestige |
+
+So conceding is a cheap present and an expensive future; repressing is the
+reverse. `PD_boh_confirmed_privileges` lives in
+`main_menu/common/static_modifiers/PD_modifiers.txt` and carries
+`global_crown_estate_power`, `nobles_estate_levy_size` and
+`global_levy_size_modifier`, small per stack and permanent — `years = -1` with
+`mode = add_and_extend`, vanilla's stacking form at `black_death.txt:915-917`.
+
+**And the key inside it is `modifier =`, not `name =`.** `effects.log`'s usage
+string for `add_country_modifier` says `name = name`; vanilla writes `modifier`
+**1653** times and `name` **zero**. This mod's own peace treaties already wrote
+`modifier`. The wrong key applies nothing and reports nothing — the same silent
+family as everything else in this file, and it was written into this very
+change before being caught. `verify_pd.py` check 12 catches it now.
+
+Either branch still leaves Bohemia weaker than it was, which is the point: the
+opening does not depend on which one the AI picks.
+
+### A trap caught before it shipped
+
+`add_war_exhaustion = war_exhaustion_mild_bonus` would have **reduced** war
+exhaustion. The `_bonus` values are negative and the `_penalty` values positive
+(`war_exhaustion_mild_bonus = -2`, `war_exhaustion_mild_penalty = 2`), and the
+same inversion exists for `estate_satisfaction_*`. Nothing about the wrong one
+looks wrong.
+
+### The check that came with it
+
+`verify_pd.py` check 11, "modifier tags": every tag written in the mod's
+`static_modifiers` definitions and in each disaster's `modifier = { }` block
+must appear in `modifiers.log`. **A tag the engine does not know is applied to
+nothing, and reported by nothing** — it sits in the country's modifier list
+looking correct and does zero.
+
+It is scanned narrowly on purpose, in the two places where every line is a
+modifier tag by construction; the same regex anywhere else would collect
+ordinary script keys and cry wolf. Proven against a known positive: planting
+`global_manpwer_modifier` in the disaster and `nobles_estate_levvy_size` in the
+static modifiers made it fail on both, and only those two.
+
+**It does not catch the bug above, and cannot.** That one was a design error
+made entirely out of valid tags. This file is what catches that one.
+
+
+## First live test, 2026-08-31 — what the game found
+
+Loaded into a 1531 frontloaded save (player Italy, Bohemia holding Prague and
+most of Silesia, allied to Hungary and Poland). **The crisis started, and every
+new modifier was live on the tooltip** — manpower -33%, monthly rebel growth
++1%, pop join rebels +5%, war exhaustion +0.15, nobles levy -25%. The grievance
+path worked: `can_start` showed both "the estates have laid their grievances
+before the crown and been refused" and the nobles-satisfaction clause ticked.
+`monthly_spawn_chance_unique` rendered as "100.00% chance to appear each
+month", confirming the 0-1 scale.
+
+Three faults, all in things nothing static had been looking at.
+
+### 1. 24,378 error lines — every `var:` read was unguarded
+
+```
+Failed to fetch variable for 'PD_boh_concessions' due to not being set
+Event target link 'var' returned an unset scope
+Invalid left side during comparison 'var'
+    Script location: common/scripted_triggers/PD_scripted_triggers.txt:640
+    common/disasters/PD_bohemian_estates_crisis.txt:64      <- can_end
+```
+
+16,254 lines from `can_end` and 8,124 from `on_monthly`, three per evaluation,
+across six rotated logs.
+
+**A disaster's `can_end`, `on_monthly` and `on_end` are walked to draw the
+disaster's TOOLTIP**, with no country bound and therefore no variables. This is
+the same family as the peace-treaty `scope:winner` throws in the decoder: an
+effect written for one context, rendered in another.
+
+Vanilla guards every one of its reads — `turmoil_in_brandenburg_end_trigger`
+wraps each counter as `AND = { has_variable = X  var:X >= N }`
+(`disaster_triggers.txt:707-716`). **This file's comment said the shape was
+copied from that trigger. The shape was. The guard was not.** Copying a
+vanilla pattern means copying the parts that look like paranoia, because in
+this engine they are the parts that were paid for.
+
+Fixed by putting `has_variable = X` beside all five reads. `verify_pd.py`
+check 14 now scans the disasters and every scripted trigger they call.
+
+### 2. The event browser printed a raw key
+
+The historical-event list showed the literal text `pd_bohemia_dhe.1.entry`.
+**A `dynamic_historical_event` needs `<id>.entry`, and so does every option**
+(`<id>.<option>.entry`) — the browser renders that list with no event bound, so
+it cannot use `.title` or `.a`, which may carry scope references. Vanilla's
+`flavor_ach` alone carries 40 `.entry` keys against 19 `.title`.
+
+The Brandenburg DHEs already had their event-level `.entry` keys and were
+missing all eleven **option** ones, so this was not new — it had simply never
+been looked at. `verify_pd.py` check 13 covers both levels now.
+
+### 3. The panel does not open
+
+Clicking the disaster icon does nothing. Ruled out, in this order:
+
+| Suspect | Measured |
+|---|---|
+| filename vs KEY | correct — check 10 |
+| BOM on a `.gui` | none (`23 20 54`) |
+| unbalanced braces | 49 / 49 |
+| GUI errors in the log | **zero**, across all six rotations |
+| wrong block names | all four exist in `disasters_common.gui` |
+| structure | the 11 `blockoverride` names are **identical** to vanilla's `reform_society.gui` |
+
+So the panel file itself is not obviously wrong, and the standing hypothesis is
+fault 1: the END_REQUIREMENTS card calls `GetEndConditions`, which evaluates
+the `can_end` that was throwing. **That is a hypothesis, not a finding.** If
+the panel still will not open with the flood gone, the next measurement is a
+control: open a VANILLA disaster's panel the same way and see whether that
+works, which separates "our panel is broken" from "that click is not what
+opens it".

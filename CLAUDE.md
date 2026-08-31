@@ -19,7 +19,7 @@ reasoning for that is the part worth keeping.
 python tools/verify_pd.py
 ```
 
-Ten checks. **Every check prints how many items it scanned, and a check that
+Fifteen checks. **Every check prints how many items it scanned, and a check that
 scans zero FAILS** — a silent zero is the exact failure this mod keeps
 producing. It locates vanilla by probing a known FILE; if it reports the tree
 missing, add your path to `VANILLA_CANDIDATES` rather than ignoring the
@@ -59,6 +59,37 @@ treaty key itself; without it every place that asks prints the raw key.
 
 **`#Y` needs a space after it.** `#YGerman` is read as a tag named `YGerman`,
 logged once per render, and the word is eaten off the screen.
+
+**A disaster's `can_end`, `on_monthly` and `on_end` are walked to draw its
+TOOLTIP**, with no country bound. Every `var:X` in them — and in any scripted
+trigger they call — needs `has_variable = X` in the same block, exactly as
+vanilla's `turmoil_in_brandenburg_end_trigger` does. Without it each read
+throws three lines per render: five of them made 24,378 lines in one session.
+
+**`historical_info` is an event FIELD, not just a loc key** (`events/readme.txt:33`).
+Writing the text without declaring the field gives a box that never renders —
+Mongol Resurgence shipped six of those. And **check which century the event
+actually belongs to**: this mod's phase 1 sits in its own real period
+(1450–1525, Brandenburg and the Teutonic Order) while phases 2 and 3 are
+shifted by two centuries. `docs/HISTORICAL-INFO.md` has the mapping.
+
+**A `dynamic_historical_event` needs `<id>.entry` AND `<id>.<option>.entry`.**
+The event browser renders that list with no event bound, so `.title` and `.a`
+are not what it reads; a missing key prints itself on screen.
+
+**`add_country_modifier` takes `modifier =`, not `name =`.** `effects.log`
+documents the usage string as `name = name`; vanilla writes `modifier` **1653**
+times and `name` **zero**. The wrong key applies nothing and logs nothing. This
+is the one place so far where the script docs are wrong and the vanilla corpus
+is right — when the two disagree, count the corpus. `verify_pd.py` check 12
+also confirms the modifier named actually exists somewhere.
+
+**A disaster is allowed to wreck the country it lands on.** Fairness lives in
+the trigger — no `is_ai`, no naming whoever benefits. It does not live in the
+consequences, and confusing the two shipped a Bohemian crisis whose penalties
+(control, legitimacy, gold) moved nothing the Ascension's target gate reads.
+Of anything written to open a door, ask: **which number that somebody reads
+does this move?** No harness catches that; `docs/BOHEMIA-DISASTER.md` does.
 
 **A disaster's panel and icon are found by its KEY, not by its filename.**
 `savonarola.txt` holds the key `savonarola_disaster` and ships
@@ -175,6 +206,10 @@ session does not pay for it twice:
 - `ASCENSION-WIP.md` — the checklist that panel rebuild ran on, kept as the
   worked example of how to slice this kind of job so it survives being
   interrupted.
+- `HISTORICAL-INFO.md` — the `historical_info` layer on all 71 visible events,
+  and **which real period each of the three phases is telling**. Phase 1 is
+  NOT shifted; phases 2 and 3 are. Getting that backwards is a period error
+  that reads perfectly well and is still wrong.
 - `BOHEMIA-DISASTER.md` — the disaster's design, its fairness rules, and a
   correction worth reading before writing anything dated: the first version
   gated it on real-world years and landed ~78 years after the situation it
