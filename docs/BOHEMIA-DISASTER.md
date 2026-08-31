@@ -29,7 +29,7 @@ Austria lost the province because it was being dismembered from two directions
 at once. The mod is not inventing an opening; it is supplying the one that
 actually happened.
 
-## The trigger: three ways in, and why not one
+## The trigger: two ways in, and why not one
 
 `ruler_religion` is not a trigger (checked against `triggers.log`), so the
 religious framing of 1618 cannot be tested directly.
@@ -46,33 +46,44 @@ disaster gates on one number.** Measured:
 | `court_and_country` | `estate_power >= 0.25` **or** `societal_value < -50` |
 | `aspiration_for_liberty` | `stability < 20` + literacy + a parliament clause |
 
-So there are three paths now, any one of which opens it:
+Breadth was the first answer, and it went too wide: paths on `legitimacy < 50`
+and `stability < 0` were added, then dropped again once the historical event
+below made the crisis certain. Neither had anything to do with the estates, so
+a country whose stability had merely dipped would have got "the estates against
+the crown" with no estates in it.
 
-1. **`estate_satisfaction:nobles_estate < 0.5`** — the one this disaster is
-   actually about. It is the ESTATES against the crown, and the first gate
-   never once asked what the estates thought.
-2. `legitimacy < 50` — the crown's right to rule is questioned.
-3. `stability < 0` — the realm is ungovernable.
+**Two ways in, both about the estates:**
 
-All three stay fair. A Bohemia that keeps its nobles content, its crown secure
-and its realm stable never sees this at all — the player's own play decides it,
-which is the difference between content and a handicap.
+1. `PD_boh_estates_aggrieved` — the flag set by `pd_bohemia_dhe.1`. This is the
+   one that always holds; see the guarantee section below.
+2. **`estate_satisfaction:nobles_estate < 0.5`** — the natural early route, for
+   a Bohemia whose nobility is already discontented before the grievance is
+   ever formally presented.
+
+Both stay fair. Nothing here is gated on `is_ai`, and the choices that resolve
+the crisis live in the disaster, where a player has real agency.
 
 ```
 can_start = {
 	owns = location:prague          # by land, not by tag: BOH, HAB, whoever
 	has_ruler = yes
-	legitimacy < 50                 # 0-100 scale; vanilla uses <50, <40, <25
+	OR = {
+		has_variable = PD_boh_estates_aggrieved       # the guarantee
+		AND = {                                       # the natural early route
+			country_has_estate = estate_type:nobles_estate
+			estate_satisfaction:nobles_estate < 0.5
+		}
+	}
 	in_civil_war = no               # vanilla's own guards,
 	has_any_active_disaster = no    # turmoil_in_brandenburg.txt:11-12
-	<timeline date window>
+	PD_bohemian_era_window = yes    # shared with pd_bohemia_dhe.1
 }
 fire_only_once = yes
 ```
 
 `Verified` — `location:prague` exists in `bohemia_area/prague_province`
 (`definitions.txt:678`; note it is `prague`, **not** `praha`).
-`legitimacy`, `in_civil_war`, `has_any_active_disaster` are all country scope.
+`estate_satisfaction`, `country_has_estate`, `in_civil_war` and `has_any_active_disaster` are all country scope.
 `monthly_spawn_chance_unique = 1` is `main_menu/common/script_values/default_values.txt:1212`.
 
 ## The shape
@@ -109,9 +120,11 @@ with the realm cowed and the treasury spent. Neither is the "correct" answer.
 1. `in_game/common/disasters/PD_bohemian_estates_crisis.txt` + its end trigger
 2. Events — opening (×2, one per timeline), the choice events, resolution
 3. Localisation
-4. `in_game/gui/panels/disaster/PD_bohemian_estates_crisis_disaster.gui`
-   (37 of 37 vanilla disasters ship a panel; `<key>_disaster.gui` is an
-   accepted name)
+4. `in_game/gui/panels/disaster/<KEY>.gui` — **named after the disaster KEY.**
+   This line originally said `<key>_disaster.gui` was an accepted name and that
+   was wrong: vanilla's four `_disaster` files are the ones whose KEY ends in
+   `_disaster`. Get it wrong and the panel is never loaded, silently. The mod
+   shipped exactly that bug; `verify_pd.py` check 10 catches it now.
 5. Illustration, `gfx/interface/illustrations/disaster/`
 6. Harness: raise the relevant `min_count`s in the same change
 
@@ -129,8 +142,8 @@ The error was anchoring on the almanac. **PD's calendar is already shifted**: it
 tells the 1740-1866 Prussian story between 1522 and 1637. Content written for it
 has to follow the mod's chronology, not the real one.
 
-So the gate is now each mode's actual window, and `legitimacy < 50` does the
-real deciding. The opening event is chosen **by date** (before 1650 the estates
+So the gate is now each mode's actual window, factored into
+`PD_bohemian_era_window` and shared with the event that guarantees the crisis. The opening event is chosen **by date** (before 1650 the estates
 rise, after it a rival is crowned) rather than by game rule, so the text suits
 whatever century it fires in even if a campaign runs long or short. Neither
 event names a year, only a month, which is what makes that possible.

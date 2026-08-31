@@ -32,16 +32,10 @@ PD_bohemian_estates_crisis = {
 		# By land, not by tag: BOH, HAB or whoever actually holds the crown.
 		owns = location:prague
 		has_ruler = yes
-		# THE QUARREL - any one of three. No vanilla disaster gates on a
-		# single number: succession_crisis pairs legitimacy with stability
-		# and an heir clause, peasants_war wants stability, estate
-		# satisfaction and war exhaustion together. A lone legitimacy < 50
-		# risks content that is written, shipped and never once seen,
-		# because legitimacy sits near the top for a stable monarchy.
-		#
-		# The first path is the one this disaster is actually about. It is
-		# the ESTATES against the crown, and the old gate never asked what
-		# the estates thought.
+		# TWO ways in, and both are about the estates - which is what
+		# this disaster is. A legitimacy or stability path was tried and
+		# dropped: a country whose stability had merely dipped would have
+		# got 'the estates against the crown' with no estates in it.
 		OR = {
 			# Set by pd_bohemia_dhe.1, the historical event that makes this
 			# crisis reliable rather than hopeful. It is a flag, not a sum, so
@@ -54,14 +48,6 @@ PD_bohemian_estates_crisis = {
 				text = PD_boh_start_nobles_tt
 				country_has_estate = estate_type:nobles_estate
 				estate_satisfaction:nobles_estate < 0.5
-			}
-			custom_tooltip = {
-				text = PD_boh_start_crown_tt
-				legitimacy < 50
-			}
-			custom_tooltip = {
-				text = PD_boh_start_realm_tt
-				stability < 0
 			}
 		}
 		# Vanilla's own guards, turmoil_in_brandenburg.txt:11-12.
