@@ -189,6 +189,19 @@ python tools/check_release.py
 It compares the two trees file by file and refuses to say "up to date" unless
 they match, and separately reports any development file that leaked across.
 
+**Sync the release AFTER the last git operation, never before.** This repo runs
+with `core.autocrlf` on, so a checkout or a merge rewrites the working copy's
+line endings on every file it touches — LF to CRLF — which changes the bytes
+without changing a line of content. A release folder synced before a merge is
+stale the moment the merge lands, and `check_release.py` will correctly say so
+while `git status` reports a clean tree and `git diff` shows nothing.
+
+Measured 2026-08-31: merging a feature branch flipped three files (20 CRLF / 16
+LF became 23 / 13) and two of them were shippable. Harmless to the game — pure
+CRLF and pure LF both load, and the audit found no MIXED file, which is the one
+that matters — but it makes a synced release look bayat for no reason. Merge
+first, then sync, then check, then upload.
+
 `tools/check_dates.py` reviews every dated gate against the era it belongs
 to. **This mod's calendar is shifted** — it tells the 1740-1866 story across
 1450-1640 or 1520-1755 — so a historically perfect year can be mechanically
