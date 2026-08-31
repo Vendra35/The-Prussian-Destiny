@@ -19,7 +19,7 @@ reasoning for that is the part worth keeping.
 python tools/verify_pd.py
 ```
 
-Fifteen checks. **Every check prints how many items it scanned, and a check that
+Sixteen checks. **Every check prints how many items it scanned, and a check that
 scans zero FAILS** — a silent zero is the exact failure this mod keeps
 producing. It locates vanilla by probing a known FILE; if it reports the tree
 missing, add your path to `VANILLA_CANDIDATES` rather than ignoring the
@@ -65,6 +65,27 @@ TOOLTIP**, with no country bound. Every `var:X` in them — and in any scripted
 trigger they call — needs `has_variable = X` in the same block, exactly as
 vanilla's `turmoil_in_brandenburg_end_trigger` does. Without it each read
 throws three lines per render: five of them made 24,378 lines in one session.
+
+**Do not build a lasting modifier out of `size` and a variable.** Measured:
+`size = { value = var:X divide = N }` with `mode = replace` ended up at its
+BASE values, permanently, after four applications that should have deepened it.
+Two explanations fit and the test did not separate them — `size` may not
+resolve `var:` at application, or `size` may be a live expression that
+collapsed when the disaster's `on_end` removed the variable. **Either way the
+lesson is the same: a permanent modifier must not depend on state that can go
+away.** `mode = add_and_extend` does not deepen one either; it only extends the
+duration. **Define one modifier per depth and swap between them.**
+
+**An option's tooltip is drawn before any of its effects run.** So a test
+written against a counter the same option raises reads one step behind in the
+preview and correctly at execution. Raise the counter at the END of the option
+and write the thresholds one step lower, and the two agree.
+
+**`historical_option` decides AI behaviour, it does not describe it.** Vanilla's
+`historical_ai` game rule defaults to `historical_ai_choices`, so a marked
+branch is the branch the AI takes. Mark it where `ai_chance` is already
+one-sided; do NOT mark it where the design wants the AI to vary. Vanilla puts
+it on the first option 1924 times against 44 on the second.
 
 **`historical_info` is an event FIELD, not just a loc key** (`events/readme.txt:33`).
 Writing the text without declaring the field gives a box that never renders —

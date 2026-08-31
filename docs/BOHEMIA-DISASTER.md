@@ -454,3 +454,73 @@ the panel still will not open with the flood gone, the next measurement is a
 control: open a VANILLA disaster's panel the same way and see whether that
 works, which separates "our panel is broken" from "that click is not what
 opens it".
+
+
+## Second live test — the concession modifier, three attempts
+
+The permanent price of conceding took three tries to actually land, and the
+first two failed in game while looking correct in the file.
+
+| Attempt | What it did | What the game did |
+|---|---|---|
+| `mode = add_and_extend`, no size | meant to stack | extended the DURATION, magnitude unchanged — four identical modifiers |
+| `size = { value = var:PD_boh_concessions divide = 25 }` | meant to deepen | ended at the BASE values, -5%/-5%/-3%, permanently — while the option previews had read `Scaled by +2.00` and `+3.00` with the right numbers |
+| four flat definitions, swapped by an `if` chain | — | correct |
+
+### What was measured, and what was only inferred
+
+**Measured:** the previews scaled. The modifier the country was left holding
+did not. Nothing errored.
+
+**Not measured, and this matters:** the modifier list was only ever read
+*after the disaster had ended*. The mid-crisis state was never looked at. Two
+explanations fit everything that was actually seen, and this test cannot
+separate them:
+
+1. `size` does not resolve `var:` at application time and falls back to 1, so
+   the base modifier was all that was ever applied.
+2. `size` is a live expression that worked correctly during the crisis and
+   collapsed when `on_end` ran `remove_variable = PD_boh_concessions` — the
+   scale lost its input and the modifier fell back to base, permanently.
+
+The second was the author's reading and it is at least as good as the first;
+the first was written up here as settled, which it was not. **A cause that fits
+the evidence is not the same as a cause the evidence establishes**, and this
+file is the wrong place to blur that.
+
+**The fix is immune to both**, which is why it was not worth re-testing to
+decide: four flat definitions depend on no variable once applied, so nothing
+`on_end` does can reach them.
+
+A second thing fell out of the same test. The first concession's preview read
+**"Scaled by 0.00"** — an option's tooltip is drawn *before* its effects run,
+so a test against a counter that same option raises is one step behind in the
+preview and right at execution. The fix is to raise the counter at the bottom
+of the option and write the thresholds one step lower; then the preview and the
+application say the same thing.
+
+Both are recorded in CLAUDE.md, because neither is specific to this disaster.
+
+## `historical_option` is a decision, not a description
+
+Marked on `pd_bohemia.10.b` for one revision, because repression is what both
+historical crowns chose. Removed again: vanilla's `historical_ai` game rule
+defaults to `historical_ai_choices`, so the marker does not describe what the
+AI would do — it **decides** it, and this disaster's fairness rule 4 wants the
+AI to vary. Marking it would have made the concession branch content an AI
+Bohemia never shows.
+
+The mod's other ten choice events keep the marker, because their `ai_chance` is
+already N-against-zero: there it describes a decision that was already made.
+
+The player still gets the history — the `historical_info` box on that event
+says plainly that both crowns answered with soldiers.
+
+## Surviving it is worth something
+
+Both resolutions now hand out a fifty-year modifier: `PD_boh_settled_by_charter`
+on the concession road, `PD_boh_crown_unchallenged` on the repression road.
+Losing Praha ends the crisis too and gives neither, which is correct.
+
+The concession reward does NOT cancel the confirmed charters. Those are
+permanent and meant to be — the crisis is survived, not undone.
