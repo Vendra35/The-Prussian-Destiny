@@ -62,10 +62,62 @@ Do not hand over one and leave the other. A release needs:
 [/list]
 
 [i]"Prussia is not a state with an army, but an army with a state."[/i]
-```
+--------- [img]https://i.imgur.com/5EFfZ8A.gif[/img] ---------
+[hr][/hr]
 
-Everything below the quote on the live page — **WHEN DOES IT START?** and the
-rest of the body — is unchanged by a release and is not reproduced here.
+[h2]👑 THE THREE STAGES OF DESTINY[/h2]
+[list]
+[*] [b]Stage 1: The Foundation[/b] — Begins after the Turmoil in Brandenburg. Not a simple conquest phaplomatic and military struggle between Brandenburg and the Teutonic Order. The victor subjugates theloser into a Fiefdom, mirroring the authentic historical power shift. Includes a failsafe if the AI stalls.
+[*] [b]Stage 2: The Ascension[/b] — Post-Reformation. Prussia strikes wealthy Silesia and Saxony. Introduces custom [b]Zollverein Diplomacy[/b] to peacefully vassalize the North German minors, culminating in the [b]North German Confederation[/b].
+[*] [b]Stage 3: Blood & Iron[/b] — The finale. Navigate the Franco-Prussian War and achieve the unification of the [b]German Empire[/b].
+[/list]
+Whoever holds Prague also gets a story of their own: [b]The Bohemian Estates Crisis[/b], the crown against its own diet, with no AI-only gates and real consequences either way.
+
+[hr][/hr]
+[h2]⏳ Pacing — read this before you panic[/h2]
+Nothing fires on day one. Stage 1 ignites around the [b]1370s[/b], right after vanilla's 'Turmoil in Brandenburg' resolves — if the early game seems quiet, the diplomatic board is just being set.
+
+And no, Prussia will [b]not[/b] eat the HRE by 1500. Expansion is hard-capped by script: after securingts time on economy and drill, and the real growth only begins after the Reformation. A calculated rise,not map painting.
+
+[hr][/hr]
+[h2]⚙️ Game Rules[/h2]
+The mod is built to make [b]AI Prussia a formidable end-game boss[/b], and is fully playable as Prussia yourself. Everything is toggleable in the Game Rules menu:
+[list]
+[*] [b]Prussian Military Buffs[/b] — [b]Historical & Balanced[/b] (default) for a fair, realistic campaign. [b]Terminator[/b] turns the AI into an apocalyptic threat. (Not recommended 💀)
+[*] [b]Timeline[/b] — [b]Dynamic & Frontloaded[/b] accelerates the Prussian content into the mid-game. [b]Strict Historical[/b] locks every milestone to its authentic date for a long-burn campaign.
+[*] [b]Auto-Consolidation[/b] — failsafes that force historical borders (1499 for Stage 1, 1632 for Staestiny cannot be denied.
+[*] [b]Blood and Iron Mechanics[/b] — toggle Stage 3's events and diplomatic tension.
+[/list]
+
+[hr][/hr]
+[h2]📦 Recommended Mods[/h2]
+Play with my [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3678585677]Vanilla+ Historical Immersion & Essential QoL[/url] collection for the intended experience.
+[list]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3675113573]Brandenburg Country Pack[/url] — [b]mandatory[/b], so the AI survives the early disaster and lets this mod take the wheel.
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3668193813]National Destinies - Formables Content[/url] — highly recommended for its bureaucracies and concepts.
+[/list]
+
+[hr][/hr]
+[h2]🤝 Compatibility & Credits[/h2]
+[list]
+[*] Uses the vanilla EU5 Situation system. Modifies the vanilla alliance file via [b]TRY:REPLACE[/b], so other mods touching it will not crash the game.
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3599962922]North German Federation[/url] — credits for the NGC foundation.
+[*] [b]🇨🇳 中文翻译:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3599706198]Chinese localization[/url], by 牛奶大魔王.
+[*] [b]Known issues:[/b] none right now — tell me if something breaks.
+[/list]
+
+[h2]My Other Mods[/h2]
+[list]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3721031562]REAI: Rational Empire AI[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3723654962]REAI: Army & Manpower Overhaul (AAMO)[/url]
+[*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3774990167]Mongol Resurgence[/url]
+[/list]
+
+[hr][/hr]
+[b]What I am working on next:[/b] a full total conversion that moves the start date to [b]1066[/b] — the whole map rebuilt for the eleventh century, with its own countries, rulers, borders and events. A large project and a long build; no date announced. I will post here when it is ready.
+
+[hr][/hr]
+[i]"The era of fractured princes is over. The age of Berlin has begun. Are you ready to face the Destiny?"[/i]
 
 ---
 
