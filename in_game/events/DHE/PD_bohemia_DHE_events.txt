@@ -1,0 +1,42 @@
+﻿namespace = pd_bohemia_dhe
+
+# Guarantees the Bohemian Estates Crisis. See docs/BOHEMIA-DISASTER.md.
+#
+# monthly_chance = 100 means "the first month it can", so this is reliable
+# rather than hopeful - the three natural paths into the disaster may all stay
+# shut in a given campaign, and content nobody sees is content wasted.
+#
+# There is NO is_ai gate and no mention of Prussia anywhere in it. A player
+# holding Bohemia gets the crisis too, which is what a disaster is for; the
+# choices that resolve it live in the disaster itself.
+pd_bohemia_dhe.1 = {
+	type = country_event
+	title = pd_bohemia_dhe.1.title
+	desc = pd_bohemia_dhe.1.desc
+	fire_only_once = yes
+	dynamic_historical_event = {
+		# tag is required - 3198 vanilla uses, none without one. BOH and HAB are
+		# the realistic holders of the Bohemian crown; the trigger settles which.
+		tag = BOH
+		tag = HAB
+		from = 1522.1.1
+		to = 1755.1.1
+		monthly_chance = 100
+	}
+	trigger = {
+		owns = location:prague
+		has_ruler = yes
+		in_civil_war = no
+		has_any_active_disaster = no
+		PD_bohemian_era_window = yes
+	}
+	option = {
+		name = pd_bohemia_dhe.1.a
+		# -0.5 takes the nobles under the disaster's 0.5 threshold from any
+		# starting point, so the crisis opens the same month.
+		add_estate_satisfaction = {
+			type = estate_type:nobles_estate
+			value = estate_satisfaction_radical_penalty
+		}
+	}
+}

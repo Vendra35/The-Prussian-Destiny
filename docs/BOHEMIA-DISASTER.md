@@ -172,3 +172,42 @@ The icon format is identical to this project's situation icons, so the same
 conversion works for both. Note the illustration is an **opaque banner** — do
 not ask for a magenta key when commissioning one, which is a habit worth
 breaking from the icon workflow; magenta belongs only where transparency does.
+
+
+## Guaranteeing it: Bohemia's own historical event
+
+Three natural paths still may all stay shut in a given campaign, which would
+leave this written, shipped and never once seen. `pd_bohemia_dhe.1` closes that
+gap without rigging anything:
+
+```
+dynamic_historical_event = {
+    tag = BOH
+    tag = HAB          # `tag` is required - 3198 vanilla uses, none without
+    from = 1522.1.1
+    to   = 1755.1.1
+    monthly_chance = 100        # the first month it can
+}
+trigger = { owns = location:prague  ...  PD_bohemian_era_window = yes }
+option  = { add_estate_satisfaction = {
+                type = estate_type:nobles_estate
+                value = estate_satisfaction_radical_penalty } }   # -0.5
+```
+
+`-0.5` takes the nobles under the disaster's 0.5 threshold from any starting
+point, so the crisis opens the same month. Reliable rather than hopeful.
+
+**It carries no `is_ai` gate and never names Prussia.** The alternative
+considered was Prussia sending an event to an AI Bohemia to force the
+conditions; that is the "handicap wearing a costume" this document warns about
+in its first paragraph, and it would leave a player Bohemia never seeing the
+content at all. A player holding Bohemia gets the crisis too, which is what a
+disaster is for - vanilla forces `turmoil_in_brandenburg` on the player the
+same way, and the choices that resolve it live in the disaster where the player
+has real agency.
+
+The era window lives in `PD_bohemian_era_window` and is called by both the
+disaster and this event, so the two cannot drift. Note that factoring it out
+silently narrowed `tools/check_dates.py` - the dates left the file the tool knew
+about - until its block map was taught the new name. **A refactor can quietly
+shrink a checker's coverage**, which is worth a look every time one moves.

@@ -60,26 +60,11 @@ PD_bohemian_estates_crisis = {
 		# Vanilla's own guards, turmoil_in_brandenburg.txt:11-12.
 		in_civil_war = no
 		has_any_active_disaster = no
-		# The window is the Ascension's own, measured, not the almanac's:
-		# it can begin at 1522.3.9 frontloaded and 1648.1.1 strict
-		# (PD_events.txt:1007,1016), and the auto-conquest failsafe closes
-		# the era at 1632 and 1745 (the_prussian_ascension.txt:254,259).
-		# An earlier draft gated this at 1600 and 1725 - both ~78 years
-		# after their situation can start - so the crisis could only ever
-		# arrive once the story was over. Dates here only say 'while this
-		# era is running'; the three paths above are what actually decide.
-		OR = {
-			AND = {
-				has_game_rule = PD_timeline_frontloaded
-				current_date > 1522.3.9
-				current_date < 1640.1.1
-			}
-			AND = {
-				has_game_rule = PD_timeline_strict_historical
-				current_date > 1648.1.1
-				current_date < 1755.1.1
-			}
-		}
+		# Shared with the historical event that guarantees this crisis - see
+		# PD_bohemian_era_window. An earlier draft gated it at 1600 and 1725,
+		# both ~78 years after their situation can start, so the crisis could
+		# only ever have arrived once the story was over.
+		PD_bohemian_era_window = yes
 	}
 
 	can_end = {

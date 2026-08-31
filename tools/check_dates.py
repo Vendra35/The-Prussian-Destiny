@@ -62,6 +62,10 @@ BLOCK_ERA = {
     "prussian_ambition_end_trigger": "ambition",
     "prussian_ascension_end_trigger": "ascension",
     "blood_and_iron_end_trigger": "blood_and_iron",
+    # The disaster's window was factored out of the disaster and into this
+    # trigger, which took its dates out of this tool's sight until it was
+    # taught the name. A refactor can silently narrow a checker's coverage.
+    "PD_bohemian_era_window": "ascension",
 }
 FILE_ERA = {
     "brandenburg_rise.txt": "ambition",
