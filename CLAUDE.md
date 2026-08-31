@@ -219,6 +219,30 @@ key, despill, decontamination, premultiplied downscale, colour bleed. Every
 one of those steps is there because leaving it out produced a visible pink
 rim; the reasoning is in `../1066 Test Mod/docs/EU5-MODDING-GUIDE.md`.
 
+**Every release ships TWO pieces of text, and they are not interchangeable.**
+Write both without being asked, and update `docs/STEAM-DESCRIPTION.md` with
+them in the same change:
+
+- **Change notes** — plain text, `*-` bullets, no markup. Posted with the
+  upload, accumulates forever.
+- **The description block** — **BBCode** (`[h1]`, `[h2]`, `[list]`, `[*]`,
+  `[b]`, `[i]`). This is the page body, and its "What's New" section is
+  overwritten every release.
+
+Pasting one into the other's field is silently wrong: BBCode prints its tags
+literally in change notes, and plain text loses every heading in the
+description.
+
+**"What's New" demotes, it does not replace.** Current release gets full
+bullets; the previous two get one line each under `📌 Also recent:`; older ones
+fall off into the change notes. Three releases landed inside 24 hours once and
+the first two would have vanished from the front page unread — most visitors
+never open the change-notes tab. The section never grows.
+
+`docs/STEAM-DESCRIPTION.md` holds the live description, every version's change
+notes, and this rule. It exists because 4.1.0's notes lived only on Steam and
+had to be pasted back by hand to write 4.3.0's.
+
 **Bump the version in BOTH `.metadata/metadata.json` files.** As of 2026-08-30
 they both read `4.0.0` while the Steam page had been at `4.1.0` for a release —
 the field had simply not been touched, so the in-game launcher and the workshop
@@ -240,6 +264,10 @@ session does not pay for it twice:
 - `ASCENSION-WIP.md` — the checklist that panel rebuild ran on, kept as the
   worked example of how to slice this kind of job so it survives being
   interrupted.
+- `STEAM-DESCRIPTION.md` — the workshop page's live text, every version's
+  change notes, and which of the two Steam fields takes BBCode and which takes
+  plain text. Read it before writing release text; update it in the same
+  change.
 - `HISTORICAL-INFO.md` — the `historical_info` layer on all 71 visible events,
   and **which real period each of the three phases is telling**. Phase 1 is
   NOT shifted; phases 2 and 3 are. Getting that backwards is a period error
