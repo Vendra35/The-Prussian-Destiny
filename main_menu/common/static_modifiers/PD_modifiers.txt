@@ -397,12 +397,15 @@ PD_prussian_general_staff_buff_historical = {
 }
 
 
-# The standing cost of every charter the Bohemian crown confirmed to get its
-# estates out of the room. One stack per diet conceded, permanent, cumulative
-# - see in_game/events/disaster/PD_bohemia_events.txt.
+# The standing cost of the charters the Bohemian crown confirmed to get its
+# estates out of the room. One definition per depth, all permanent, and the
+# diet event swaps between them - see the long note in
+# in_game/events/disaster/PD_bohemia_events.txt for why this is four flat
+# definitions rather than one scaled one. Short version: `size` scales the
+# tooltip and not the modifier, and it does it without a word.
 #
-# Small per stack on purpose: four of them is what a full concession route
-# costs, and four is meant to be felt without being fatal.
+# Small per step on purpose: four is what a full concession route costs, and
+# four is meant to be felt without being fatal.
 PD_boh_confirmed_privileges = {
 	game_data = {
 		category = country
@@ -410,4 +413,59 @@ PD_boh_confirmed_privileges = {
 	global_crown_estate_power = -0.05
 	nobles_estate_levy_size = -0.05
 	global_levy_size_modifier = -0.03
+}
+
+PD_boh_confirmed_privileges_2 = {
+	game_data = {
+		category = country
+	}
+	global_crown_estate_power = -0.1
+	nobles_estate_levy_size = -0.1
+	global_levy_size_modifier = -0.06
+}
+
+PD_boh_confirmed_privileges_3 = {
+	game_data = {
+		category = country
+	}
+	global_crown_estate_power = -0.15
+	nobles_estate_levy_size = -0.15
+	global_levy_size_modifier = -0.09
+}
+
+PD_boh_confirmed_privileges_4 = {
+	game_data = {
+		category = country
+	}
+	global_crown_estate_power = -0.2
+	nobles_estate_levy_size = -0.2
+	global_levy_size_modifier = -0.12
+}
+
+
+# The two ways out of the Bohemian Estates Crisis. Fifty years each, not
+# permanent - the crisis is survived, not undone, and the permanent mark it
+# leaves is PD_boh_confirmed_privileges above.
+#
+# Surviving a disaster should be worth something a player can see. Vanilla
+# agrees: turmoil_in_brandenburg hands out bra_wittelsbacher_settled the same
+# way.
+PD_boh_settled_by_charter = {
+	game_data = {
+		category = country
+	}
+	global_estate_target_satisfaction = 0.1
+	nobles_estate_levy_size = 0.1
+	global_monthly_control = 0.0005
+	stability_cost_efficiency = 0.1
+}
+
+PD_boh_crown_unchallenged = {
+	game_data = {
+		category = country
+	}
+	global_crown_estate_power = 0.1
+	global_max_control = 0.05
+	monthly_legitimacy = 0.02
+	pop_join_rebel_threshold = -0.05
 }

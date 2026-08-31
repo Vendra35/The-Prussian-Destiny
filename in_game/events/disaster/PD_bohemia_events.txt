@@ -43,26 +43,105 @@ pd_bohemia.10 = {
 	# choice.
 	option = {
 		name = pd_bohemia.10.a
+		# The crown yields ground to keep the realm together...
+		add_legitimacy = -10
+		# ...and it does not get that ground back. THIS is the price of
+		# conceding: not a number that recovers, but a crown that commands
+		# less of its own kingdom permanently, and deeper with every charter.
+		#
+		# FOUR EXPLICIT MODIFIERS, one per depth, and no arithmetic anywhere
+		# near the engine. Two cleverer versions were tried and both failed in
+		# game, neither saying a word about it:
+		#
+		#   1. `mode = add_and_extend` with a constant size. That extends the
+		#      DURATION and leaves the magnitude alone - four concessions gave
+		#      four identical modifiers.
+		#   2. `size = { value = var:PD_boh_concessions divide = 25 }`. The
+		#      option's own tooltip scaled correctly - it read "Scaled by
+		#      +2.00" and listed -10%/-10%/-6% - and the modifier that
+		#      actually landed was the base one, -5%/-5%/-3%. The preview
+		#      resolves `var:` in the country scope; the application does not,
+		#      and falls back to 1. A preview that agrees with you while the
+		#      game quietly does something else is the worst version of this
+		#      mod's usual failure.
+		#
+		# So: strip whatever depth is on, add the one the counter names. It
+		# cannot silently fail, and verify_pd.py check 12 proves all four keys
+		# exist. Whichever is left standing when the crisis ends is the level
+		# it ended at, and it is meant to stay for the rest of the campaign.
+		#
+		# NOTE THE ORDER. The counter is raised at the BOTTOM of this option
+		# and the thresholds below are one step under the value they stand
+		# for. An option's tooltip is drawn before any of its effects run, so
+		# a test written against the raised counter reads one step behind in
+		# the preview - which is exactly what the player saw, "Scaled by 0.00"
+		# on the first concession. Testing the counter before it moves makes
+		# the preview and the application agree.
+		# Guarded, because an option's tooltip lists every effect it will run.
+		# Unguarded these three printed "We lose the effect of One Charter
+		# Confirmed / Two / Three" on the FIRST concession, when the country
+		# held none of them. has_country_modifier is triggers.log:4663.
+		if = {
+			limit = {
+				has_country_modifier = PD_boh_confirmed_privileges
+			}
+			remove_country_modifier = PD_boh_confirmed_privileges
+		}
+		if = {
+			limit = {
+				has_country_modifier = PD_boh_confirmed_privileges_2
+			}
+			remove_country_modifier = PD_boh_confirmed_privileges_2
+		}
+		if = {
+			limit = {
+				has_country_modifier = PD_boh_confirmed_privileges_3
+			}
+			remove_country_modifier = PD_boh_confirmed_privileges_3
+		}
+		if = {
+			limit = {
+				has_variable = PD_boh_concessions
+				var:PD_boh_concessions >= 75
+			}
+			add_country_modifier = {
+				modifier = PD_boh_confirmed_privileges_4
+				years = -1
+				mode = replace
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = PD_boh_concessions
+				var:PD_boh_concessions >= 50
+			}
+			add_country_modifier = {
+				modifier = PD_boh_confirmed_privileges_3
+				years = -1
+				mode = replace
+			}
+		}
+		else_if = {
+			limit = {
+				has_variable = PD_boh_concessions
+				var:PD_boh_concessions >= 25
+			}
+			add_country_modifier = {
+				modifier = PD_boh_confirmed_privileges_2
+				years = -1
+				mode = replace
+			}
+		}
+		else = {
+			add_country_modifier = {
+				modifier = PD_boh_confirmed_privileges
+				years = -1
+				mode = replace
+			}
+		}
 		change_variable = {
 			name = PD_boh_concessions
 			add = 25
-		}
-		# The crown yields ground to keep the realm together...
-		add_legitimacy = -10
-		# ...and it does not get that ground back. One stack per diet, four
-		# by the time this route ends the crisis, and they never expire.
-		# THIS is the price of conceding: not a number that recovers, but a
-		# crown that commands less of its own kingdom forever.
-		# The key is `modifier`, NOT `name` - effects.log's usage string says
-		# name and nothing in the game writes it that way: 1653 vanilla uses
-		# of modifier, zero of name. The wrong key applies nothing and reports
-		# nothing. verify_pd.py check 12 exists because of this line.
-		# years = -1 with mode = add_and_extend is vanilla's permanent
-		# stacking form, black_death.txt:915-917.
-		add_country_modifier = {
-			modifier = PD_boh_confirmed_privileges
-			years = -1
-			mode = add_and_extend
 		}
 		# Confirming their privileges is, after all, what they asked for.
 		add_estate_satisfaction = {
@@ -73,10 +152,28 @@ pd_bohemia.10 = {
 			factor = 50
 		}
 	}
+	# NO historical_option ON EITHER BRANCH, deliberately.
+	#
+	# Repression is what both historical crowns actually chose - Ferdinand
+	# broke the estates at the White Mountain in 1620 and abolished their
+	# constitution in 1627, and Maria Theresa punished the nobles who had
+	# knelt in 1741. It was marked as the historical option for exactly one
+	# revision.
+	#
+	# But vanilla's `historical_ai` game rule defaults to historical_ai_choices,
+	# so marking a branch here makes the AI take it every single time - and
+	# this disaster's whole design is that both answers are real and the AI
+	# should vary (docs/BOHEMIA-DISASTER.md, fairness rule 4). Marking one
+	# would have turned the other into content an AI Bohemia never shows.
+	#
+	# The other ten choice events in this mod are marked, because their
+	# ai_chance is already N-against-zero: there the marker describes what the
+	# AI was going to do anyway. Here it would decide it.
+	#
+	# The player is told the history regardless - it is in the historical_info
+	# box above, which says plainly that both crowns answered with soldiers.
 	option = {
 		name = pd_bohemia.10.b
-		# The historical answer, both times. Ferdinand broke the estates at the White Mountain in 1620 and abolished their constitution in 1627; Maria Theresa punished the nobles who had knelt to a rival in 1741.
-		historical_option = yes
 		change_variable = {
 			name = PD_boh_repression
 			add = 25
@@ -92,9 +189,16 @@ pd_bohemia.10 = {
 		# are NEGATIVE and would have quietly reduced war exhaustion instead
 		# (war_exhaustion_mild_bonus = -2, _penalty = 2).
 		add_war_exhaustion = war_exhaustion_mild_penalty
+		# The standing pool, not the monthly rate. `root.monthly_manpower` is
+		# what vanilla writes (conquest_of_paradise.txt:64) and it is wrong
+		# here: a country sitting at full manpower has a monthly gain of zero,
+		# so the cost rendered as "We gain +0 Manpower" and took nothing.
+		# Measured in game 2026-08-31. `manpower` is triggers.log:8253,
+		# country scope, and prev.manpower is used the same way at
+		# flavor_por.txt:3762.
 		add_manpower = {
-			value = root.monthly_manpower
-			multiply = -3
+			value = root.manpower
+			multiply = -0.15
 		}
 		# And the estate you just broke does not forget it.
 		add_estate_satisfaction = {
@@ -127,6 +231,16 @@ pd_bohemia.100 = {
 	option = {
 		name = pd_bohemia.100.a
 		add_legitimacy = 20
+		# Coming out the other side is an achievement and should read as one.
+		# This branch kept the realm whole, so the reward is what a whole
+		# realm gives: estates that work with the crown instead of against it.
+		# It does not cancel the confirmed privileges - those are permanent
+		# and this is not.
+		add_country_modifier = {
+			modifier = PD_boh_settled_by_charter
+			years = 50
+			mode = replace
+		}
 	}
 }
 
@@ -140,5 +254,12 @@ pd_bohemia.101 = {
 		name = pd_bohemia.101.a
 		add_legitimacy = 30
 		add_prestige = 20
+		# The other way out, and the other kind of realm it leaves: a crown
+		# that commands, over a country that has learned not to argue.
+		add_country_modifier = {
+			modifier = PD_boh_crown_unchallenged
+			years = 50
+			mode = replace
+		}
 	}
 }
