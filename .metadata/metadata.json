@@ -1,7 +1,7 @@
 ﻿{
 	"name":	"The Prussian Destiny",
 	"id":	"prussiandestiny",
-	"version":	"4.2.0",
+	"version":	"4.3.0",
 	"supported_game_version":	"1.3.X",
 	"short_description":	"Allows Brandenburg to rapidly form Prussia and consume historical territories via configurable game rules.",
 	"tags":	["Diplomacy", "Events", "Gameplay", "Historical", "Military", "Overhaul"],
