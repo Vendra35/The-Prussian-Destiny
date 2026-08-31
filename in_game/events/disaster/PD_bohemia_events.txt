@@ -50,7 +50,10 @@ pd_bohemia.10 = {
 			add = 25
 		}
 		# Soldiers and confiscations are not free.
-		add_gold = -50
+		# -500 is squarely in vanilla's range for a serious event cost:
+		# 9 uses of -500, 9 of -250, 5 of -1000 across in_game/events.
+		# -50 sat at the bottom, where vanilla puts trivia.
+		add_gold = -500
 		add_prestige = -2
 		ai_chance = {
 			factor = 50

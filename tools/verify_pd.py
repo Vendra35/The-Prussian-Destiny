@@ -424,8 +424,15 @@ def check_disaster_art():
     for path in glob.glob(os.path.join(MOD, "in_game", "common", "disasters",
                                        "*.txt")):
         body = strip_line_comments(read(path))
+        # An INERT disaster - one still carrying `always = no` from
+        # new_disaster.py - cannot fire, so it cannot draw a missing panel and
+        # owes no art yet. Counted, so the check never scans zero, but not
+        # required to be complete. Arming it is what makes the art due.
+        inert = re.search(r"can_start\s*=\s*\{[^{}]*always\s*=\s*no", body) is not None
         for key in re.findall(r"^([A-Za-z_][A-Za-z_0-9]*)\s*=\s*\{", body, re.M):
             scanned += 1
+            if inert:
+                continue
             gui = os.path.join(MOD, "in_game", "gui", "panels", "disaster",
                                key + ".gui")
             icon = os.path.join(MOD, "main_menu", "gfx", "interface", "icons",

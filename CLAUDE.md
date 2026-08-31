@@ -137,6 +137,18 @@ python tools/check_release.py
 It compares the two trees file by file and refuses to say "up to date" unless
 they match, and separately reports any development file that leaked across.
 
+`tools/check_dates.py` reviews every dated gate against the era it belongs
+to. **This mod's calendar is shifted** — it tells the 1740-1866 story across
+1450-1640 or 1520-1755 — so a historically perfect year can be mechanically
+dead and look identical in a diff. That has already happened once: the
+Bohemian disaster was first gated ~78 years after the situation it exists to
+open. Run it after writing any `current_date`.
+
+`tools/new_disaster.py <key> "<Name>"` scaffolds a disaster with the three
+silent traps already handled: the panel named after the KEY, both art slots
+and their formats, and the loc conventions. The skeleton is inert until you
+remove its `always = no`, so it can land without a test debt.
+
 `tools/art_to_dds.py` converts commissioned art to a game DDS — magenta
 key, despill, decontamination, premultiplied downscale, colour bleed. Every
 one of those steps is there because leaving it out produced a visible pink
