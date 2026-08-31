@@ -37,6 +37,19 @@ for cand in VANILLA_CANDIDATES:
         VANILLA = cand
         break
 
+# The master list of modifier tags. Grepping vanilla shows what somebody
+# happened to write; modifiers.log is what the engine actually accepts, and a
+# tag outside it is applied to nothing and reported by nothing.
+MODIFIERS_LOG_CANDIDATES = [
+    os.path.join(MOD, "..", "1066 Test Mod", "docs",
+                 "EU5-Vanilla-Script-Docs", "modifiers.log"),
+]
+MODIFIERS_LOG = None
+for cand in MODIFIERS_LOG_CANDIDATES:
+    if os.path.isfile(cand):
+        MODIFIERS_LOG = os.path.normpath(cand)
+        break
+
 # Formatting tags this mod and vanilla actually define. A tag outside this set
 # makes pdx_text_formatter.cpp:807 complain and eats the word after it.
 KNOWN_FORMAT_TAGS = {
@@ -451,10 +464,283 @@ def check_disaster_art():
     record("disaster panel + icon names", scanned, bad)
 
 
+def check_modifier_tags():
+    """Every modifier tag this mod writes must exist in modifiers.log.
+
+    A tag the engine does not know is applied to NOTHING. No error, no warning,
+    no missing icon - the modifier sits in the country's list looking correct
+    and does zero. That is this project's whole failure family, and it is one
+    typo away at all times.
+
+    Scanned deliberately narrowly, in the two places where every line IS a
+    modifier tag by construction: the mod's own static_modifiers definitions,
+    and the modifier = { } block of each disaster. Anywhere else the same regex
+    would collect ordinary script keys and cry wolf, and a check that cries
+    wolf gets ignored.
+
+    The written-in-blood case this exists for: the Bohemian crisis shipped a
+    modifier block full of real tags that moved nothing the Ascension's target
+    gate reads. A checker cannot catch THAT - it is a design error, and the
+    doc catches it. What it can catch is the neighbour: a tag that moves
+    nothing because it does not exist.
+    """
+    if MODIFIERS_LOG is None:
+        record("modifier tags", 0, [],
+               "modifiers.log not found - add its path to "
+               "MODIFIERS_LOG_CANDIDATES")
+        return
+    known = set(re.findall(r"^Tag: ([A-Za-z_][A-Za-z_0-9]*),",
+                           read(MODIFIERS_LOG), re.M))
+    if not known:
+        record("modifier tags", 0, [])
+        return
+
+    # A modifier tag always takes a number or yes/no. 'category = location'
+    # and 'game_data = {' are excluded by that alone, with no brace counting.
+    tag_line = re.compile(
+        r"^\s*([a-z_][a-z_0-9]*)\s*=\s*(-?[0-9.]+|yes|no)\s*$")
+
+    scanned, bad = 0, []
+    sources = []
+    for path in sorted(glob.glob(os.path.join(
+            MOD, "main_menu", "common", "static_modifiers", "*.txt"))):
+        sources.append((path, read(path)))
+    for path in sorted(glob.glob(os.path.join(
+            MOD, "in_game", "common", "disasters", "*.txt"))):
+        # only the modifier = { } block; the rest of a disaster is triggers
+        text = read(path)
+        for m in re.finditer(r"^\tmodifier = \{(.*?)^\t\}", text,
+                             re.M | re.S):
+            sources.append((path, m.group(1)))
+
+    for path, text in sources:
+        for n, line in enumerate(text.split("\n"), 1):
+            m = tag_line.match(line)
+            if not m:
+                continue
+            tag = m.group(1)
+            scanned += 1
+            if tag not in known:
+                bad.append("%s: '%s' is not a modifier tag the engine knows "
+                           "(not in modifiers.log). It will be applied to "
+                           "nothing, silently." % (rel(path), tag))
+    record("modifier tags", scanned, sorted(set(bad)))
+
+
+def check_country_modifier_refs():
+    """add_country_modifier must say `modifier =`, and name one that exists.
+
+    Two silent failures in one check, both of which this mod has written:
+
+      * the KEY. effects.log documents the usage as `name = name`. Nothing in
+        the game writes it that way - 1653 vanilla uses of `modifier`, zero of
+        `name` - and the wrong key applies nothing and reports nothing. This
+        check was earned by exactly that line being written into the Bohemian
+        crisis and caught before it shipped.
+      * the VALUE. A modifier key that is defined nowhere is the same silent
+        no-op, one typo away.
+
+    The definition set is every top-level block in `main_menu/common/
+    static_modifiers/` in the mod AND in vanilla, so referencing a vanilla
+    modifier passes and referencing nothing at all does not.
+    """
+    defined = set()
+    roots = [os.path.join(MOD, "main_menu", "common", "static_modifiers")]
+    if VANILLA:
+        roots.append(os.path.join(VANILLA, "main_menu", "common",
+                                  "static_modifiers"))
+    for root in roots:
+        for path in sorted(glob.glob(os.path.join(root, "*.txt"))):
+            defined.update(re.findall(r"^([A-Za-z_][A-Za-z_0-9]*)\s*=\s*\{",
+                                      read(path), re.M))
+    if not defined:
+        record("country modifier refs", 0, [])
+        return
+
+    scanned, bad = 0, []
+    files = sorted(
+        glob.glob(os.path.join(MOD, "in_game", "**", "*.txt"), recursive=True)
+        + glob.glob(os.path.join(MOD, "main_menu", "**", "*.txt"),
+                    recursive=True))
+    for path in files:
+        text = read(path)
+        for m in re.finditer(r"add_country_modifier\s*=\s*\{(.*?)\}", text,
+                             re.S):
+            block = m.group(1)
+            scanned += 1
+            line = text.count("\n", 0, m.start()) + 1
+            key = re.search(r"\bmodifier\s*=\s*([A-Za-z_][A-Za-z_0-9]*)",
+                            block)
+            if not key:
+                wrong = re.search(r"\bname\s*=\s*([A-Za-z_][A-Za-z_0-9]*)",
+                                  block)
+                bad.append("%s:%d: add_country_modifier has no 'modifier =' "
+                           "key%s. The engine reads 'modifier'; vanilla writes "
+                           "it 1653 times and 'name' zero times. Nothing is "
+                           "applied and nothing is logged."
+                           % (rel(path), line,
+                              " (it says 'name = %s')" % wrong.group(1)
+                              if wrong else ""))
+                continue
+            if key.group(1) not in defined:
+                bad.append("%s:%d: add_country_modifier names '%s', which is "
+                           "defined in no static_modifiers file - mod or "
+                           "vanilla. It applies nothing, silently."
+                           % (rel(path), line, key.group(1)))
+    record("country modifier refs", scanned, sorted(set(bad)))
+
+
+def _top_level_blocks(text):
+    """Yield (name, body, first_line) for every top-level `key = { ... }`."""
+    for m in re.finditer(r"^([A-Za-z_][A-Za-z_0-9.]*)\s*=\s*\{", text, re.M):
+        i, depth = m.end(), 1
+        while i < len(text) and depth:
+            if text[i] == "{":
+                depth += 1
+            elif text[i] == "}":
+                depth -= 1
+            i += 1
+        yield m.group(1), text[m.end():i], text.count("\n", 0, m.start()) + 1
+
+
+def check_dhe_entry_keys():
+    """A dynamic_historical_event needs `.entry`, and so does every option.
+
+    The event BROWSER renders the historical-event list with no event bound, so
+    it cannot use `.title` or `.a` - those may carry scope references it has
+    nothing to resolve. It reads `<id>.entry` and `<id>.<option>.entry`, and
+    with the key absent it prints the key itself. Measured in game 2026-08-31:
+    the list showed the literal text `pd_bohemia_dhe.1.entry`.
+
+    Vanilla confirms the convention - flavor_ach alone carries 40 `.entry` keys
+    against 19 `.title`, because the options need them too.
+    """
+    scanned, bad = 0, []
+    for path in sorted(glob.glob(os.path.join(MOD, "in_game", "events", "**",
+                                              "*.txt"), recursive=True)):
+        text = read(path)
+        for m in re.finditer(r"^([a-z_]+\.[0-9]+)\s*=\s*\{", text, re.M):
+            eid = m.group(1)
+            nxt = re.search(r"^[a-z_]+\.[0-9]+\s*=\s*\{", text[m.end():], re.M)
+            evt = text[m.end():m.end() + (nxt.start() if nxt else len(text))]
+            if "dynamic_historical_event" not in evt:
+                continue
+            line = text.count("\n", 0, m.start()) + 1
+            wanted = [eid + ".entry"]
+            wanted += [o + ".entry" for o in re.findall(
+                r"name\s*=\s*(" + re.escape(eid) + r"\.[a-z])\s*$", evt, re.M)]
+            for key in wanted:
+                scanned += 1
+                if key not in defined_keys:
+                    bad.append("%s:%d: historical event '%s' has no '%s' - the "
+                               "event browser prints the raw key where this "
+                               "text belongs" % (rel(path), line, eid, key))
+    record("DHE entry keys", scanned, sorted(set(bad)))
+
+
+def check_disaster_var_guards():
+    """Every `var:X` a disaster reads must have `has_variable = X` beside it.
+
+    A disaster's can_end, on_monthly and on_end are all walked when the engine
+    draws the disaster's TOOLTIP - with no country bound, so the variables do
+    not exist. Each unguarded read throws three lines, every render. Measured
+    2026-08-31: five unguarded reads produced 24,378 error lines in a single
+    session, and the panel would not open.
+
+    Vanilla guards its own: turmoil_in_brandenburg_end_trigger wraps each
+    counter as AND = { has_variable = X  var:X >= N }
+    (disaster_triggers.txt:707-716). This mod copied that trigger's shape and
+    dropped its guard.
+
+    Scanned in the disaster files and in every scripted trigger a disaster
+    calls by name, which is where the reads actually live.
+    """
+    disasters = sorted(glob.glob(os.path.join(
+        MOD, "in_game", "common", "disasters", "*.txt")))
+    if not disasters:
+        record("disaster var guards", 0, [])
+        return
+    called = set()
+    for path in disasters:
+        called.update(re.findall(r"([A-Za-z_][A-Za-z_0-9]*)\s*=\s*yes",
+                                 read(path)))
+    targets = [(p, None) for p in disasters]
+    for path in sorted(glob.glob(os.path.join(
+            MOD, "in_game", "common", "scripted_triggers", "*.txt"))):
+        for name, _body, _line in _top_level_blocks(read(path)):
+            if name in called:
+                targets.append((path, name))
+
+    scanned, bad = 0, []
+    for path, only in targets:
+        for name, blk, line in _top_level_blocks(read(path)):
+            if only and name != only:
+                continue
+            for vm in re.finditer(r"\bvar:([A-Za-z_][A-Za-z_0-9]*)", blk):
+                var = vm.group(1)
+                scanned += 1
+                if ("has_variable = " + var) not in blk:
+                    bad.append("%s:%d: '%s' reads var:%s with no "
+                               "'has_variable = %s' anywhere in the block. A "
+                               "disaster's triggers and effects are walked to "
+                               "draw its tooltip, where nothing holds that "
+                               "variable - three log lines per render."
+                               % (rel(path),
+                                  line + blk.count("\n", 0, vm.start()),
+                                  name, var, var))
+    record("disaster var guards", scanned, sorted(set(bad)))
+
+
+def check_historical_info():
+    """historical_info needs BOTH halves: the loc key and the event field.
+
+    `historical_info` is an event FIELD (in_game/events/readme.txt:33), not
+    merely a loc convention. Writing the text without declaring the field
+    produces a box that never renders, and nothing anywhere says so.
+
+    Mongol Resurgence shipped exactly that: 31 historical_info loc keys against
+    25 declarations, so six boxes it had paid to write were invisible in game
+    (MR Debug-and-Test-Results.md:1846). This check is both directions -
+    a declaration with no text prints the raw key, and text with no declaration
+    prints nothing at all.
+    """
+    scanned, bad = 0, []
+    declared = {}
+    for path in sorted(glob.glob(os.path.join(MOD, "in_game", "events", "**",
+                                              "*.txt"), recursive=True)):
+        text = read(path)
+        for m in re.finditer(
+                r"^\thistorical_info\s*=\s*([A-Za-z_][A-Za-z_0-9.]*)", text, re.M):
+            declared[m.group(1)] = (rel(path),
+                                    text.count("\n", 0, m.start()) + 1)
+    for key, (path, line) in sorted(declared.items()):
+        scanned += 1
+        if key not in defined_keys:
+            bad.append("%s:%d: declares historical_info '%s' with no such loc "
+                       "key - the box renders the key itself" % (path, line, key))
+
+    for path in mod_loc_files:
+        for n, line in enumerate(read(path).split("\n"), 1):
+            stripped = line.lstrip()
+            if stripped.startswith("#"):
+                continue
+            m = re.match(r"([A-Za-z_][A-Za-z_0-9.]*\.historical_info)\s*:", stripped)
+            if not m:
+                continue
+            scanned += 1
+            if m.group(1) not in declared:
+                bad.append("%s:%d: '%s' is written but no event declares "
+                           "historical_info for it. The text was paid for and "
+                           "never renders." % (rel(path), n, m.group(1)))
+    record("historical_info", scanned, sorted(set(bad)))
+
+
 for fn in (check_encoding, check_gui_references, check_show_names,
            check_format_tags, check_hot_block_tags, check_treaty_event_tooltips,
            check_panel_variables, check_script_images,
-           check_disaster_art):
+           check_disaster_art, check_modifier_tags,
+           check_country_modifier_refs, check_dhe_entry_keys,
+           check_disaster_var_guards, check_historical_info):
     fn()
 
 # ------------------------------------------------------------------ report --
