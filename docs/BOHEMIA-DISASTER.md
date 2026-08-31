@@ -29,17 +29,34 @@ Austria lost the province because it was being dismembered from two directions
 at once. The mod is not inventing an opening; it is supplying the one that
 actually happened.
 
-## The trigger, and why legitimacy
+## The trigger: three ways in, and why not one
 
 `ruler_religion` is not a trigger (checked against `triggers.log`), so the
-religious framing of 1618 cannot be tested directly. Legitimacy can, and it
-covers **both** anchors honestly: 1618 is the estates deposing their king and
-1741 is a rival crowned in the capital. Each is a legitimacy crisis by
-definition.
+religious framing of 1618 cannot be tested directly.
 
-It is also the fair condition. A Bohemia that keeps its crown secure never sees
-this at all — the player's own play decides it, which is the difference between
-content and a handicap.
+The first draft used `legitimacy < 50` **alone**, and that was a mistake worth
+recording: legitimacy sits near the top for a stable monarchy, so a single gate
+on it risks content that is written, shipped and never once seen. **No vanilla
+disaster gates on one number.** Measured:
+
+| Disaster | Gate |
+|---|---|
+| `succession_crisis` | `legitimacy < 50` **and** `stability < 10`, but only when there is no heir / a regent / a bad heir — otherwise `stability < 0` |
+| `peasants_war` | `stability < 0` + `estate_satisfaction < 0.5` + `war_exhaustion > 0` |
+| `court_and_country` | `estate_power >= 0.25` **or** `societal_value < -50` |
+| `aspiration_for_liberty` | `stability < 20` + literacy + a parliament clause |
+
+So there are three paths now, any one of which opens it:
+
+1. **`estate_satisfaction:nobles_estate < 0.5`** — the one this disaster is
+   actually about. It is the ESTATES against the crown, and the first gate
+   never once asked what the estates thought.
+2. `legitimacy < 50` — the crown's right to rule is questioned.
+3. `stability < 0` — the realm is ungovernable.
+
+All three stay fair. A Bohemia that keeps its nobles content, its crown secure
+and its realm stable never sees this at all — the player's own play decides it,
+which is the difference between content and a handicap.
 
 ```
 can_start = {

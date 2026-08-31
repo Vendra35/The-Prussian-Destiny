@@ -32,8 +32,31 @@ PD_bohemian_estates_crisis = {
 		# By land, not by tag: BOH, HAB or whoever actually holds the crown.
 		owns = location:prague
 		has_ruler = yes
-		# 0-100 scale; vanilla gates at <50, <40 and <25.
-		legitimacy < 50
+		# THE QUARREL - any one of three. No vanilla disaster gates on a
+		# single number: succession_crisis pairs legitimacy with stability
+		# and an heir clause, peasants_war wants stability, estate
+		# satisfaction and war exhaustion together. A lone legitimacy < 50
+		# risks content that is written, shipped and never once seen,
+		# because legitimacy sits near the top for a stable monarchy.
+		#
+		# The first path is the one this disaster is actually about. It is
+		# the ESTATES against the crown, and the old gate never asked what
+		# the estates thought.
+		OR = {
+			custom_tooltip = {
+				text = PD_boh_start_nobles_tt
+				country_has_estate = estate_type:nobles_estate
+				estate_satisfaction:nobles_estate < 0.5
+			}
+			custom_tooltip = {
+				text = PD_boh_start_crown_tt
+				legitimacy < 50
+			}
+			custom_tooltip = {
+				text = PD_boh_start_realm_tt
+				stability < 0
+			}
+		}
 		# Vanilla's own guards, turmoil_in_brandenburg.txt:11-12.
 		in_civil_war = no
 		has_any_active_disaster = no
@@ -44,7 +67,7 @@ PD_bohemian_estates_crisis = {
 		# An earlier draft gated this at 1600 and 1725 - both ~78 years
 		# after their situation can start - so the crisis could only ever
 		# arrive once the story was over. Dates here only say 'while this
-		# era is running'; legitimacy is what actually decides.
+		# era is running'; the three paths above are what actually decide.
 		OR = {
 			AND = {
 				has_game_rule = PD_timeline_frontloaded
@@ -109,10 +132,11 @@ PD_bohemian_estates_crisis = {
 		every_country = {
 			limit = {
 				this != root
-				OR = {
-					has_presence_in = region:north_german_region
-					has_presence_in = region:south_german_region
-				}
+				# All of Europe, not just the German neighbours: a kingdom that
+				# cannot govern itself is continental news, and hearing it from
+				# everywhere is part of what stops this reading as a private
+				# message to Prussia.
+				has_presence_in = continent:europe
 			}
 			trigger_event_non_silently = pd_bohemia.20
 		}
