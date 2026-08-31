@@ -735,12 +735,48 @@ def check_historical_info():
     record("historical_info", scanned, sorted(set(bad)))
 
 
+def check_lost_characters():
+    """A '?' immediately followed by a letter is a character that died.
+
+    Non-ASCII text that goes through a wrong codepage comes back as '?'. The
+    file still parses, the key still resolves, and the player reads
+    "K?nigsberg" and "Deutschland ?ber alles". Nothing errors.
+
+    A real question mark ends a clause, so it is followed by a space, a quote
+    or the end of the line - never straight by a letter. That one rule
+    separates the two with no false positives, which matters because a check
+    that cries wolf gets ignored.
+
+    Turkish comment lines are skipped on purpose: this project's older files
+    carry cp1254 mojibake in their comments and CLAUDE.md says to leave it
+    alone. Only text a player can read is scanned.
+
+    Found three live ones the day it was written: pd_brandenburg.1.desc,
+    cb_PD_hegemony_desc and pd_brandenburg.303.a.
+    """
+    scanned, bad = 0, []
+    for path in mod_loc_files:
+        for n, value in loc_value_lines(read(path)):
+            scanned += 1
+            for m in re.finditer(r"\?[A-Za-z]", value):
+                bad.append("%s:%d: '...%s...' - a '?' straight before a letter "
+                           "is a character that was lost to a codepage, not "
+                           "punctuation. The player reads the '?'."
+                           % (rel(path), n,
+                              value[max(0, m.start() - 28):m.end() + 28]))
+            if "\ufffd" in value:
+                bad.append("%s:%d: contains U+FFFD, the replacement character"
+                           % (rel(path), n))
+    record("lost characters", scanned, sorted(set(bad)))
+
+
 for fn in (check_encoding, check_gui_references, check_show_names,
            check_format_tags, check_hot_block_tags, check_treaty_event_tooltips,
            check_panel_variables, check_script_images,
            check_disaster_art, check_modifier_tags,
            check_country_modifier_refs, check_dhe_entry_keys,
-           check_disaster_var_guards, check_historical_info):
+           check_disaster_var_guards, check_historical_info,
+           check_lost_characters):
     fn()
 
 # ------------------------------------------------------------------ report --
