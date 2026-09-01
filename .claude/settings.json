@@ -11,6 +11,33 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$EU5_KB/tools/kb.py\" hook",
+            "timeout": 10,
+            "statusMessage": "EU5 knowledge: the laws for this path"
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$EU5_KB/tools/kb.py\" hook --clear",
+            "timeout": 10
+          }
+        ]
+      }
     ]
+  },
+  "env": {
+    "EU5_KB": "C:/Users/svnzr/OneDrive/Belgeler/Paradox Interactive/Europa Universalis V/eu5-knowledge"
   }
 }
