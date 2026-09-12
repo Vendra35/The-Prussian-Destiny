@@ -64,7 +64,7 @@ Do not hand over one and leave the other. A release needs:
 
 [h2]👑 THE THREE STAGES OF DESTINY[/h2]
 [list]
-[*] [b]Stage 1: The Foundation[/b] — Begins after the Turmoil in Brandenburg. Not a simple conquest phaplomatic and military struggle between Brandenburg and the Teutonic Order. The victor subjugates theloser into a Fiefdom, mirroring the authentic historical power shift. Includes a failsafe if the AI stalls.
+[*] [b]Stage 1: The Foundation[/b] — Begins after the Turmoil in Brandenburg. Not a simple conquest phase, but a diplomatic and military struggle between Brandenburg and the Teutonic Order. The victor subjugates the loser into a Fiefdom, mirroring the authentic historical power shift. Includes a failsafe if the AI stalls.
 [*] [b]Stage 2: The Ascension[/b] — Post-Reformation. Prussia strikes wealthy Silesia and Saxony. Introduces custom [b]Zollverein Diplomacy[/b] to peacefully vassalize the North German minors, culminating in the [b]North German Confederation[/b].
 [*] [b]Stage 3: Blood & Iron[/b] — The finale. Navigate the Franco-Prussian War and achieve the unification of the [b]German Empire[/b].
 [/list]
@@ -74,7 +74,7 @@ Whoever holds Prague also gets a story of their own: [b]The Bohemian Estates Cri
 [h2]⏳ Pacing — read this before you panic[/h2]
 Nothing fires on day one. Stage 1 ignites around the [b]1370s[/b], right after vanilla's 'Turmoil in Brandenburg' resolves — if the early game seems quiet, the diplomatic board is just being set.
 
-And no, Prussia will [b]not[/b] eat the HRE by 1500. Expansion is hard-capped by script: after securingts time on economy and drill, and the real growth only begins after the Reformation. A calculated rise,not map painting.
+And no, Prussia will [b]not[/b] eat the HRE by 1500. Expansion is hard-capped by script: after securing Brandenburg, Pomerania and Prussia the AI spends its time on economy and drill, and the real growth only begins after the Reformation. A calculated rise, not map painting.
 
 [hr][/hr]
 [h2]⚙️ Game Rules[/h2]
@@ -82,7 +82,7 @@ The mod is built to make [b]AI Prussia a formidable end-game boss[/b], and is fu
 [list]
 [*] [b]Prussian Military Buffs[/b] — [b]Historical & Balanced[/b] (default) for a fair, realistic campaign. [b]Terminator[/b] turns the AI into an apocalyptic threat. (Not recommended 💀)
 [*] [b]Timeline[/b] — [b]Dynamic & Frontloaded[/b] accelerates the Prussian content into the mid-game. [b]Strict Historical[/b] locks every milestone to its authentic date for a long-burn campaign.
-[*] [b]Auto-Consolidation[/b] — failsafes that force historical borders (1499 for Stage 1, 1632 for Staestiny cannot be denied.
+[*] [b]Auto-Consolidation[/b] — failsafes that force historical borders (1499 for Stage 1, 1632 for Stage 2) so that the Destiny cannot be denied.
 [*] [b]Blood and Iron Mechanics[/b] — toggle Stage 3's events and diplomatic tension.
 [/list]
 
