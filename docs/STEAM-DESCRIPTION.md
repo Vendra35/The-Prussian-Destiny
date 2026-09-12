@@ -100,6 +100,7 @@ Play with my [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3678585
 [*] Uses the vanilla EU5 Situation system. Modifies the vanilla alliance file via [b]TRY:REPLACE[/b], so other mods touching it will not crash the game.
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3599962922]North German Federation[/url] — credits for the NGC foundation.
 [*] [b]🇨🇳 中文翻译:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3599706198]Chinese localization[/url], by 牛奶大魔王.
+[*] [b]🇰🇷 한국어 번역:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3795496881]Korean localization[/url], by 너굴맨.
 [*] [b]Known issues:[/b] none right now — tell me if something breaks.
 [/list]
 
@@ -112,6 +113,14 @@ Play with my [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3678585
 
 [hr][/hr]
 [b]What I am working on next:[/b] a full total conversion that moves the start date to [b]1066[/b] — the whole map rebuilt for the eleventh century, with its own countries, rulers, borders and events. A large project and a long build; no date announced. I will post here when it is ready.
+
+[hr][/hr]
+[h2]Support & Development Updates[/h2]
+This mod is free and always will be. Nothing is locked behind a paywall — no early access, no supporter-only builds, no exclusive content.
+
+I post development updates on the 1066 total conversion — screenshots, progress, what I am working on — on my Patreon page. The posts are public, you do not need to pledge to read them.
+
+If you would like to support the time that goes into these mods: [url=https://www.patreon.com/Emirke]patreon.com/Emirke[/url]
 
 [hr][/hr]
 [i]"The era of fractured princes is over. The age of Berlin has begun. Are you ready to face the Destiny?"[/i]
