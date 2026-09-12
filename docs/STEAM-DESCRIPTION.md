@@ -41,24 +41,21 @@ Do not hand over one and leave the other. A release needs:
 
 ---
 
-# Current description block — 4.3.0
+# Current description block — 4.4.0
 
 ```
-[h1]The Prussian Destiny 4.3.0:[/h1]
+[h1]The Prussian Destiny 4.4.0:[/h1]
 
-[h2]🔧 What's New in 4.3.0:[/h2]
+[h2]🔧 What's New in 4.4.0:[/h2]
 [list]
-[*] [b]Added:[/b] [b]The Bohemian Estates Crisis[/b] — the mod's first disaster, and it can happen to you. Whoever holds Prague eventually falls out with their own estates over who is actually entitled to govern. The realm's alliances lapse the same month, rebels grow, and a third of the manpower goes unavailable. Every two years the estates convene and you answer: [b]confirm their privileges[/b] — cheap today, and permanent, deepening up to Four Charters Confirmed and marked until the end of the game — or [b]answer them with the army[/b], which costs gold, men and patience and leaves nothing behind. Four of one answer ends it; the two are never added together. Both endings pay you for surviving, and losing Prague ends it and pays nothing. No part of it is gated on the AI, so a human Bohemia faces exactly the same crisis on exactly the same terms.
-[*] [b]Added:[/b] A [b]history box[/b] under every event in the mod — all 71 of them — and a marker on the 11 choices history actually made. This mod tells the 1740–1866 story between 1522 and 1640, and until now nothing in the game said so. The event now speaks in the compressed calendar while the box underneath tells you what really happened and when: the Zollverein is 1834, Blood and Iron is a speech to a hostile budget committee on 30 September 1862, and the Empire was proclaimed at Versailles on 18 January 1871 because the first Hohenzollern had crowned himself exactly a hundred and seventy years earlier.
-[*] [b]Fixed:[/b] The historical events list showed raw keys instead of event names, on all twelve of the mod's historical events.
-[*] [b]Fixed:[/b] Three characters that had died to a codepage and were being shown to players — "K?nigsberg" in Brandenburg's opening event, "Deutschland ?ber alles" in a Franco-Prussian War option, and a mangled dash in the hegemony war goal.
-[*] [b]Changed:[/b] Brandenburg's opening option no longer echoes a slogan it has no business echoing, and is no longer four and a half centuries early. It now reads "Für die Mark und das Haus Hohenzollern!"
+[*] [b]Fixed:[/b] [b]Annex Claimed Territories[/b] now takes the Rhineland. The treaty's text always listed eight areas, but its conditions listed seven — so Cologne and its neighbours could be targeted by the casus belli yet never ceded at the table, and you were left conquering the electorate one location at a time and eating the aggressive expansion. Reported by a player — thank you.
+[*] [b]Changed:[/b] The [b]historical electors now ask[/b] before they take the throne. Joachim I, Joachim II, Johann Sigismund, the Great Elector and Friedrich I arrive as a choice for a human player: accept the historical ruler as before, or keep your own house — with its personal unions and the heirs you bred — for a small prestige and legitimacy gain. The AI still follows history, on the same dates. Reported by a player — thank you.
 [/list]
 
 [h2]📌 Also recent:[/h2]
 [list]
+[*] [b]4.3.0[/b] — The Bohemian Estates Crisis, the mod's first disaster and one that can happen to you, plus a history box under every event that tells you the real date of what you are playing.
 [*] [b]4.2.0[/b] — All three situation panels rebuilt to read live from the mod's own variables, each situation given its own icon, and a map-mode tag bug fixed that had been flooding the error log.
-[*] [b]4.1.0[/b] — Two ways Stage 1 could deadlock forever, both closed: a third power annexing the Teutonic Order, and the PRU tag already existing as someone else's vassal. Plus the Hohenzollern line given its real rulers at their real dates.
 [/list]
 
 [i]"Prussia is not a state with an army, but an army with a state."[/i]
@@ -122,6 +119,31 @@ Play with my [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3678585
 ---
 
 # Change notes
+
+## 4.4.0 — 2026-09-12
+
+```
+🔧 UPDATE 4.4.0:
+
+*- Fixed: The "Annex Claimed Territories" peace treaty now accepts the
+Rhineland. Its text always promised eight areas, but the treaty's conditions
+and its land transfer listed seven, so the electorates around Cologne could be
+targeted by the casus belli and never taken at the table — you had to conquer
+them location by location and pay the aggressive expansion for it. Reported by
+a player; thank you.
+
+*- Changed: The five historical succession events (Joachim I, Joachim II,
+Johann Sigismund, the Great Elector and Friedrich I) now ASK a human player
+instead of replacing the ruler before the event even opens. Accept, and the
+historical elector takes the throne exactly as before. Decline, and your own
+house keeps the throne — personal unions and the heirs you bred stay where
+they are — for a small prestige and legitimacy gain. The AI is unchanged and
+still follows history on the same dates. Reported by a player; thank you.
+
+*- Note for translators: this update adds 10 new localisation keys, changes
+none and removes none.
+```
+
 
 ## 4.3.0 — 2026-08-31
 
