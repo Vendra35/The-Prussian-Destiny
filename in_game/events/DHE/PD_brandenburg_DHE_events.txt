@@ -709,7 +709,11 @@ pd_brandenburg_dhe.7 = {
 				save_scope_as = pd_prussian_ruler
 				create_in_limbo = yes
 			}
-			set_new_ruler = scope:pd_prussian_ruler
+			# AI: seated before the card opens, exactly as before. A human is asked below.
+			if = {
+				limit = { is_ai = yes }
+				set_new_ruler = scope:pd_prussian_ruler
+			}
 		}
 	}
 	option = {
@@ -717,7 +721,24 @@ pd_brandenburg_dhe.7 = {
 		ai_chance = {
 			factor = 100
 		}
+		# Human: accept the historical elector. The AI already seated him in immediate.
+		if = {
+			limit = { is_ai = no }
+			set_new_ruler = scope:pd_prussian_ruler
+		}
 		add_prestige = prestige_severe_bonus
+	}
+	option = {
+		name = pd_brandenburg_dhe.7.b
+		ai_chance = {
+			factor = 0
+		}
+		# Decline: the reigning house keeps the throne; the limbo character is removed so no orphan is left.
+		add_prestige = prestige_weak_bonus
+		add_legitimacy = legitimacy_weak_bonus
+		hidden_effect = {
+			kill_character_silently = scope:pd_prussian_ruler
+		}
 	}
 }
 
@@ -770,7 +791,11 @@ pd_brandenburg_dhe.8 = {
 				save_scope_as = pd_prussian_ruler
 				create_in_limbo = yes
 			}
-			set_new_ruler = scope:pd_prussian_ruler
+			# AI: seated before the card opens, exactly as before. A human is asked below.
+			if = {
+				limit = { is_ai = yes }
+				set_new_ruler = scope:pd_prussian_ruler
+			}
 		}
 	}
 	option = {
@@ -778,7 +803,24 @@ pd_brandenburg_dhe.8 = {
 		ai_chance = {
 			factor = 100
 		}
+		# Human: accept the historical elector. The AI already seated him in immediate.
+		if = {
+			limit = { is_ai = no }
+			set_new_ruler = scope:pd_prussian_ruler
+		}
 		add_prestige = prestige_severe_bonus
+	}
+	option = {
+		name = pd_brandenburg_dhe.8.b
+		ai_chance = {
+			factor = 0
+		}
+		# Decline: the reigning house keeps the throne; the limbo character is removed so no orphan is left.
+		add_prestige = prestige_weak_bonus
+		add_legitimacy = legitimacy_weak_bonus
+		hidden_effect = {
+			kill_character_silently = scope:pd_prussian_ruler
+		}
 	}
 }
 
@@ -832,7 +874,11 @@ pd_brandenburg_dhe.9 = {
 				save_scope_as = pd_prussian_ruler
 				create_in_limbo = yes
 			}
-			set_new_ruler = scope:pd_prussian_ruler
+			# AI: seated before the card opens, exactly as before. A human is asked below.
+			if = {
+				limit = { is_ai = yes }
+				set_new_ruler = scope:pd_prussian_ruler
+			}
 		}
 	}
 	option = {
@@ -840,7 +886,24 @@ pd_brandenburg_dhe.9 = {
 		ai_chance = {
 			factor = 100
 		}
+		# Human: accept the historical elector. The AI already seated him in immediate.
+		if = {
+			limit = { is_ai = no }
+			set_new_ruler = scope:pd_prussian_ruler
+		}
 		add_prestige = prestige_severe_bonus
+	}
+	option = {
+		name = pd_brandenburg_dhe.9.b
+		ai_chance = {
+			factor = 0
+		}
+		# Decline: the reigning house keeps the throne; the limbo character is removed so no orphan is left.
+		add_prestige = prestige_weak_bonus
+		add_legitimacy = legitimacy_weak_bonus
+		hidden_effect = {
+			kill_character_silently = scope:pd_prussian_ruler
+		}
 	}
 }
 
@@ -894,7 +957,11 @@ pd_brandenburg_dhe.10 = {
 				save_scope_as = pd_prussian_ruler
 				create_in_limbo = yes
 			}
-			set_new_ruler = scope:pd_prussian_ruler
+			# AI: seated before the card opens, exactly as before. A human is asked below.
+			if = {
+				limit = { is_ai = yes }
+				set_new_ruler = scope:pd_prussian_ruler
+			}
 		}
 	}
 	option = {
@@ -902,7 +969,24 @@ pd_brandenburg_dhe.10 = {
 		ai_chance = {
 			factor = 100
 		}
+		# Human: accept the historical elector. The AI already seated him in immediate.
+		if = {
+			limit = { is_ai = no }
+			set_new_ruler = scope:pd_prussian_ruler
+		}
 		add_prestige = prestige_severe_bonus
+	}
+	option = {
+		name = pd_brandenburg_dhe.10.b
+		ai_chance = {
+			factor = 0
+		}
+		# Decline: the reigning house keeps the throne; the limbo character is removed so no orphan is left.
+		add_prestige = prestige_weak_bonus
+		add_legitimacy = legitimacy_weak_bonus
+		hidden_effect = {
+			kill_character_silently = scope:pd_prussian_ruler
+		}
 	}
 }
 
@@ -955,7 +1039,11 @@ pd_brandenburg_dhe.11 = {
 				save_scope_as = pd_prussian_ruler
 				create_in_limbo = yes
 			}
-			set_new_ruler = scope:pd_prussian_ruler
+			# AI: seated before the card opens, exactly as before. A human is asked below.
+			if = {
+				limit = { is_ai = yes }
+				set_new_ruler = scope:pd_prussian_ruler
+			}
 		}
 	}
 	option = {
@@ -963,6 +1051,23 @@ pd_brandenburg_dhe.11 = {
 		ai_chance = {
 			factor = 100
 		}
+		# Human: accept the historical elector. The AI already seated him in immediate.
+		if = {
+			limit = { is_ai = no }
+			set_new_ruler = scope:pd_prussian_ruler
+		}
 		add_prestige = prestige_severe_bonus
+	}
+	option = {
+		name = pd_brandenburg_dhe.11.b
+		ai_chance = {
+			factor = 0
+		}
+		# Decline: the reigning house keeps the throne; the limbo character is removed so no orphan is left.
+		add_prestige = prestige_weak_bonus
+		add_legitimacy = legitimacy_weak_bonus
+		hidden_effect = {
+			kill_character_silently = scope:pd_prussian_ruler
+		}
 	}
 }

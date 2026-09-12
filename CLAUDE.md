@@ -120,6 +120,14 @@ treaty that declines to appear. Count all three lists together, and the war
 goal's `allowed_locations` with them — `docs/ASCENSION-NOTES.md` has the
 census.
 
+**`set_new_ruler` re-evaluates the country's personal unions.** The script
+docs say it in one line, on the sibling: `set_new_ruler_no_update` is "without
+updating any unions" (`effects.log:10250`). A scripted ruler created from
+nothing also displaces every heir the player bred. So a railroaded succession
+is imposed on the AI in `immediate` behind `is_ai = yes` and OFFERED to a human
+as a two-option card, with the decline arm removing the limbo character.
+`docs/ELECTOR-CHAIN.md` has the shape and the census.
+
 **A disaster's panel and icon are found by its KEY, not by its filename.**
 `savonarola.txt` holds the key `savonarola_disaster` and ships
 `savonarola_disaster.gui` / `.dds`. Name either file anything else and the
@@ -285,6 +293,10 @@ session does not pay for it twice:
   gated it on real-world years and landed ~78 years after the situation it
   was meant to open. **This mod's calendar is shifted; check dates against
   the mod's window, not history's.**
+- `ELECTOR-CHAIN.md` — the five historical-succession events
+  (`pd_brandenburg_dhe.7`–`.11`), why `set_new_ruler` cost a human player
+  their personal unions and bred heirs, and the AI-forced / human-offered
+  shape they carry since 4.4.0. Read it before touching any `set_new_ruler`.
 
 The headline finding, true across all three situations: nearly every branching
 event is weighted N against **zero**, so the AI takes the first option every
