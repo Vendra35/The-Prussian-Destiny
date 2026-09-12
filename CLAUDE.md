@@ -112,6 +112,14 @@ consequences, and confusing the two shipped a Bohemian crisis whose penalties
 Of anything written to open a door, ask: **which number that somebody reads
 does this move?** No harness catches that; `docs/BOHEMIA-DISASTER.md` does.
 
+**A peace treaty's tooltip, its `allow` and its `effect` must name the same
+areas.** The Ascension treaty promised eight and tested seven for a whole
+release; the casus belli accepted the eighth, so a player could declare on
+Cologne, win, and find the treaty missing from the table. Nothing logs a
+treaty that declines to appear. Count all three lists together, and the war
+goal's `allowed_locations` with them — `docs/ASCENSION-NOTES.md` has the
+census.
+
 **A disaster's panel and icon are found by its KEY, not by its filename.**
 `savonarola.txt` holds the key `savonarola_disaster` and ships
 `savonarola_disaster.gui` / `.dds`. Name either file anything else and the

@@ -86,6 +86,7 @@ PD_prussian_ascension_take_regions = {
 					this.area = area:holstein_area
 					this.area = area:westphalia_area
 					this.area = area:hesse_area
+					this.area = area:rhineland_area
 				}
 			}
 		}
@@ -152,6 +153,15 @@ PD_prussian_ascension_take_regions = {
 				}
 			}
 			area:hesse_area = {
+				every_location_in_area = {
+					limit = {
+						has_owner = yes
+						owner ?= scope:loser
+					}
+					change_location_owner = scope:winner
+				}
+			}
+			area:rhineland_area = {
 				every_location_in_area = {
 					limit = {
 						has_owner = yes

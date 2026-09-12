@@ -225,3 +225,40 @@ way — only five times over instead of once.
   sent.
 - The conquest cooldown is AI pacing, not player-facing. Keep it out of the
   panel or put it in a tooltip.
+
+## The peace treaty, and the census it owes
+
+`PD_prussian_ascension_take_regions` (`common/peace_treaties/PD_peace_treaties.txt:62`)
+is the only way a Prussia fighting under `cb_PD_prussian_ascension` takes land
+at the table. It has three lists that must agree: the tooltip
+(`PD_prussian_ascension_take_regions_tt`, the promise), the `allow` block (may
+the treaty appear at all) and the `hidden_effect` (what actually changes
+hands). The war goal (`wargoals/PD_war_goals.txt:51`, `:76`) is a fourth.
+
+**On 2026-09-12 they did not agree, and a player found it.** The tooltip named
+eight areas; `allow` and the transfer named seven. `rhineland_area` — Cologne,
+Bonn, Bergheim, Neuss under `koln_bucht_province` (vanilla
+`map_data/definitions.txt:339-348`) — was in the war goal and the tooltip and
+nowhere else. So the CB let you declare on Cologne, the war was won, and the
+treaty simply was not on the list: you had to conquer the electorate location
+by location and pay the aggressive expansion. Nothing logs a treaty that
+refuses to appear. Fixed the same day by adding the eighth area to both lists.
+
+Because this is a class of bug and not an instance, the other four live
+treaties in the file were counted the same way:
+
+| Treaty | Tooltip promises | `allow` tests | `effect` does | Agree? |
+|---|---|---|---|---|
+| `PD_prussian_ascension_take_regions` | 8 areas | 7 → **8** | 7 → **8** | fixed |
+| `PD_hegemony_demand_submission` | HRE dismantled, NGC formation follows | loser is war leader | `destroy_international_organization`, ±100 prestige, `PD_hegemony_victory = 1` | yes |
+| `PD_blood_and_iron_proclaim_germany` | alsace, lorraine, franche_comte | loser is FRA (no area test) | the same three areas, loser and its subjects, `:260-301` | yes |
+| `PD_france_shatter_prussian_menace` | unrest, two modifiers | loser NGC/PRU, a human at war | stability −50, modifiers swapped, `.307` | yes |
+| `PD_emperor_crush_prussian_hegemony` | unrest, modifiers, "Northern German subjects granted independence" | loser PRU/BRA, a human at war | stability −50, modifiers, `.220`/`.221`; `.221` cancels the north German subjects | yes |
+
+One cosmetic leftover, not fixed: `PD_france_shatter_prussian_menace_tt`
+hard-codes `[GetCountry('NGC').GetName]` while its `allow` accepts PRU as the
+loser, so a pre-confederation Prussia reads the wrong name in the preview.
+
+**The rule:** when a treaty lists areas, count the tooltip, `allow`, the
+transfer and the war goal together, every time one of them changes. Three of
+the four can be right and the player still cannot sign.
