@@ -41,21 +41,22 @@ Do not hand over one and leave the other. A release needs:
 
 ---
 
-# Current description block — 4.4.0
+# Current description block — 4.5.0
 
 ```
-[h1]The Prussian Destiny 4.4.0:[/h1]
+[h1]The Prussian Destiny 4.5.0:[/h1]
 
-[h2]🔧 What's New in 4.4.0:[/h2]
+[h2]🔧 What's New in 4.5.0:[/h2]
 [list]
-[*] [b]Fixed:[/b] [b]Annex Claimed Territories[/b] now takes the Rhineland. The treaty's text always listed eight areas, but its conditions listed seven — so Cologne and its neighbours could be targeted by the casus belli yet never ceded at the table, and you were left conquering the electorate one location at a time and eating the aggressive expansion. Reported by a player — thank you.
-[*] [b]Changed:[/b] The [b]historical electors now ask[/b] before they take the throne. Joachim I, Joachim II, Johann Sigismund, the Great Elector and Friedrich I arrive as a choice for a human player: accept the historical ruler as before, or keep your own house — with its personal unions and the heirs you bred — for a small prestige and legitimacy gain. The AI still follows history, on the same dates. Reported by a player — thank you.
+[*] [b]Changed:[/b] [b]Alliance locks now bind only the AI.[/b] A human Brandenburg or Prussia picks its own allies at every stage. The AI keeps its locks, because a country cannot attack its own ally and an AI allied to its own targets would stall its story: during Stage 1 an AI Brandenburg takes no allies, during Stage 2 an AI Prussia takes none among its targets or the Emperor. The locks now hold under every buff rule, lift the moment their stage ends, and show as a single line in the Offer Alliance window. Raised by a player — thank you.
+[*] [b]Fixed:[/b] The mod's copy of the vanilla alliance rules was older than the current game, so four of vanilla's AI alliance considerations were missing in every campaign — among them the one that keeps the Protestant Union and the Catholic League from allying across the divide. The rules are now rebuilt from the current vanilla file.
+[*] [b]Fixed:[/b] The North German Confederation's bureaucracies: the court-spending penalty and the cheaper construction did nothing, because they named modifiers the game does not recognise. Both work now, and all six bureaucracies load without errors.
 [/list]
 
 [h2]📌 Also recent:[/h2]
 [list]
+[*] [b]4.4.0[/b] — The Annex Claimed Territories treaty now takes the Rhineland it always promised, and the historical electors ask a human player before they take the throne.
 [*] [b]4.3.0[/b] — The Bohemian Estates Crisis, the mod's first disaster and one that can happen to you, plus a history box under every event that tells you the real date of what you are playing.
-[*] [b]4.2.0[/b] — All three situation panels rebuilt to read live from the mod's own variables, each situation given its own icon, and a map-mode tag bug fixed that had been flooding the error log.
 [/list]
 
 [i]"Prussia is not a state with an army, but an army with a state."[/i]
@@ -80,7 +81,7 @@ And no, Prussia will [b]not[/b] eat the HRE by 1500. Expansion is hard-capped by
 [h2]⚙️ Game Rules[/h2]
 The mod is built to make [b]AI Prussia a formidable end-game boss[/b], and is fully playable as Prussia yourself. Everything is toggleable in the Game Rules menu:
 [list]
-[*] [b]Prussian Military Buffs[/b] — [b]Historical & Balanced[/b] (default) for a fair, realistic campaign. [b]Terminator[/b] turns the AI into an apocalyptic threat. (Not recommended 💀)
+[*] [b]Prussian Military Buffs[/b] — [b]Historical & Balanced[/b] (default) for a fair, realistic campaign. [b]Vanilla[/b] turns the military buffs off. [b]Terminator[/b] turns the AI into an apocalyptic threat. (Not recommended 💀)
 [*] [b]Timeline[/b] — [b]Dynamic & Frontloaded[/b] accelerates the Prussian content into the mid-game. [b]Strict Historical[/b] locks every milestone to its authentic date for a long-burn campaign.
 [*] [b]Auto-Consolidation[/b] — failsafes that force historical borders (1499 for Stage 1, 1632 for Stage 2) so that the Destiny cannot be denied.
 [*] [b]Blood and Iron Mechanics[/b] — toggle Stage 3's events and diplomatic tension.
@@ -97,7 +98,7 @@ Play with my [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3678585
 [hr][/hr]
 [h2]🤝 Compatibility & Credits[/h2]
 [list]
-[*] Uses the vanilla EU5 Situation system. Modifies the vanilla alliance file via [b]TRY:REPLACE[/b], so other mods touching it will not crash the game.
+[*] Uses the vanilla EU5 Situation system. Replaces the vanilla alliance rules via [b]TRY_REPLACE[/b], rebuilt from the current vanilla file each update, so other mods touching them will not crash the game.
 [*] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3599962922]North German Federation[/url] — credits for the NGC foundation.
 [*] [b]🇨🇳 中文翻译:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3599706198]Chinese localization[/url], by 牛奶大魔王.
 [*] [b]🇰🇷 한국어 번역:[/b] [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3795496881]Korean localization[/url], by 너굴맨.
@@ -128,6 +129,51 @@ If you would like to support the time that goes into these mods: [url=https://ww
 ---
 
 # Change notes
+
+## 4.5.0 — 2026-09-14
+
+```
+🔧 UPDATE 4.5.0:
+
+*- Changed: The alliance locks now bind only the AI. A human Brandenburg or
+Prussia picks its own allies at every stage of the mod. The AI keeps its
+locks, because a country cannot attack its own ally and an AI allied to its
+own targets would stall its story for good: while Stage 1 runs, an AI
+Brandenburg takes no allies at all, and while Stage 2 runs, an AI Prussia
+takes none among its targets or the Emperor. The locks now follow the stage
+itself — they hold under every buff rule, Vanilla included, lift the moment
+their stage ends, and can no longer stay stuck when a stage never begins.
+When one blocks an alliance, the Offer Alliance window says so in one line.
+Raised by a player; thank you.
+
+*- Changed: Stage 1's Imperial Outcast modifier no longer carries an alliance
+ban of its own; the lock above does that job now. Its other penalties are
+unchanged.
+
+*- Fixed: The mod replaces the vanilla alliance rules, and its copy was older
+than the current game. While the mod was loaded, four of vanilla's AI
+alliance considerations were missing from every campaign, among them the
+penalty that keeps Protestant Union and Catholic League members from allying
+across the divide, and Rise of the Ottomans' rival-beylik rule. The alliance
+rules are now rebuilt from the current vanilla file.
+
+*- Fixed: The North German Confederation's bureaucracies. Two of their
+effects named modifiers the game does not recognise and did nothing: the
+court-spending penalty when the Bundesschatzamt, the Norddeutsche
+Gewerbeordnung or the Bundeskanzleramt is underfunded, and the
+Gewerbeordnung's cheaper construction when it is funded. Both work now, as
+Court Spending Efficiency and Buildings Construction Efficiency. Each of the
+six bureaucracies also gained the "Impact" modifier the game expects for it,
+which the game had been reporting as missing at every launch.
+
+*- Fixed: Every event now declares its sound outcome, as the game expects.
+Nothing sounds different; 71 error-log lines per launch are gone.
+
+*- Note for translators: this update adds 14 new localisation keys (2
+alliance-lock tooltips, and the names and descriptions of the 6 bureaucracy
+Impact modifiers), changes none and removes none.
+```
+
 
 ## 4.4.0 — 2026-09-12
 
