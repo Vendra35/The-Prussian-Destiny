@@ -184,8 +184,7 @@ Impact modifiers), changes none and removes none.
 Rhineland. Its text always promised eight areas, but the treaty's conditions
 and its land transfer listed seven, so the electorates around Cologne could be
 targeted by the casus belli and never taken at the table — you had to conquer
-them location by location and pay the aggressive expansion for it. Reported by
-a player; thank you.
+them location by location and pay the aggressive expansion for it.
 
 *- Changed: The five historical succession events (Joachim I, Joachim II,
 Johann Sigismund, the Great Elector and Friedrich I) now ASK a human player
@@ -193,7 +192,7 @@ instead of replacing the ruler before the event even opens. Accept, and the
 historical elector takes the throne exactly as before. Decline, and your own
 house keeps the throne — personal unions and the heirs you bred stay where
 they are — for a small prestige and legitimacy gain. The AI is unchanged and
-still follows history on the same dates. Reported by a player; thank you.
+still follows history on the same dates.
 
 *- Note for translators: this update adds 10 new localisation keys, changes
 none and removes none.
