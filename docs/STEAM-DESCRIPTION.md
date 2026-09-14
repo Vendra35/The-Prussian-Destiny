@@ -125,6 +125,7 @@ If you would like to support the time that goes into these mods: [url=https://ww
 
 [hr][/hr]
 [i]"The era of fractured princes is over. The age of Berlin has begun. Are you ready to face the Destiny?"[/i]
+```
 
 ---
 
