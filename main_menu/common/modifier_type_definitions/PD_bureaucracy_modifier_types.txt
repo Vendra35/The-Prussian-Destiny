@@ -1,0 +1,46 @@
+﻿# The Prussian Destiny: the impact modifier type the engine uses for each of
+# this mod's bureaucracies, named <bureaucracy key>_impact_modifier. Without it
+# modifier_type.cpp:1193 asserts at load ("must exist in DB, code will try to
+# use it"). Shape: vanilla modifier_type_definitions/02_generic_bureaucracies.txt:6-11.
+
+pd_ngc_bundesschatzamt_bureaucracy_impact_modifier = {
+	percent=yes
+	game_data={
+		category=country
+	}
+}
+
+pd_ngc_gewerbeordnung_bureaucracy_impact_modifier = {
+	percent=yes
+	game_data={
+		category=country
+	}
+}
+
+pd_ngc_militaerkabinett_bureaucracy_impact_modifier = {
+	percent=yes
+	game_data={
+		category=country
+	}
+}
+
+pd_ngc_landwehr_inspektion_bureaucracy_impact_modifier = {
+	percent=yes
+	game_data={
+		category=country
+	}
+}
+
+pd_ngc_artillerie_kommission_bureaucracy_impact_modifier = {
+	percent=yes
+	game_data={
+		category=country
+	}
+}
+
+pd_ngc_bundeskanzleramt_bureaucracy_impact_modifier = {
+	percent=yes
+	game_data={
+		category=country
+	}
+}

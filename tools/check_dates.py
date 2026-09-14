@@ -37,14 +37,14 @@ ERAS = {
     "ambition": {
         "PD_timeline_frontloaded": (1450, 1500),
         "PD_timeline_strict_historical": (1450, 1525),
-        "why": "opens from 1450 (PD_events.txt:15); failsafe 1495/1520 "
+        "why": "opens from 1450 (PD_events.txt:17); failsafe 1495/1520 "
                "(brandenburg_rise.txt:248,253); the 'TEU destroyed by other' "
                "clause closes it at 1500/1525 (PD_scripted_triggers.txt:42,46)",
     },
     "ascension": {
         "PD_timeline_frontloaded": (1522, 1640),
         "PD_timeline_strict_historical": (1648, 1755),
-        "why": "activates from 1522.3.9 / 1648.1.1 (PD_events.txt:1007,1016); "
+        "why": "activates from 1522.3.9 / 1648.1.1 (PD_events.txt:1057,1066); "
                "auto-conquest failsafe closes the era at 1632 / 1745 "
                "(the_prussian_ascension.txt:254,259)",
     },

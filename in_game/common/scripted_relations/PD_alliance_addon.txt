@@ -60,52 +60,58 @@ TRY_REPLACE:alliance = {
 		# targets would stall its situation for good; a human player picks their own
 		# allies. tag = never resolves c:TAG.
 		# Phase 1, the_prussian_ambition: an AI Brandenburg, with anyone at all.
-		NOT = {
-			AND = {
-				is_situation_active = situation:the_prussian_ambition
-				OR = {
-					scope:actor = {
-						tag = BRA
-						is_ai = yes
-					}
-					scope:recipient = {
-						tag = BRA
-						is_ai = yes
+		custom_tooltip = {
+			text = PD_alliance_lock_ambition_tt
+			NOT = {
+				AND = {
+					is_situation_active = situation:the_prussian_ambition
+					OR = {
+						scope:actor = {
+							tag = BRA
+							is_ai = yes
+						}
+						scope:recipient = {
+							tag = BRA
+							is_ai = yes
+						}
 					}
 				}
 			}
 		}
 		# Phase 2, the_prussian_ascension: an AI Prussia, and the Emperor or anyone
 		# holding land it has to take.
-		NOT = {
-			AND = {
-				is_situation_active = situation:the_prussian_ascension
-				OR = {
-					AND = {
-						scope:actor = {
-							tag = PRU
-							is_ai = yes
-						}
-						scope:recipient = {
-							OR = {
-								this = international_organization:hre.leader_country
-								has_presence_in = region:north_german_region
-								has_presence_in = area:prussia_area
-								has_presence_in = area:silesia_area
+		custom_tooltip = {
+			text = PD_alliance_lock_ascension_tt
+			NOT = {
+				AND = {
+					is_situation_active = situation:the_prussian_ascension
+					OR = {
+						AND = {
+							scope:actor = {
+								tag = PRU
+								is_ai = yes
+							}
+							scope:recipient = {
+								OR = {
+									this = international_organization:hre.leader_country
+									has_presence_in = region:north_german_region
+									has_presence_in = area:prussia_area
+									has_presence_in = area:silesia_area
+								}
 							}
 						}
-					}
-					AND = {
-						scope:recipient = {
-							tag = PRU
-							is_ai = yes
-						}
-						scope:actor = {
-							OR = {
-								this = international_organization:hre.leader_country
-								has_presence_in = region:north_german_region
-								has_presence_in = area:prussia_area
-								has_presence_in = area:silesia_area
+						AND = {
+							scope:recipient = {
+								tag = PRU
+								is_ai = yes
+							}
+							scope:actor = {
+								OR = {
+									this = international_organization:hre.leader_country
+									has_presence_in = region:north_german_region
+									has_presence_in = area:prussia_area
+									has_presence_in = area:silesia_area
+								}
 							}
 						}
 					}

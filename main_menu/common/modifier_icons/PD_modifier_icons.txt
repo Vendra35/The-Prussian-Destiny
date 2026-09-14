@@ -1,0 +1,27 @@
+﻿# Icon registrations for PD_bureaucracy_modifier_types.txt: every modifier type
+# needs one. The icon is the one vanilla's generic bureaucracies use
+# (modifier_icons/00_modifier_icons.txt:9297-9299).
+
+pd_ngc_bundesschatzamt_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/global_max_bureaucracy_slots.dds"
+}
+
+pd_ngc_gewerbeordnung_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/global_max_bureaucracy_slots.dds"
+}
+
+pd_ngc_militaerkabinett_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/global_max_bureaucracy_slots.dds"
+}
+
+pd_ngc_landwehr_inspektion_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/global_max_bureaucracy_slots.dds"
+}
+
+pd_ngc_artillerie_kommission_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/global_max_bureaucracy_slots.dds"
+}
+
+pd_ngc_bundeskanzleramt_bureaucracy_impact_modifier = {
+	positive = "gfx/interface/icons/modifier_types/global_max_bureaucracy_slots.dds"
+}

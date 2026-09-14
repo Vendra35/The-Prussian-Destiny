@@ -114,8 +114,8 @@ human Brandenburg regardless of the script. Not tested in game either way.
 The start flags still gate two other things. The Landfriede block
 (`country_interactions/PD_hre_landfriede_block.txt`) zeroes every AI's wish to
 enforce Landfriede on Brandenburg or Prussia while a flag is set, so a stuck
-flag keeps that for good. Three DHE events (`PD_brandenburg_DHE_events.txt:19,
-94, 197`) read a flag as "the phase has begun"; they are `fire_only_once` and
+flag keeps that for good. Three DHE events (`PD_brandenburg_DHE_events.txt:20,
+96, 200`) read a flag as "the phase has begun"; they are `fire_only_once` and
 dated, so a stuck flag only lets them fire.
 
 `pd_brandenburg.100` cuts Brandenburg's alliances with owners in Brandenburg,

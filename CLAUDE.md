@@ -19,13 +19,13 @@ reasoning for that is the part worth keeping.
 python tools/verify_pd.py
 ```
 
-Sixteen checks. **Every check prints how many items it scanned, and a check that
+Eighteen checks. **Every check prints how many items it scanned, and a check that
 scans zero FAILS** — a silent zero is the exact failure this mod keeps
 producing. It locates vanilla by probing a known FILE; if it reports the tree
 missing, add your path to `VANILLA_CANDIDATES` rather than ignoring the
 degraded run.
 
-It is green as of 2026-08-30. When it goes red, the finding is real until
+It is green as of 2026-09-14. When it goes red, the finding is real until
 proven otherwise — but prove it: three of these checks were themselves wrong
 before the mod was.
 
@@ -134,6 +134,21 @@ as a two-option card, with the decline arm removing the limbo character.
 panel is simply never loaded — no error, no missing texture, just the
 default panel where yours should be. This mod shipped exactly that bug for
 an afternoon. `verify_pd.py` check 10 catches it now.
+
+**A bureaucracy is four pieces, not one.** The `in_game/common/bureaucracies/`
+entry, a `<key>_impact_modifier` type in `main_menu/common/modifier_type_definitions/`,
+its icon registration in `main_menu/common/modifier_icons/`, and a
+`MODIFIER_TYPE_NAME_` / `MODIFIER_TYPE_DESC_` pair. The six NGC bureaucracies
+shipped with only the first, so the engine asserted at load, and two of their
+tags did not exist: `court_spending_cost_modifier` and
+`global_build_buildings_cost` are the engine's `*_efficiency` tags, colour good,
+so the sign flips. Check 11 now reads the bureaucracies and check 17 asks for
+the other three pieces.
+
+**Every visible event carries `outcome =`** - positive, neutral or negative,
+the direction of its sound (`events/readme.txt:72`). A missing one sounds the
+same and costs one error.log line a launch; 71 of them buried the lines that
+mattered. Check 18.
 
 ## Files
 

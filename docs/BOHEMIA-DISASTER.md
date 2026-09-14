@@ -139,7 +139,7 @@ with the realm cowed and the treasury spent. Neither is the "correct" answer.
 
 The first draft gated this at **1600-1645** and **1725-1775**, chosen from the
 real calendar. Both are roughly **78 years after their situation can even
-start** (`PD_events.txt:1007,1016` set the floors at 1522.3.9 and 1648.1.1),
+start** (`PD_events.txt:1057,1066` set the floors at 1522.3.9 and 1648.1.1),
 and sit against the auto-conquest failsafe that ends the era at 1632 and 1745.
 The crisis could only ever have arrived once the story it was meant to open was
 finished — and in strict mode the Ascension may well have ended first.

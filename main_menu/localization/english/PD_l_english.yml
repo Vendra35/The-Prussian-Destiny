@@ -612,6 +612,20 @@
  pd_ngc_militaerkabinett_bureaucracy: "Königliches Militärkabinett"
  pd_ngc_militaerkabinett_bureaucracy_desc: "The sovereign's personal military staff. By insulating the officer corps from civilian oversight and administrative meddling, it ensures that the army remains a loyal and autonomous tool of the state, directed solely by the strategic will of the crown."
 
+ # Impact modifier types (engine key <bureaucracy>_impact_modifier; vanilla modifier_types_l_english.yml:5099-5100)
+ MODIFIER_TYPE_NAME_pd_ngc_bundesschatzamt_bureaucracy_impact_modifier: "$pd_ngc_bundesschatzamt_bureaucracy$ Impact"
+ MODIFIER_TYPE_DESC_pd_ngc_bundesschatzamt_bureaucracy_impact_modifier: "How much the [bureaucracy|e] affects the [country|e]."
+ MODIFIER_TYPE_NAME_pd_ngc_gewerbeordnung_bureaucracy_impact_modifier: "$pd_ngc_gewerbeordnung_bureaucracy$ Impact"
+ MODIFIER_TYPE_DESC_pd_ngc_gewerbeordnung_bureaucracy_impact_modifier: "How much the [bureaucracy|e] affects the [country|e]."
+ MODIFIER_TYPE_NAME_pd_ngc_militaerkabinett_bureaucracy_impact_modifier: "$pd_ngc_militaerkabinett_bureaucracy$ Impact"
+ MODIFIER_TYPE_DESC_pd_ngc_militaerkabinett_bureaucracy_impact_modifier: "How much the [bureaucracy|e] affects the [country|e]."
+ MODIFIER_TYPE_NAME_pd_ngc_landwehr_inspektion_bureaucracy_impact_modifier: "$pd_ngc_landwehr_inspektion_bureaucracy$ Impact"
+ MODIFIER_TYPE_DESC_pd_ngc_landwehr_inspektion_bureaucracy_impact_modifier: "How much the [bureaucracy|e] affects the [country|e]."
+ MODIFIER_TYPE_NAME_pd_ngc_artillerie_kommission_bureaucracy_impact_modifier: "$pd_ngc_artillerie_kommission_bureaucracy$ Impact"
+ MODIFIER_TYPE_DESC_pd_ngc_artillerie_kommission_bureaucracy_impact_modifier: "How much the [bureaucracy|e] affects the [country|e]."
+ MODIFIER_TYPE_NAME_pd_ngc_bundeskanzleramt_bureaucracy_impact_modifier: "$pd_ngc_bundeskanzleramt_bureaucracy$ Impact"
+ MODIFIER_TYPE_DESC_pd_ngc_bundeskanzleramt_bureaucracy_impact_modifier: "How much the [bureaucracy|e] affects the [country|e]."
+
 
 
 
@@ -868,3 +882,7 @@
  pd_bohemia_dhe.1.a: "Let them wait."
  pd_bohemia_dhe.1.a.entry: "Let them wait."
  PD_boh_start_grievance_tt: "The estates have laid their grievances before the crown and been refused"
+
+ # --- Alliance locks (tools/gen_alliance_addon.py) ---
+ PD_alliance_lock_ambition_tt: "An AI-controlled Brandenburg takes no allies while its rise is underway"
+ PD_alliance_lock_ascension_tt: "An AI-controlled Prussia takes no allies among its targets or the Emperor while the Ascension is underway"

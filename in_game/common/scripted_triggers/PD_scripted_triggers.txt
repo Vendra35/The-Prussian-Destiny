@@ -660,7 +660,7 @@ PD_bohemian_estates_crisis_end_trigger = {
 
 # The era the Bohemian crisis belongs to, measured rather than taken from
 # the almanac: the Ascension can begin at 1522.3.9 frontloaded and 1648.1.1
-# strict (PD_events.txt:1007,1016), and the auto-conquest failsafe closes
+# strict (PD_events.txt:1057,1066), and the auto-conquest failsafe closes
 # the era at 1632 / 1745 (the_prussian_ascension.txt:254,259).
 #
 # One definition, two callers - the disaster and the historical event that

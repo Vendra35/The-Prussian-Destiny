@@ -11,6 +11,7 @@
 # choices that resolve it live in the disaster itself.
 pd_bohemia_dhe.1 = {
 	type = country_event
+	outcome = neutral
 	title = pd_bohemia_dhe.1.title
 	historical_info = pd_bohemia_dhe.1.historical_info
 	desc = pd_bohemia_dhe.1.desc

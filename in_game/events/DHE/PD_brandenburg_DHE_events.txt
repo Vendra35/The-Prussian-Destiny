@@ -1,6 +1,7 @@
 ﻿namespace = pd_brandenburg_dhe
 pd_brandenburg_dhe.1 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.1.title
 	historical_info = pd_brandenburg_dhe.1.historical_info
 	desc = pd_brandenburg_dhe.1.desc
@@ -76,6 +77,7 @@ pd_brandenburg_dhe.1 = {
 
 pd_brandenburg_dhe.2 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.2.title
 	historical_info = pd_brandenburg_dhe.2.historical_info
 	desc = pd_brandenburg_dhe.2.desc
@@ -179,6 +181,7 @@ pd_brandenburg_dhe.2 = {
 # Devletin dinini lutheran yapma eventi 2. situaton başlamadan tetiklenemez (has_global_variable = prussian_ascension_active)
 pd_brandenburg_dhe.3 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.3.title
 	historical_info = pd_brandenburg_dhe.3.historical_info
 	desc = pd_brandenburg_dhe.3.desc
@@ -280,6 +283,7 @@ pd_brandenburg_dhe.3 = {
 # reform hâlâ üstündeyken) PRU_f'i vanilla yoldan formlaması mümkün değil.
 pd_brandenburg_dhe.4 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.4.title
 	historical_info = pd_brandenburg_dhe.4.historical_info
 	desc = pd_brandenburg_dhe.4.desc
@@ -417,6 +421,7 @@ pd_brandenburg_dhe.4 = {
 # reform hâlâ üstündeyken) PRU_f'i vanilla yoldan formlaması mümkün değil.
 pd_brandenburg_dhe.5 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.5.title
 	historical_info = pd_brandenburg_dhe.5.historical_info
 	desc = pd_brandenburg_dhe.5.desc
@@ -540,6 +545,7 @@ pd_brandenburg_dhe.5 = {
 # Kültürü prusya yapma ve topraktaki insanları zorla asimile etme eventi. Sadece AI Brandenburg için geçerli olacak ve 1512 veya 1618(Time Pacing Game Rule'una göre) yılları arasında 2. situation başlamadan önce tetiklenecek.
 pd_brandenburg_dhe.6 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.6.title
 	historical_info = pd_brandenburg_dhe.6.historical_info
 	desc = pd_brandenburg_dhe.6.desc
@@ -663,6 +669,7 @@ pd_brandenburg_dhe.6 = {
 # --- dhe.7: Joachim I Nestor (1499-1535) ---
 pd_brandenburg_dhe.7 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.7.title
 	historical_info = pd_brandenburg_dhe.7.historical_info
 	desc = pd_brandenburg_dhe.7.desc
@@ -745,6 +752,7 @@ pd_brandenburg_dhe.7 = {
 # --- dhe.8: Joachim II Hektor (1535-1571) — Protestanlığa geçiş ---
 pd_brandenburg_dhe.8 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.8.title
 	historical_info = pd_brandenburg_dhe.8.historical_info
 	desc = pd_brandenburg_dhe.8.desc
@@ -827,6 +835,7 @@ pd_brandenburg_dhe.8 = {
 # --- dhe.9: Johann Sigismund (1608-1619) — Ducal Prusya + Cleves mirası ---
 pd_brandenburg_dhe.9 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.9.title
 	historical_info = pd_brandenburg_dhe.9.historical_info
 	desc = pd_brandenburg_dhe.9.desc
@@ -910,6 +919,7 @@ pd_brandenburg_dhe.9 = {
 # --- dhe.10: Friedrich Wilhelm "The Great Elector" (1640-1688) ---
 pd_brandenburg_dhe.10 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.10.title
 	historical_info = pd_brandenburg_dhe.10.historical_info
 	desc = pd_brandenburg_dhe.10.desc
@@ -993,6 +1003,7 @@ pd_brandenburg_dhe.10 = {
 # --- dhe.11: Friedrich I — Prusya'da Kral olan ilk isim (1701 sonrası, açık uçlu) ---
 pd_brandenburg_dhe.11 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg_dhe.11.title
 	historical_info = pd_brandenburg_dhe.11.historical_info
 	desc = pd_brandenburg_dhe.11.desc

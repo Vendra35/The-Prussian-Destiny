@@ -2,6 +2,7 @@
 # --- 10. EVENT: SiTUATiON BA?LATiCi VE ?LK BUFF ---
 pd_brandenburg.10 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg.10.title
 	historical_info = pd_brandenburg.10.historical_info
 	desc = pd_brandenburg.10.desc
@@ -97,6 +98,7 @@ pd_brandenburg.10 = {
 # HAR?TA BOYAMADANSA CORE VERMEK ???N KULLANiYORUM ARTiK ?LK S?TUATONDA SADECE ??NK? PD_brandenburg_rise_auto_conquest VAR ARTiK---
 pd_brandenburg.1 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg.1.title
 	historical_info = pd_brandenburg.1.historical_info
 	desc = pd_brandenburg.1.desc
@@ -226,6 +228,7 @@ pd_brandenburg.1 = {
 # --- S?TUATiON OYUNCU BA?ARiSiZ OLURSA ALACA?i EVENT ---
 pd_brandenburg.2 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg.2.title
 	historical_info = pd_brandenburg.2.historical_info
 	desc = pd_brandenburg.2.desc
@@ -394,6 +397,7 @@ pd_brandenburg.998 = {
 ### Brandenburg "Lauf, denn ich komme!"
 pd_brandenburg.100 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.100.title
 	historical_info = pd_brandenburg.100.historical_info
@@ -428,6 +432,7 @@ pd_brandenburg.100 = {
 # ?zleyiciler :O
 pd_brandenburg.101 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.101.title
 	historical_info = pd_brandenburg.101.historical_info
@@ -443,6 +448,7 @@ pd_brandenburg.101 = {
 # Kurbanlar lol
 pd_brandenburg.102 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.102.title
 	historical_info = pd_brandenburg.102.historical_info
@@ -458,6 +464,7 @@ pd_brandenburg.102 = {
 # Rivaldan yard?m isteme!
 pd_brandenburg.108 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.108.title
 	historical_info = pd_brandenburg.108.historical_info
@@ -566,6 +573,7 @@ pd_brandenburg.108 = {
 # Brandenbu?rg Bizden Yard?m istiyor!
 pd_brandenburg.109 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.109.title
 	historical_info = pd_brandenburg.109.historical_info
@@ -620,6 +628,7 @@ pd_brandenburg.109 = {
 # Conquest of Brandenburg, Pomerania, Prussia.(FOR BRA)
 pd_brandenburg.103 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.103.title
 	historical_info = pd_brandenburg.103.historical_info
@@ -692,6 +701,7 @@ pd_brandenburg.103 = {
 # Conquest of Brandenburg, Pomerania, Prussia.(FOR TEU)
 pd_brandenburg.117 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.117.title
 	historical_info = pd_brandenburg.117.historical_info
@@ -744,6 +754,7 @@ pd_brandenburg.117 = {
 ## We auto-join brandenburg war
 pd_brandenburg.110 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.110.title
 	historical_info = pd_brandenburg.110.historical_info
@@ -774,6 +785,7 @@ pd_brandenburg.110 = {
 # Brandenburg Win For Spectators
 pd_brandenburg.104 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.104.title
 	historical_info = pd_brandenburg.104.historical_info
@@ -789,6 +801,7 @@ pd_brandenburg.104 = {
 # Brandenburg Win For Himself
 pd_brandenburg.105 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.105.title
 	historical_info = pd_brandenburg.105.historical_info
@@ -819,6 +832,7 @@ pd_brandenburg.105 = {
 # Brandenburg Lose For Himself
 pd_brandenburg.107 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.107.title
 	historical_info = pd_brandenburg.107.historical_info
@@ -834,6 +848,7 @@ pd_brandenburg.107 = {
 # Teuton Lose For Himself
 pd_brandenburg.111 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.111.title
 	historical_info = pd_brandenburg.111.historical_info
@@ -849,6 +864,7 @@ pd_brandenburg.111 = {
 # Teuton Win For Spectators
 pd_brandenburg.112 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.112.title
 	historical_info = pd_brandenburg.112.historical_info
@@ -864,6 +880,7 @@ pd_brandenburg.112 = {
 # Teuton Scoreda kaybederse Brandenburg Onu vassal yaparkenki teuton'a gidecek event.
 pd_brandenburg.113 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.113.title
 	historical_info = pd_brandenburg.113.historical_info
@@ -948,6 +965,7 @@ pd_brandenburg.113 = {
 # Brandenburg Teuton'u vassal yaptıktan sonra Brandenburg'a gidecek event, sadece bildirim amaçli (Teuton'un vassal oldugunu bildirmek için)
 pd_brandenburg.114 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.114.title
 	historical_info = pd_brandenburg.114.historical_info
@@ -963,6 +981,7 @@ pd_brandenburg.114 = {
 # Brandenburg Score'da kaybederse Teuton Onu vassal yaparkenki Brandenburg'a gidecek event.
 pd_brandenburg.115 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.115.title
 	historical_info = pd_brandenburg.115.historical_info
@@ -1001,6 +1020,7 @@ pd_brandenburg.115 = {
 # Teuton Brandenburg'u vassal yaptıktan sonra Teuton'a gidecek event, sadece bildirim amaçli (Brandenburg'un vassal oldugunu bildirmek için)
 pd_brandenburg.116 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.116.title
 	historical_info = pd_brandenburg.116.historical_info
@@ -1018,6 +1038,7 @@ pd_brandenburg.116 = {
 # Situation baslatan event
 pd_brandenburg.299 = {
 	type = country_event
+	outcome = neutral
 	title = pd_brandenburg.299.title
 	historical_info = pd_brandenburg.299.historical_info
 	desc = pd_brandenburg.299.desc
@@ -1154,6 +1175,7 @@ pd_brandenburg.299 = {
 
 pd_brandenburg.200 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.200.title
 	historical_info = pd_brandenburg.200.historical_info
@@ -1199,6 +1221,7 @@ pd_brandenburg.200 = {
 # ?zleyiciler(NGF S?tuation? Ba?lad? bildirimi):O
 pd_brandenburg.201 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.201.title
 	historical_info = pd_brandenburg.201.historical_info
@@ -1214,6 +1237,7 @@ pd_brandenburg.201 = {
 # Kurbanlar (situaton ba?lay?nca gidiyor kurbanlara)
 pd_brandenburg.202 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.202.title
 	historical_info = pd_brandenburg.202.historical_info
@@ -1229,6 +1253,7 @@ pd_brandenburg.202 = {
 # Conquest of Silesia, Saxony, Mecklenburg and Holstein.
 pd_brandenburg.203 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.203.title
 	historical_info = pd_brandenburg.203.historical_info
@@ -1281,6 +1306,7 @@ pd_brandenburg.203 = {
 # Prussia Win For Spectators(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
 pd_brandenburg.204 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.204.title
 	historical_info = pd_brandenburg.204.historical_info
@@ -1296,6 +1322,7 @@ pd_brandenburg.204 = {
 # Prussia Win For Himself(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
 pd_brandenburg.205 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.205.title
 	historical_info = pd_brandenburg.205.historical_info
@@ -1329,6 +1356,7 @@ pd_brandenburg.205 = {
 # Prussia Lose For Spectators(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
 pd_brandenburg.206 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.206.title
 	historical_info = pd_brandenburg.206.historical_info
@@ -1344,6 +1372,7 @@ pd_brandenburg.206 = {
 # Prussia Lose For Himself(Situationun tamam? i?in ge?erli B?y?k Avustur Sava?? dahil)
 pd_brandenburg.207 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.207.title
 	historical_info = pd_brandenburg.207.historical_info
@@ -1359,6 +1388,7 @@ pd_brandenburg.207 = {
 # Spectatorlara NGF Phase 2 ba?lad?. Prusya Silezyay? annexledi s?rada kim var ne zaman durucaklar eventi yolla.
 pd_brandenburg.208 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.208.title
 	historical_info = pd_brandenburg.208.historical_info
@@ -1374,6 +1404,7 @@ pd_brandenburg.208 = {
 # Kurban ?lkelere NGF Phase 2 Ba?lad? Silezya annexlendi s?rada kim var Event? Yolluyoruz Haber Veriyoruz.
 pd_brandenburg.209 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.209.title
 	historical_info = pd_brandenburg.209.historical_info
@@ -1389,6 +1420,7 @@ pd_brandenburg.209 = {
 # Zollverein (G?mr?k Birli?i) ?ltimatomu
 pd_brandenburg.210 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.210.title	# "Prusya'n?n G?lgesi" veya "Zollverein Teklifi"
 	historical_info = pd_brandenburg.210.historical_info
@@ -1450,6 +1482,7 @@ pd_brandenburg.210 = {
 # Prusya'ya "Zollverein onayı" kararı
 pd_brandenburg.211 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.211.title
 	historical_info = pd_brandenburg.211.historical_info
@@ -1487,6 +1520,7 @@ pd_brandenburg.211 = {
 # Zollverein Reddedilince Prusya'ya haber gidiyor. (Ve senin Situation orduyu ?stlerine sal?yor)
 pd_brandenburg.212 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.212.title
 	historical_info = pd_brandenburg.212.historical_info
@@ -1501,6 +1535,7 @@ pd_brandenburg.212 = {
 # HRE ?mparatoruna "Prusya Y?kseliyor" Haberi ve Debuff'?
 pd_brandenburg.213 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.213.title
 	historical_info = pd_brandenburg.213.historical_info
@@ -1533,6 +1568,7 @@ pd_brandenburg.213 = {
 # HRE prusyaya kuzeyden ?ekilin uyar?s? yap?yor.
 pd_brandenburg.214 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.214.title
 	historical_info = pd_brandenburg.214.historical_info
@@ -1580,6 +1616,7 @@ pd_brandenburg.214 = {
 # Prusya HRE ultimatomunu reddederse sava? ba?l?yor :OO
 pd_brandenburg.215 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.215.title
 	historical_info = pd_brandenburg.215.historical_info
@@ -1649,6 +1686,7 @@ pd_brandenburg.215 = {
 # Tum Avrupaya buyuk savas haberi gidiyor "Siradaki hedef imparator!"
 pd_brandenburg.216 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.216.title
 	historical_info = pd_brandenburg.216.historical_info
@@ -1664,6 +1702,7 @@ pd_brandenburg.216 = {
 # T?m Avrupaya buyuk savas basladi haberi gidiyor!!!
 pd_brandenburg.217 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.217.title
 	historical_info = pd_brandenburg.217.historical_info
@@ -1679,6 +1718,7 @@ pd_brandenburg.217 = {
 # PHASE 2 IMPARATOR ZAFERI (EMPEROR WIN)
 pd_brandenburg.220 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.220.title
 	historical_info = pd_brandenburg.220.historical_info
@@ -1694,6 +1734,7 @@ pd_brandenburg.220 = {
 # PHASE 2 PRUSYA YENILGI (PRUSSIA LOSE)
 pd_brandenburg.221 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.221.title
 	historical_info = pd_brandenburg.221.historical_info
@@ -1724,6 +1765,7 @@ pd_brandenburg.221 = {
 # NGC'ye (Oyuncuya) gelen The Blood and iron baslangic eventi
 pd_brandenburg.300 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.300.title
 	historical_info = pd_brandenburg.300.historical_info
@@ -1740,6 +1782,7 @@ pd_brandenburg.300 = {
 # Fransa'ya gelen "Prusya'nin tehdidi buyuyor" uyarisi
 pd_brandenburg.301 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.301.title
 	historical_info = pd_brandenburg.301.historical_info
@@ -1757,6 +1800,7 @@ pd_brandenburg.301 = {
 # NGC oyuncusu kiskirtici telgrafi yayinliyor.
 pd_brandenburg.302 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.302.title
 	historical_info = pd_brandenburg.302.historical_info
@@ -1804,6 +1848,7 @@ pd_brandenburg.302 = {
 # Guney Alman Devletlerine Ems Telgrafi Bildirimi ve Fransa korkusu
 pd_brandenburg.303 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.303.title
 	historical_info = pd_brandenburg.303.historical_info
@@ -1820,6 +1865,7 @@ pd_brandenburg.303 = {
 # Fransa Ems Telgrafini Okur Cildirir! (Savas Basliyor)
 pd_brandenburg.304 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.304.title
 	historical_info = pd_brandenburg.304.historical_info
@@ -1938,6 +1984,7 @@ pd_brandenburg.304 = {
 # Blood and Iron Savasi Basladi Haberi 
 pd_brandenburg.305 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.305.title
 	historical_info = pd_brandenburg.305.historical_info
@@ -1952,6 +1999,7 @@ pd_brandenburg.305 = {
 # FRANCO-PRUSSIAN WAR WON - THE GERMAN EMPIRE IS PROCLAIMED!
 pd_brandenburg.306 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.306.title
 	historical_info = pd_brandenburg.306.historical_info
@@ -2144,6 +2192,7 @@ pd_brandenburg.306 = {
 # FRANCO-PRUSSIAN WAR LOST - FRANCE WINS AND SHATTERS THE GERMAN DREAM
 pd_brandenburg.307 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.307.title
 	historical_info = pd_brandenburg.307.historical_info
@@ -2177,6 +2226,7 @@ pd_brandenburg.307 = {
 # NGC DEFEATED BY FRANCE
 pd_brandenburg.308 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.308.title
 	historical_info = pd_brandenburg.308.historical_info
@@ -2196,6 +2246,7 @@ pd_brandenburg.308 = {
 # TENSION 25: The Luxembourg Crisis
 pd_brandenburg.309 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.309.title
 	historical_info = pd_brandenburg.309.historical_info
@@ -2210,6 +2261,7 @@ pd_brandenburg.309 = {
 # TENSION 50: The Arms Race
 pd_brandenburg.310 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.310.title
 	historical_info = pd_brandenburg.310.historical_info
@@ -2224,6 +2276,7 @@ pd_brandenburg.310 = {
 # TENSION 75: Diplomatic Breakdown
 pd_brandenburg.311 = {
 	type = country_event
+	outcome = neutral
 	category = situation_event
 	title = pd_brandenburg.311.title
 	historical_info = pd_brandenburg.311.historical_info

@@ -43,7 +43,7 @@
 		}
 		global_estate_satisfaction_decay = 0.02
 		stability_investment = -0.1
-		court_spending_cost_modifier = 0.1
+		court_spending_efficiency = -0.1
 	}
 }
 
@@ -84,7 +84,7 @@ pd_ngc_gewerbeordnung_bureaucracy = {
 			value = scope:maintenance
 		}
 		global_production_efficiency = 0.1
-		global_build_buildings_cost = -0.2
+		global_build_buildings_efficiency = 0.2
 	}
 	# Bütçe kesilirse (Devlet maaşları ödeyemezse) ordu isyanın eşiğine gelir
 	negative_modifier = {
@@ -94,7 +94,7 @@ pd_ngc_gewerbeordnung_bureaucracy = {
 		}
 		global_estate_satisfaction_decay = 0.025
 		stability_investment = -0.1
-		court_spending_cost_modifier = 0.15
+		court_spending_efficiency = -0.15
 	}
 }
 
@@ -290,6 +290,6 @@ pd_ngc_bundeskanzleramt_bureaucracy = {
 		}
 		antagonism_received_modifier = 0.25
 		improve_relation_impact = -0.25
-		court_spending_cost_modifier = 0.25
+		court_spending_efficiency = -0.25
 	}
 }

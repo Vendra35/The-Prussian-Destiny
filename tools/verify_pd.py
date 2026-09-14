@@ -472,9 +472,11 @@ def check_modifier_tags():
     and does zero. That is this project's whole failure family, and it is one
     typo away at all times.
 
-    Scanned deliberately narrowly, in the two places where every line IS a
+    Scanned deliberately narrowly, in the three places where every line IS a
     modifier tag by construction: the mod's own static_modifiers definitions,
-    and the modifier = { } block of each disaster. Anywhere else the same regex
+    the modifier = { } block of each disaster, and the direct children of a
+    bureaucracy's neutral_ / positive_ / negative_modifier blocks (their
+    scale = { } sub-block is script and is skipped). Anywhere else the same regex
     would collect ordinary script keys and cry wolf, and a check that cries
     wolf gets ignored.
 
@@ -483,6 +485,12 @@ def check_modifier_tags():
     gate reads. A checker cannot catch THAT - it is a design error, and the
     doc catches it. What it can catch is the neighbour: a tag that moves
     nothing because it does not exist.
+
+    The bureaucracies were added on 2026-09-14, the day they were found
+    carrying court_spending_cost_modifier and global_build_buildings_cost:
+    neither is a tag. The engine's are court_spending_efficiency and
+    global_build_buildings_efficiency (modifiers.log:915, :538), both
+    color=good, so the penalty converts with its sign flipped.
     """
     if MODIFIERS_LOG is None:
         record("modifier tags", 0, [],
@@ -512,6 +520,23 @@ def check_modifier_tags():
         for m in re.finditer(r"^\tmodifier = \{(.*?)^\t\}", text,
                              re.M | re.S):
             sources.append((path, m.group(1)))
+    for path in sorted(glob.glob(os.path.join(
+            MOD, "in_game", "common", "bureaucracies", "*.txt"))):
+        # direct children of the three modifier blocks only; a trailing
+        # comment is dropped so the tag on that line is still scanned
+        text = read(path)
+        for m in re.finditer(
+                r"^\t(?:neutral|positive|negative)_modifier\s*=\s*\{",
+                text, re.M):
+            depth, kept = 1, []
+            for line in text[m.end():].split("\n"):
+                line = line.split("#", 1)[0]
+                if depth == 1:
+                    kept.append(line)
+                depth += line.count("{") - line.count("}")
+                if depth <= 0:
+                    break
+            sources.append((path, "\n".join(kept)))
 
     for path, text in sources:
         for n, line in enumerate(text.split("\n"), 1):
@@ -770,13 +795,97 @@ def check_lost_characters():
     record("lost characters", scanned, sorted(set(bad)))
 
 
+def check_bureaucracy_impact_types():
+    """Every bureaucracy needs its <key>_impact_modifier: type, icon and loc.
+
+    The engine uses a modifier type named after each bureaucracy key and
+    asserts at load when it is missing - modifier_type.cpp:1193 "Modifier type
+    definition X must exist in DB, code will try to use it". Vanilla ships all
+    three parts for each of its 24 bureaucracies: the type
+    (modifier_type_definitions/02_generic_bureaucracies.txt:6), the icon
+    registration (modifier_icons/00_modifier_icons.txt:9297) and the
+    MODIFIER_TYPE_NAME_ / MODIFIER_TYPE_DESC_ pair
+    (modifier_types_l_english.yml:5099). This mod shipped six bureaucracies
+    with none of the three until 2026-09-14.
+
+    Files are read with the BOM stripped: a leading U+FEFF hides the first
+    top-level block from a ^key = { pattern, and the first bureaucracy in the
+    file is exactly the one that would go unchecked.
+    """
+    keys = []
+    for path in sorted(glob.glob(os.path.join(
+            MOD, "in_game", "common", "bureaucracies", "*.txt"))):
+        for name, _body, line in _top_level_blocks(read(path).lstrip("\ufeff")):
+            keys.append((rel(path), line, name))
+    types, icons = set(), set()
+    for root in [MOD] + ([VANILLA] if VANILLA else []):
+        for sub, into in (("modifier_type_definitions", types),
+                          ("modifier_icons", icons)):
+            for path in glob.glob(os.path.join(root, "main_menu", "common",
+                                               sub, "*.txt")):
+                into.update(re.findall(r"^([A-Za-z_][A-Za-z_0-9]*)\s*=\s*\{",
+                                       read(path).lstrip("\ufeff"), re.M))
+    scanned, bad = 0, []
+    for path, line, name in keys:
+        scanned += 1
+        impact = name + "_impact_modifier"
+        missing = []
+        if impact not in types:
+            missing.append("no modifier type definition")
+        if impact not in icons:
+            missing.append("no modifier_icons registration")
+        for prefix in ("MODIFIER_TYPE_NAME_", "MODIFIER_TYPE_DESC_"):
+            if prefix + impact not in defined_keys:
+                missing.append("no %s%s loc key" % (prefix, impact))
+        if missing:
+            bad.append("%s:%d: bureaucracy '%s' - %s. The engine asserts at load "
+                       "and the impact line has no name or icon."
+                       % (path, line, name, "; ".join(missing)))
+    # kb: bureaucracy_impact_type
+    record("bureaucracy impact types", scanned, bad)
+
+
+def check_event_outcome():
+    """Every visible event carries outcome = positive / neutral / negative.
+
+    in_game/events/readme.txt:72 documents it as the direction for the audio,
+    default neutral, so a missing one sounds the same. But event_database.cpp
+    logs "Event #X is missing an outcome" for every one, and this mod's 71
+    made 71 lines a launch until 2026-09-14 - noise that buries the lines
+    that matter. Vanilla writes it 7508 times across 7440 events. Hidden
+    events are not asked; the engine does not ask them either.
+    """
+    allowed = {"positive", "neutral", "negative"}
+    scanned, bad = 0, []
+    for path in sorted(glob.glob(os.path.join(MOD, "in_game", "events", "**",
+                                              "*.txt"), recursive=True)):
+        for name, body, line in _top_level_blocks(read(path).lstrip("\ufeff")):
+            if not re.match(r"[a-z_]+\.\d+$", name):
+                continue
+            if re.search(r"^\thidden\s*=\s*yes", body, re.M):
+                continue
+            scanned += 1
+            m = re.search(r"^\toutcome\s*=\s*(\w+)", body, re.M)
+            if not m:
+                bad.append("%s:%d: event %s has no outcome = (readme.txt:72: "
+                           "positive / neutral / negative) - one error.log line "
+                           "a launch" % (rel(path), line, name))
+            elif m.group(1) not in allowed:
+                bad.append("%s:%d: event %s has outcome = %s; the readme allows "
+                           "positive, neutral, negative"
+                           % (rel(path), line, name, m.group(1)))
+    # kb: event_outcome
+    record("event outcome", scanned, bad)
+
+
 for fn in (check_encoding, check_gui_references, check_show_names,
            check_format_tags, check_hot_block_tags, check_treaty_event_tooltips,
            check_panel_variables, check_script_images,
            check_disaster_art, check_modifier_tags,
            check_country_modifier_refs, check_dhe_entry_keys,
            check_disaster_var_guards, check_historical_info,
-           check_lost_characters):
+           check_lost_characters, check_bureaucracy_impact_types,
+           check_event_outcome):
     fn()
 
 # ------------------------------------------------------------------ report --

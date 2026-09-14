@@ -88,7 +88,7 @@ Three decisions inside that, each with its precedent:
   `events/disaster/sinicization_disaster.txt:669-671`.
 - **The human's option is not hidden behind `trigger = { is_ai = no }`.**
   Option b is visible to everyone and weighted to zero for the AI, the way
-  every other human-only choice in this mod is (`PD_events.txt:614-616`).
+  every other human-only choice in this mod is (`PD_events.txt:622-624`).
   The creation stays in `immediate` and the seating moves into the option —
   vanilla does precisely this for Jiří z Poděbrad at
   `DHE/flavor_BOH.txt:44-68` (`create_in_limbo`, `save_scope_as`, then

@@ -7,6 +7,7 @@
 # --- OPENING, frontloaded timeline: the Revolt of 1618 ---
 pd_bohemia.1 = {
 	type = country_event
+	outcome = neutral
 	title = pd_bohemia.1.title
 	historical_info = pd_bohemia.1.historical_info
 	desc = pd_bohemia.1.desc
@@ -18,6 +19,7 @@ pd_bohemia.1 = {
 # --- OPENING, strict historical timeline: the invasion of 1741 ---
 pd_bohemia.2 = {
 	type = country_event
+	outcome = neutral
 	title = pd_bohemia.2.title
 	historical_info = pd_bohemia.2.historical_info
 	desc = pd_bohemia.2.desc
@@ -31,6 +33,7 @@ pd_bohemia.2 = {
 # realm intact; repression ends it with the realm cowed and the treasury spent.
 pd_bohemia.10 = {
 	type = country_event
+	outcome = neutral
 	title = pd_bohemia.10.title
 	historical_info = pd_bohemia.10.historical_info
 	desc = pd_bohemia.10.desc
@@ -214,6 +217,7 @@ pd_bohemia.10 = {
 # --- NEWS to the German neighbours ---
 pd_bohemia.20 = {
 	type = country_event
+	outcome = neutral
 	title = pd_bohemia.20.title
 	historical_info = pd_bohemia.20.historical_info
 	desc = pd_bohemia.20.desc
@@ -225,6 +229,7 @@ pd_bohemia.20 = {
 # --- RESOLUTION: the estates were bought ---
 pd_bohemia.100 = {
 	type = country_event
+	outcome = neutral
 	title = pd_bohemia.100.title
 	historical_info = pd_bohemia.100.historical_info
 	desc = pd_bohemia.100.desc
@@ -247,6 +252,7 @@ pd_bohemia.100 = {
 # --- RESOLUTION: the estates were broken ---
 pd_bohemia.101 = {
 	type = country_event
+	outcome = neutral
 	title = pd_bohemia.101.title
 	historical_info = pd_bohemia.101.historical_info
 	desc = pd_bohemia.101.desc
