@@ -49,7 +49,8 @@ prussian_destiny_modifier_1 = {
 	diplomatic_reputation = -4
 	reasons_to_elect = -500
 	blocks_country_formation = yes
-	allowed_alliance = no
+	# No allowed_alliance here: the alliance lock lives in PD_alliance_addon.txt
+	# (tools/gen_alliance_addon.py), where it binds only an AI Brandenburg.
 }
 
 # Imperial Outcast For Situation 2

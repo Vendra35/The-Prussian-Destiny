@@ -230,6 +230,15 @@ silent traps already handled: the panel named after the KEY, both art slots
 and their formats, and the loc conventions. The skeleton is inert until you
 remove its `always = no`, so it can land without a test debt.
 
+`tools/gen_alliance_addon.py` writes `in_game/common/scripted_relations/PD_alliance_addon.txt`
+from the INSTALLED vanilla `alliance.txt` plus this mod's alliance locks. Never
+edit that file by hand, and re-run the generator after every patch (`--check`
+says whether the patch moved vanilla). The hand copy it replaced was an older
+vanilla body: `TRY_REPLACE` swaps the whole relation, so every campaign with
+this mod ran without four vanilla AI rules and nothing said so. The locks bind
+an AI protagonist only - an ally cannot be attacked, so an AI allied to its own
+targets stalls - and a human player picks their own allies.
+
 `tools/art_to_dds.py` converts commissioned art to a game DDS — magenta
 key, despill, decontamination, premultiplied downscale, colour bleed. Every
 one of those steps is there because leaving it out produced a visible pink
