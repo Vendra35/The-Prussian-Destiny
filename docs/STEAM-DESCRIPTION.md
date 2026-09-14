@@ -48,7 +48,7 @@ Do not hand over one and leave the other. A release needs:
 
 [h2]🔧 What's New in 4.5.0:[/h2]
 [list]
-[*] [b]Changed:[/b] [b]Alliance locks now bind only the AI.[/b] A human Brandenburg or Prussia picks its own allies at every stage. The AI keeps its locks, because a country cannot attack its own ally and an AI allied to its own targets would stall its story: during Stage 1 an AI Brandenburg takes no allies, during Stage 2 an AI Prussia takes none among its targets or the Emperor. The locks now hold under every buff rule, lift the moment their stage ends, and show as a single line in the Offer Alliance window. Raised by a player — thank you.
+[*] [b]Changed:[/b] [b]Alliance locks now bind only the AI.[/b] A human Brandenburg or Prussia picks its own allies at every stage. The AI keeps its locks, because a country cannot attack its own ally and an AI allied to its own targets would stall its story: during Stage 1 an AI Brandenburg takes no allies, during Stage 2 an AI Prussia takes none among its targets or the Emperor. The locks now hold under every buff rule, lift the moment their stage ends, and show as a single line in the Offer Alliance window.
 [*] [b]Fixed:[/b] The mod's copy of the vanilla alliance rules was older than the current game, so four of vanilla's AI alliance considerations were missing in every campaign — among them the one that keeps the Protestant Union and the Catholic League from allying across the divide. The rules are now rebuilt from the current vanilla file.
 [*] [b]Fixed:[/b] The North German Confederation's bureaucracies: the court-spending penalty and the cheaper construction did nothing, because they named modifiers the game does not recognise. Both work now, and all six bureaucracies load without errors.
 [/list]
@@ -145,7 +145,6 @@ takes none among its targets or the Emperor. The locks now follow the stage
 itself — they hold under every buff rule, Vanilla included, lift the moment
 their stage ends, and can no longer stay stuck when a stage never begins.
 When one blocks an alliance, the Offer Alliance window says so in one line.
-Raised by a player; thank you.
 
 *- Changed: Stage 1's Imperial Outcast modifier no longer carries an alliance
 ban of its own; the lock above does that job now. Its other penalties are
